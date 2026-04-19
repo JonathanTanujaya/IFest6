@@ -1,10 +1,17 @@
-import { useState, Suspense } from 'react'
+import { useState, Suspense, useEffect } from 'react'
 import Scene from './components/Scene'
 import Popup from './components/Popup'
 import AboutPopup from './components/AboutPopup'
 
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Fade out loading screen after scene mounts
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 2500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleMenuClick = (menuItem) => {
     setActiveMenu(menuItem);
@@ -16,8 +23,16 @@ function App() {
 
   return (
     <>
+      {/* Loading screen */}
+      <div className={`loading-screen ${isLoaded ? 'loaded' : ''}`}>
+        <div className="loading-title">IFest 6.0</div>
+        <div className="loading-spinner" />
+        <div className="loading-hint">Memuat dunia ajaib...</div>
+      </div>
+
+      {/* 3D panorama canvas */}
       <div className="canvas-container">
-        <Suspense fallback={<div style={{ color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>Loading 3D Environment...</div>}>
+        <Suspense fallback={null}>
           <Scene onMenuClick={handleMenuClick} />
         </Suspense>
       </div>
@@ -39,7 +54,7 @@ function App() {
 
         {/* Bottom edge text */}
         <div className="frame-label frame-bottom">
-          <span className="frame-hint">✧ Geser layar untuk mengeksplorasi ✧ Klik orbit untuk info kompetisi ✧</span>
+          <span className="frame-hint">✧ Geser layar untuk mengeksplorasi 360° ✧ Klik orbit untuk info kompetisi ✧</span>
         </div>
 
         {/* Left edge text */}
