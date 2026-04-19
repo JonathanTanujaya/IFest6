@@ -18,7 +18,7 @@ export default function Popup({ item, onClose }) {
         <p className="popup-desc">{item.description}</p>
         
         <button className="popup-action" style={{ backgroundColor: item.color }}>
-          Explore {item.title}
+          {item.actionText || 'Explore'}
         </button>
       </div>
     </div>

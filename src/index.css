@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -22,6 +24,142 @@ body, html, #root {
   z-index: 1;
 }
 
+/* ===========================
+   BORDER FRAME OVERLAY
+   =========================== */
+.border-frame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none; /* Let everything pass through */
+}
+
+/* Decorative border lines */
+.border-frame::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.border-frame::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Corner ornaments */
+.corner {
+  position: absolute;
+  font-size: 1.2rem;
+  color: #fbbf24;
+  opacity: 0.6;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+  animation: cornerPulse 3s ease-in-out infinite;
+}
+
+.corner-tl { top: 8px; left: 12px; }
+.corner-tr { top: 8px; right: 12px; }
+.corner-bl { bottom: 8px; left: 12px; }
+.corner-br { bottom: 8px; right: 12px; }
+
+@keyframes cornerPulse {
+  0%, 100% { opacity: 0.4; text-shadow: 0 0 8px rgba(251, 191, 36, 0.3); }
+  50% { opacity: 0.8; text-shadow: 0 0 16px rgba(251, 191, 36, 0.6); }
+}
+
+/* Frame labels along edges */
+.frame-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel Decorative', 'Playfair Display', serif;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+
+.frame-top {
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: rgba(251, 191, 36, 0.65);
+}
+
+.frame-title {
+  font-weight: 900;
+  font-size: 0.85rem;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.frame-divider {
+  font-size: 0.5rem;
+  color: rgba(139, 92, 246, 0.6);
+}
+
+.frame-subtitle {
+  font-weight: 400;
+  font-size: 0.6rem;
+  color: rgba(139, 92, 246, 0.5);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.frame-bottom {
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+}
+
+.frame-hint {
+  color: rgba(226, 232, 240, 0.35);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+}
+
+.frame-left {
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%) rotate(-90deg);
+  font-size: 0.55rem;
+  color: rgba(251, 191, 36, 0.3);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.frame-right {
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%) rotate(90deg);
+  font-size: 0.55rem;
+  color: rgba(139, 92, 246, 0.3);
+  letter-spacing: 0.3em;
+}
+
+/* ===========================
+   UI CONTAINER
+   =========================== */
 .ui-container {
   position: absolute;
   top: 0;
@@ -40,7 +178,9 @@ body, html, #root {
   pointer-events: auto;
 }
 
-/* Popup animations and styling */
+/* ===========================
+   POPUP (DEFAULT)
+   =========================== */
 .popup-overlay {
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(10px);
@@ -83,6 +223,7 @@ body, html, #root {
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease;
+  z-index: 20;
 }
 
 .close-button:hover {
@@ -134,7 +275,340 @@ body, html, #root {
   }
 }
 
-/* Orbiting menu text style (rendered via Html from drei) */
+/* ===========================
+   ABOUT IFEST POPUP — ALICE IN WONDERLAND THEME
+   =========================== */
+.about-overlay {
+  background: rgba(10, 10, 30, 0.85);
+  backdrop-filter: blur(16px);
+}
+
+.about-popup-content {
+  background: linear-gradient(160deg, #1a0a2e 0%, #16213e 40%, #0a1628 100%);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 28px;
+  padding: 40px 36px;
+  width: 92%;
+  max-width: 720px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 0 60px rgba(139, 92, 246, 0.15),
+    0 0 120px rgba(251, 191, 36, 0.05),
+    0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  transform: scale(0.8);
+  opacity: 0;
+  animation: popIn 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for about popup */
+.about-popup-content::-webkit-scrollbar {
+  width: 6px;
+}
+.about-popup-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.about-popup-content::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 3px;
+}
+.about-popup-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* Wonderland background decorations */
+.wonderland-bg-decor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floating-card {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.07;
+  animation: floatCard 12s infinite ease-in-out;
+}
+
+.card-1 { top: 10%; left: 5%; animation-delay: 0s; color: #1e293b; font-size: 3rem; }
+.card-2 { top: 25%; right: 8%; animation-delay: -3s; color: #f43f5e; font-size: 2.5rem; }
+.card-3 { bottom: 20%; left: 10%; animation-delay: -6s; color: #fbbf24; font-size: 2rem; }
+.card-4 { bottom: 10%; right: 5%; animation-delay: -9s; color: #1e293b; font-size: 2.8rem; }
+
+.floating-star {
+  position: absolute;
+  font-size: 1rem;
+  opacity: 0;
+  animation: twinkle 4s infinite ease-in-out;
+}
+
+.star-1 { top: 15%; left: 20%; animation-delay: 0s; color: #fbbf24; }
+.star-2 { top: 40%; right: 15%; animation-delay: -1.5s; color: #c084fc; }
+.star-3 { bottom: 30%; left: 30%; animation-delay: -3s; color: #fbbf24; }
+
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(5deg); }
+  50% { transform: translateY(-5px) rotate(-3deg); }
+  75% { transform: translateY(-20px) rotate(8deg); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.15; transform: scale(1.2); }
+}
+
+/* About close button override */
+.about-close {
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+.about-close:hover {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+/* Header */
+.about-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 28px;
+}
+
+.about-crown {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.5));
+  animation: crownFloat 3s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.about-title {
+  font-family: 'Cinzel Decorative', 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #fbbf24 0%, #c084fc 50%, #f43f5e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.about-tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.35em;
+  color: rgba(192, 132, 252, 0.6);
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.about-divider {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.about-divider span {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.about-divider span:nth-child(1) { color: #1e293b; }
+.about-divider span:nth-child(2) { color: #f43f5e; }
+.about-divider span:nth-child(3) { color: #fbbf24; }
+.about-divider span:nth-child(4) { color: #1e293b; }
+
+.about-popup-content:hover .about-divider span {
+  opacity: 0.7;
+}
+
+/* Description */
+.about-description {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 32px;
+  padding: 0 8px;
+}
+
+.about-description p {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+}
+
+.about-description em {
+  color: #c084fc;
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+}
+
+.about-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem !important;
+  color: #fbbf24 !important;
+  padding: 16px 24px;
+  border-left: 3px solid rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.05);
+  border-radius: 0 12px 12px 0;
+  text-align: left;
+}
+
+/* Feature Grid */
+.about-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.about-feature-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(139, 92, 246, 0.12);
+  border-radius: 16px;
+  padding: 20px 14px;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: cardFadeIn 0.5s forwards ease-out;
+}
+
+.about-feature-card:hover {
+  background: rgba(139, 92, 246, 0.08);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feature-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wonderland-icon {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.about-feature-card:hover .wonderland-icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.feature-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 8px;
+}
+
+.feature-desc {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+/* CTA Button */
+.about-cta {
+  position: relative;
+  z-index: 1;
+  border: none;
+  padding: 14px 36px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+.about-cta:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+}
+
+.about-cta:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .about-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .about-popup-content {
+    padding: 28px 20px;
+    max-height: 90vh;
+  }
+
+  .about-title {
+    font-size: 1.6rem;
+  }
+
+  .frame-top {
+    font-size: 0.55rem;
+  }
+
+  .frame-title {
+    font-size: 0.7rem;
+  }
+
+  .frame-subtitle {
+    display: none;
+  }
+
+  .frame-divider {
+    display: none;
+  }
+
+  .frame-left, .frame-right {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .about-features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===========================
+   ORBITING MENU LABELS
+   =========================== */
 .orbit-menu-label {
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);

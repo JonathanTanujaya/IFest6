@@ -4,11 +4,13 @@ import OrbitingMenu from './OrbitingMenu'
 
 // Define the menu items that will orbit the planet
 const menuItems = [
-  { id: 'about', title: 'About Fest', description: 'Experience the biggest noodle festival in the galaxy. Music, games, and unlimited noodles await you.', color: '#3b82f6' },
-  { id: 'lineup', title: 'Lineup Artist', description: 'See your favorite stars performing live on our grand stage. From pop to rock, we have it all.', color: '#8b5cf6' },
-  { id: 'tickets', title: 'Buy Tickets', description: 'Secure your spot now! Early bird tickets are available for a limited time.', color: '#ef4444' },
-  { id: 'map', title: 'Festival Map', description: 'Navigate through different zones: The Spicy Zone, The Soup Zone, and The Fried Noodle Arena.', color: '#10b981' },
-  { id: 'merch', title: 'Merchandise', description: 'Get exclusive t-shirts, lightsticks, and noodle bowls to remember the event.', color: '#f59e0b' },
+  { id: 'about', title: 'About IFest', description: 'Di IFest 6.0, kami membawa tema "REWIND: THE MAGIC RETURNS" untuk mengingatkan kembali bahwa setiap dari kamu memiliki sihir untuk bersinar.', color: '#fbbf24', actionText: 'Explore More' },
+  { id: 'uiux', title: 'UI/UX Design', description: 'Rancang pengalaman digital masa depan yang tak terlupakan.', color: '#8b5cf6', actionText: 'Detail Lomba' },
+  { id: 'poster', title: 'Poster Digital', description: 'Ubah kanvas kosong menjadi karya visual penuh makna.', color: '#ec4899', actionText: 'Detail Lomba' },
+  { id: 'ml', title: 'Mobile Legends', description: 'Susun strategi, kalahkan lawan, dan raih tahta Land of Dawn.', color: '#3b82f6', actionText: 'Detail Lomba' },
+  { id: 'kpop', title: 'K-Pop Dance Cover', description: 'Sinkronisasikan gerakanmu dan kuasai panggung utama.', color: '#10b981', actionText: 'Detail Lomba' },
+  { id: 'band', title: 'Band Competition', description: 'Lantunkan melodimu dan buat seluruh arena bergema.', color: '#f97316', actionText: 'Detail Lomba' },
+  { id: 'register', title: 'Daftar Sekarang', description: 'Siap Menciptakan Keajaibanmu Sendiri? Amankan slot kamu sebelum kehabisan!', color: '#fbbf24', actionText: 'Link Pendaftaran Resmi' },
 ];
 
 export default function Scene({ onMenuClick }) {
