@@ -27,7 +27,7 @@ function PanoramaSphere() {
     const textureLoader = new THREE.TextureLoader();
     
     textureLoader.load(
-      '/Background/bg_seam.png',
+      '/Background/bgLast.jpeg',
       (loadedTexture) => {
         // Set the correct color space and mapping for a 360 background
         loadedTexture.colorSpace = THREE.SRGBColorSpace;
