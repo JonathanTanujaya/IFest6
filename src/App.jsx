@@ -2,6 +2,7 @@ import { useState, Suspense, useEffect } from 'react'
 import Scene from './components/Scene'
 import Popup from './components/Popup'
 import AboutPopup from './components/AboutPopup'
+import BandPopup from './components/BandPopup'
 
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -25,9 +26,30 @@ function App() {
     <>
       {/* Loading screen */}
       <div className={`loading-screen ${isLoaded ? 'loaded' : ''}`}>
-        <div className="loading-title">IFest 6.0</div>
-        <div className="loading-spinner" />
-        <div className="loading-hint">Memuat dunia ajaib...</div>
+        <div className="loading-bg-elements">
+          <div className="loading-star s1">✦</div>
+          <div className="loading-star s2">✦</div>
+          <div className="loading-star s3">✦</div>
+          <div className="loading-star s4">✦</div>
+          <div className="loading-star s5">✦</div>
+        </div>
+        <div className="loading-content">
+          <div className="magic-circle">
+            <div className="inner-circle"></div>
+            <div className="suit-spinner">
+              <span style={{'--i': 1}}>♠</span>
+              <span style={{'--i': 2}}>♥</span>
+              <span style={{'--i': 3}}>♦</span>
+              <span style={{'--i': 4}}>♣</span>
+            </div>
+          </div>
+          <div className="loading-title">IFest 6.0</div>
+          <div className="loading-subtitle">REWIND: THE MAGIC RETURNS</div>
+          <div className="loading-bar-container">
+            <div className="loading-bar"></div>
+          </div>
+          <div className="loading-hint">Memasuki Dunia Ajaib...</div>
+        </div>
       </div>
 
       {/* 3D panorama canvas */}
@@ -72,6 +94,8 @@ function App() {
         <div className="ui-container interactive-ui">
           {activeMenu.id === 'about' ? (
             <AboutPopup item={activeMenu} onClose={closePopup} />
+          ) : activeMenu.id === 'band' ? (
+            <BandPopup onClose={closePopup} />
           ) : (
             <Popup item={activeMenu} onClose={closePopup} />
           )}
