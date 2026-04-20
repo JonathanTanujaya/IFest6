@@ -21,28 +21,35 @@ const menuItems = [
  * the camera, they see different parts of the image wrapped around them.
  */
 function PanoramaSphere() {
-  const texture = useLoader(THREE.TextureLoader, '/Background/background1.jpeg');
+  const { scene } = useThree();
 
   useEffect(() => {
-    texture.colorSpace = THREE.SRGBColorSpace;
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.generateMipmaps = false;
-    // Wrap the texture for seamless 360°
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.ClampToEdgeWrapping;
-  }, [texture]);
+    const textureLoader = new THREE.TextureLoader();
+    
+    textureLoader.load(
+      '/Background/bg_seam.png',
+      (loadedTexture) => {
+        // Set the correct color space and mapping for a 360 background
+        loadedTexture.colorSpace = THREE.SRGBColorSpace;
+        loadedTexture.mapping = THREE.EquirectangularReflectionMapping;
+        
+        // Apply texture directly as the scene background
+        scene.background = loadedTexture;
+      },
+      undefined,
+      (error) => {
+        console.warn('Failed to load background texture:', error);
+      }
+    );
 
-  return (
-    <mesh>
-      <sphereGeometry args={[500, 64, 32]} />
-      <meshBasicMaterial 
-        map={texture} 
-        side={THREE.BackSide}
-        toneMapped={false}
-      />
-    </mesh>
-  );
+    return () => {
+      // Cleanup the background when unmounted
+      scene.background = null;
+    };
+  }, [scene]);
+
+  // No need to render a sphere geometry, scene.background handles it optimally
+  return null;
 }
 
 /**
