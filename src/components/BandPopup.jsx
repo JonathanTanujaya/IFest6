@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { X, FileText, CreditCard, Image as ImageIcon } from 'lucide-react';
 import './BandPopup.css';
 
-const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH5fAtMUh0MOgD76HecoB4xvJ_pdmI7J2J6baEFv77OFr2O8TGqh8a_Tlxnb_cFjR8/exec';
 const ROLES = ['Vocalist', 'Gitaris', 'Bassist', 'Keyboardist', 'Drummer', 'Lainnya'];
 const ROLE_EMOJIS = ['🎤', '🎸', '🎵', '🎹', '🥁', '✏️'];
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
