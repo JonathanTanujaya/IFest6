@@ -404,12 +404,74 @@
 }
 
 .kp-player-card.optional {
-  border-color: rgba(255, 110, 199, 0.1);
-  opacity: 0.85;
+  border-color: rgba(255, 110, 199, 0.15);
+  background: rgba(199, 125, 255, 0.03);
 }
 
+/* ── MEMBERS CONTAINER ── */
+.kp-members-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── PLAYER HEADER (with remove button) ── */
 .kp-player-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 14px;
+}
+
+/* ── REMOVE BUTTON ── */
+.kp-member-remove {
+  background: rgba(255, 77, 143, 0.1);
+  border: 1px solid rgba(255, 77, 143, 0.3);
+  color: var(--kp-red);
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.kp-member-remove:hover {
+  background: rgba(255, 77, 143, 0.22);
+  transform: scale(1.04);
+}
+
+/* ── ADD MEMBER BUTTON ── */
+.kp-add-btn {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 24px;
+  padding: 12px 18px;
+  background: rgba(199, 125, 255, 0.07);
+  border: 2px dashed rgba(199, 125, 255, 0.35);
+  border-radius: 12px;
+  color: var(--kp-lavender);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+}
+.kp-add-btn:hover:not(:disabled) {
+  background: rgba(199, 125, 255, 0.14);
+  border-color: rgba(199, 125, 255, 0.6);
+  transform: translateY(-1px);
+}
+.kp-add-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-style: solid;
 }
 
 .kp-player-badge {

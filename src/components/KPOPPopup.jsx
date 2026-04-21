@@ -2,9 +2,11 @@ import React, { useState, useRef, useMemo } from 'react';
 import { X, Upload } from 'lucide-react';
 import './KPopPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH5fAtMUh0MOgD76HecoB4xvJ_pdmI7J2J6baEFv77OFr2O8TGqh8a_Tlxnb_cFjR8/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTxpkL4Vp1Yz8a_M_SVwAK8NbEYGTifMzym9tdMC_heMDlEu7Kx_fj27yfX1n9tsJB/exec';
 
 const NOTES = ['🎵', '🎶', '💃', '🎤', '✨', '🌸', '⭐', '💫', '🎧', '🌟'];
+const MAX_PLAYERS = 6;
+const REQ_PLAYERS = 3;
 
 const EMPTY_PLAYER = (id) => ({ id, nama: '', gender: '', wa: '', email: '' });
 
@@ -17,9 +19,9 @@ export default function KPopPopup({ onClose }) {
   const [namaTim, setNamaTim] = useState('');
   const [asalInstansi, setAsalInstansi] = useState('');
 
-  // Players 1–6 (1–3 required, 4–6 optional)
+  // Players: 1–3 required, 4–6 added by user on demand
   const [players, setPlayers] = useState(
-    Array.from({ length: 6 }, (_, i) => EMPTY_PLAYER(i + 1))
+    Array.from({ length: REQ_PLAYERS }, (_, i) => EMPTY_PLAYER(i + 1))
   );
 
   // Payment
@@ -44,6 +46,16 @@ export default function KPopPopup({ onClose }) {
   const updatePlayer = (id, field, value) =>
     setPlayers(players.map(p => (p.id === id ? { ...p, [field]: value } : p)));
 
+  const addPlayer = () => {
+    if (players.length < MAX_PLAYERS) {
+      setPlayers([...players, EMPTY_PLAYER(Date.now())]);
+    }
+  };
+
+  const removePlayer = (id) => {
+    setPlayers(players.filter(p => p.id !== id));
+  };
+
   const fileToBase64 = (file) =>
     new Promise((res, rej) => {
       const r = new FileReader();
@@ -62,23 +74,13 @@ export default function KPopPopup({ onClose }) {
     if (!namaTim.trim())       { errors.push('Nama Tim'); valid = false; }
     if (!asalInstansi.trim())  { errors.push('Asal Instansi'); valid = false; }
 
-    // Players 1–3 required
-    players.slice(0, 3).forEach((p) => {
-      if (!p.nama.trim())   { errors.push(`Nama Peserta ${p.id}`); valid = false; }
-      if (!p.gender)        { errors.push(`Gender Peserta ${p.id}`); valid = false; }
-      if (!p.wa.trim())     { errors.push(`No. WA Peserta ${p.id}`); valid = false; }
-      if (!p.email.trim())  { errors.push(`Email Peserta ${p.id}`); valid = false; }
-    });
-
-    // Players 4–6: validate only if any field is partially filled
-    players.slice(3).forEach((p) => {
-      const anyFilled = p.nama.trim() || p.gender || p.wa.trim() || p.email.trim();
-      if (anyFilled) {
-        if (!p.nama.trim())   { errors.push(`Nama Peserta ${p.id}`); valid = false; }
-        if (!p.gender)        { errors.push(`Gender Peserta ${p.id}`); valid = false; }
-        if (!p.wa.trim())     { errors.push(`No. WA Peserta ${p.id}`); valid = false; }
-        if (!p.email.trim())  { errors.push(`Email Peserta ${p.id}`); valid = false; }
-      }
+    // All players in the list must be fully filled (optional ones are added intentionally)
+    players.forEach((p, i) => {
+      const label = `Peserta ${i + 1}`;
+      if (!p.nama.trim())   { errors.push(`Nama ${label}`); valid = false; }
+      if (!p.gender)        { errors.push(`Gender ${label}`); valid = false; }
+      if (!p.wa.trim())     { errors.push(`No. WA ${label}`); valid = false; }
+      if (!p.email.trim())  { errors.push(`Email ${label}`); valid = false; }
     });
 
     if (!buktiBayar)          { errors.push('Bukti Pembayaran'); valid = false; }
@@ -105,11 +107,12 @@ export default function KPopPopup({ onClose }) {
         bayarB64,
       };
 
-      players.forEach((p) => {
-        payload[`nama_p${p.id}`]   = p.nama.trim();
-        payload[`gender_p${p.id}`] = p.gender;
-        payload[`wa_p${p.id}`]     = p.wa.trim();
-        payload[`email_p${p.id}`]  = p.email.trim();
+      players.forEach((p, i) => {
+        const idx = i + 1;
+        payload[`nama_p${idx}`]   = p.nama.trim();
+        payload[`gender_p${idx}`] = p.gender;
+        payload[`wa_p${idx}`]     = p.wa.trim();
+        payload[`email_p${idx}`]  = p.email.trim();
       });
 
       await fetch(SCRIPT_URL, {
@@ -153,8 +156,7 @@ export default function KPopPopup({ onClose }) {
             <div className="kp-divider-ornament">🎵 💃 🎶 ✨</div>
             <p className="kp-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
             <div style={{ marginTop: '28px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="https://wa.me/6289530602592" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Hubungi Wewen</a>
-              <a href="https://wa.me/6282281371274" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Hubungi Dea</a>
+              <a href="https://wa.me/6289530602592" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Grup WhatsApp</a>
             </div>
           </div>
         </div>
@@ -280,106 +282,121 @@ export default function KPopPopup({ onClose }) {
               />
             </div>
 
-            {/* PLAYERS 1–6 */}
-            {players.map((p, index) => {
-              const isRequired = p.id <= 3;
-              return (
-                <div key={p.id} className={`kp-player-card${p.id === 1 ? ' kapten' : ''}${!isRequired ? ' optional' : ''}`}>
-                  <div className="kp-player-header">
-                    <div className="kp-player-badge">
-                      <span style={{ color: p.id === 1 ? 'var(--kp-pink)' : 'var(--kp-text-muted)', marginRight: '4px' }}>
-                        {p.id === 1 ? '♛' : ['🎵', '🎶', '💃', '✨', '🌸'][index % 5]}
-                      </span>
-                      {p.id === 1 ? 'Peserta 1 (Ketua Tim)' : `Peserta ${p.id}`}
+            {/* PLAYERS */}
+            <div className="kp-field-label" style={{ marginBottom: '16px', marginTop: '8px' }}>
+              Anggota Tim <span className="req">*</span>
+              <span className="kp-badge" style={{ marginLeft: '8px' }}>Maks. {MAX_PLAYERS} peserta</span>
+            </div>
+
+            <div className="kp-members-container">
+              {players.map((p, index) => {
+                const isRequired = index < REQ_PLAYERS;
+                const displayNum = index + 1;
+                return (
+                  <div key={p.id} className={`kp-player-card${index === 0 ? ' kapten' : ''}${!isRequired ? ' optional' : ''}`}>
+                    <div className="kp-player-header">
+                      <div className="kp-player-badge">
+                        <span style={{ color: index === 0 ? 'var(--kp-pink)' : 'var(--kp-text-muted)', marginRight: '4px' }}>
+                          {index === 0 ? '♛' : ['🎵', '🎶', '💃', '✨', '🌸'][index % 5]}
+                        </span>
+                        {index === 0 ? `Peserta 1 (Ketua Tim)` : `Peserta ${displayNum}`}
+                        {!isRequired && (
+                          <span className="kp-badge" style={{ marginLeft: '8px' }}>· Opsional</span>
+                        )}
+                      </div>
                       {!isRequired && (
-                        <span className="kp-badge" style={{ marginLeft: '8px' }}>Opsional</span>
+                        <button type="button" className="kp-member-remove" onClick={() => removePlayer(p.id)}>✕ Hapus</button>
                       )}
                     </div>
-                  </div>
 
-                  {/* Row 1: Nama + Gender */}
-                  <div className="kp-player-grid" style={{ marginBottom: '12px' }}>
-                    <div>
-                      <div className="kp-member-field-label">
-                        Nama Peserta {p.id} {isRequired && <span className="req">*</span>}
-                      </div>
-                      <input
-                        className="kp-text-input"
-                        type="text"
-                        placeholder={`Nama lengkap peserta ${p.id}…`}
-                        required={isRequired}
-                        value={p.nama}
-                        onChange={e => updatePlayer(p.id, 'nama', e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <div className="kp-member-field-label">
-                        Gender Peserta {p.id} {isRequired && <span className="req">*</span>}
-                      </div>
-                      <div className="kp-gender-group">
-                        <div className="kp-gender-option">
-                          <input
-                            type="radio"
-                            name={`gender_p${p.id}`}
-                            id={`gender_p${p.id}_l`}
-                            value="Laki-Laki"
-                            required={isRequired}
-                            checked={p.gender === 'Laki-Laki'}
-                            onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
-                          />
-                          <label className="kp-gender-label" htmlFor={`gender_p${p.id}_l`}>
-                            👦 Laki-Laki
-                          </label>
+                    {/* Row 1: Nama + Gender */}
+                    <div className="kp-player-grid" style={{ marginBottom: '12px' }}>
+                      <div>
+                        <div className="kp-member-field-label">
+                          Nama Peserta {displayNum} {isRequired && <span className="req">*</span>}
                         </div>
-                        <div className="kp-gender-option">
-                          <input
-                            type="radio"
-                            name={`gender_p${p.id}`}
-                            id={`gender_p${p.id}_p`}
-                            value="Perempuan"
-                            checked={p.gender === 'Perempuan'}
-                            onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
-                          />
-                          <label className="kp-gender-label" htmlFor={`gender_p${p.id}_p`}>
-                            👧 Perempuan
-                          </label>
+                        <input
+                          className="kp-text-input"
+                          type="text"
+                          placeholder={`Nama lengkap peserta ${displayNum}…`}
+                          required={isRequired}
+                          value={p.nama}
+                          onChange={e => updatePlayer(p.id, 'nama', e.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <div className="kp-member-field-label">
+                          Gender Peserta {displayNum} {isRequired && <span className="req">*</span>}
+                        </div>
+                        <div className="kp-gender-group">
+                          <div className="kp-gender-option">
+                            <input
+                              type="radio"
+                              name={`gender_p${p.id}`}
+                              id={`gender_p${p.id}_l`}
+                              value="Laki-Laki"
+                              required={isRequired}
+                              checked={p.gender === 'Laki-Laki'}
+                              onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
+                            />
+                            <label className="kp-gender-label" htmlFor={`gender_p${p.id}_l`}>
+                              👦 Laki-Laki
+                            </label>
+                          </div>
+                          <div className="kp-gender-option">
+                            <input
+                              type="radio"
+                              name={`gender_p${p.id}`}
+                              id={`gender_p${p.id}_p`}
+                              value="Perempuan"
+                              checked={p.gender === 'Perempuan'}
+                              onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
+                            />
+                            <label className="kp-gender-label" htmlFor={`gender_p${p.id}_p`}>
+                              👧 Perempuan
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Row 2: WA + Email */}
-                  <div className="kp-player-grid">
-                    <div>
-                      <div className="kp-member-field-label">
-                        No. WhatsApp Peserta {p.id} {isRequired && <span className="req">*</span>}
+                    {/* Row 2: WA + Email */}
+                    <div className="kp-player-grid">
+                      <div>
+                        <div className="kp-member-field-label">
+                          No. WhatsApp Peserta {displayNum} {isRequired && <span className="req">*</span>}
+                        </div>
+                        <input
+                          className="kp-text-input"
+                          type="tel"
+                          placeholder="08xxxxxxxxxx"
+                          required={isRequired}
+                          value={p.wa}
+                          onChange={e => updatePlayer(p.id, 'wa', e.target.value)}
+                        />
                       </div>
-                      <input
-                        className="kp-text-input"
-                        type="tel"
-                        placeholder="08xxxxxxxxxx"
-                        required={isRequired}
-                        value={p.wa}
-                        onChange={e => updatePlayer(p.id, 'wa', e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <div className="kp-member-field-label">
-                        Email Peserta {p.id} {isRequired && <span className="req">*</span>}
+                      <div>
+                        <div className="kp-member-field-label">
+                          Email Peserta {displayNum} {isRequired && <span className="req">*</span>}
+                        </div>
+                        <input
+                          className="kp-text-input"
+                          type="email"
+                          placeholder="email@contoh.com"
+                          required={isRequired}
+                          value={p.email}
+                          onChange={e => updatePlayer(p.id, 'email', e.target.value)}
+                        />
                       </div>
-                      <input
-                        className="kp-text-input"
-                        type="email"
-                        placeholder="email@contoh.com"
-                        required={isRequired}
-                        value={p.email}
-                        onChange={e => updatePlayer(p.id, 'email', e.target.value)}
-                      />
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            <button type="button" className="kp-add-btn" onClick={addPlayer} disabled={players.length >= MAX_PLAYERS}>
+              <span>🎵</span> {players.length >= MAX_PLAYERS ? `Maks. ${MAX_PLAYERS} Anggota Tercapai` : `Tambah Anggota (${players.length}/${MAX_PLAYERS})`}
+            </button>
 
             {/* BUKTI BAYAR */}
             <div className="kp-field" style={{ marginTop: '24px' }}>

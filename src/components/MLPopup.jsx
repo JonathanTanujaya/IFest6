@@ -27,9 +27,9 @@ export default function MLPopup({ onClose }) {
     { id: 5, nama: '', nickId: '' },
   ]);
 
-  // Sub
-  const [namaCadangan, setNamaCadangan] = useState('');
-  const [nickIdCadangan, setNickIdCadangan] = useState('');
+  // Sub (optional, added via button)
+  const [showCadangan, setShowCadangan] = useState(false);
+  const [cadangan, setCadangan] = useState({ nama: '', nickId: '' });
 
   // Payment
   const [buktiBayar, setBuktiBayar] = useState(null);
@@ -54,6 +54,16 @@ export default function MLPopup({ onClose }) {
 
   const updatePlayer = (id, field, value) => {
     setPlayers(players.map(p => (p.id === id ? { ...p, [field]: value } : p)));
+  };
+
+  const addCadangan = () => {
+    setShowCadangan(true);
+    setCadangan({ nama: '', nickId: '' });
+  };
+
+  const removeCadangan = () => {
+    setShowCadangan(false);
+    setCadangan({ nama: '', nickId: '' });
   };
 
   const fileToBase64 = (file) =>
@@ -81,6 +91,12 @@ export default function MLPopup({ onClose }) {
       if (!p.nickId.trim()) { errors.push(`Nickname & ID Pemain ${p.id}`); valid = false; }
     });
 
+    // Validate cadangan only if shown
+    if (showCadangan) {
+      if (!cadangan.nama.trim()) { errors.push('Nama Pemain Cadangan'); valid = false; }
+      if (!cadangan.nickId.trim()) { errors.push('Nickname & ID Pemain Cadangan'); valid = false; }
+    }
+
     if (!buktiBayar) { errors.push('Bukti Pembayaran'); valid = false; }
     if (!decl1 || !decl2 || !decl3) { errors.push('Pernyataan'); valid = false; }
 
@@ -102,8 +118,8 @@ export default function MLPopup({ onClose }) {
         namaKapten: namaKapten.trim(),
         nickIdKapten: nickIdKapten.trim(),
         waKapten: waKapten.trim(),
-        namaCadangan: namaCadangan.trim(),
-        nickIdCadangan: nickIdCadangan.trim(),
+        namaCadangan: showCadangan ? cadangan.nama.trim() : '',
+        nickIdCadangan: showCadangan ? cadangan.nickId.trim() : '',
         decl1, decl2, decl3,
         bayarName: buktiBayar.name,
         bayarB64,
@@ -156,7 +172,7 @@ export default function MLPopup({ onClose }) {
             <p className="ml-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
             <div style={{ marginTop: '28px' }}>
               <a href="https://wa.me/6281282003811" target="_blank" rel="noreferrer" className="ml-contact-btn" style={{ display: 'inline-flex' }}>
-                📞 Hubungi Panitia
+                📞 Grup WhatsApp
               </a>
             </div>
           </div>
@@ -295,26 +311,33 @@ export default function MLPopup({ onClose }) {
               </div>
             ))}
 
-            {/* --- CADANGAN --- */}
-            <div className="ml-player-card optional">
-              <div className="ml-player-header">
-                <div className="ml-player-badge">
-                  <span style={{ color: 'var(--ml-text-muted)', fontSize: '14px', marginRight: '4px' }}>✦</span> Pemain Cadangan
-                  <span className="ml-badge" style={{ marginLeft: '8px' }}>Opsional</span>
+            {/* --- CADANGAN (optional, via button) --- */}
+            {showCadangan && (
+              <div className="ml-player-card optional">
+                <div className="ml-player-header">
+                  <div className="ml-player-badge">
+                    <span style={{ color: 'var(--ml-text-muted)', fontSize: '14px', marginRight: '4px' }}>✦</span> Pemain Cadangan
+                    <span className="ml-badge" style={{ marginLeft: '8px' }}>· Opsional</span>
+                  </div>
+                  <button type="button" className="ml-member-remove" onClick={removeCadangan}>✕ Hapus</button>
+                </div>
+                <div className="ml-player-grid">
+                  <div>
+                    <div className="ml-member-field-label">Nama Pemain Cadangan <span className="req">*</span></div>
+                    <input className="ml-text-input" type="text" placeholder="Nama cadangan…" required value={cadangan.nama} onChange={e => setCadangan({...cadangan, nama: e.target.value})} />
+                  </div>
+                  <div>
+                    <div className="ml-member-field-label">Nickname &amp; ID Pemain Cadangan <span className="req">*</span></div>
+                    <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
+                    <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={cadangan.nickId} onChange={e => setCadangan({...cadangan, nickId: e.target.value})} />
+                  </div>
                 </div>
               </div>
-              <div className="ml-player-grid">
-                <div>
-                  <div className="ml-member-field-label">Nama Pemain Cadangan</div>
-                  <input className="ml-text-input" type="text" placeholder="Nama cadangan (jika ada)…" value={namaCadangan} onChange={e => setNamaCadangan(e.target.value)} />
-                </div>
-                <div>
-                  <div className="ml-member-field-label">Nickname &amp; ID Pemain Cadangan</div>
-                  <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                  <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" value={nickIdCadangan} onChange={e => setNickIdCadangan(e.target.value)} />
-                </div>
-              </div>
-            </div>
+            )}
+
+            <button type="button" className="ml-add-btn" onClick={addCadangan} disabled={showCadangan}>
+              <span>♣</span> {showCadangan ? 'Pemain Cadangan Sudah Ditambahkan' : 'Tambah Pemain Cadangan'}
+            </button>
 
             {/* --- BUKTI BAYAR --- */}
             <div className="ml-field" style={{ marginTop: '24px' }}>

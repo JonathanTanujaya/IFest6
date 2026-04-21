@@ -13,8 +13,8 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
       // Position on the X and Z axes to orbit around the Y axis
       const x = Math.sin(angle) * radius;
       const z = Math.cos(angle) * radius;
-      // Adding some slight height variation
-      const y = Math.sin(angle * 2) * 1.5; 
+      // Stagger heights more aggressively to avoid overlap
+      const y = Math.sin(angle * 2 + index * 0.5) * 2.2; 
       
       return { x, y, z, ...item };
     });

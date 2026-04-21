@@ -5,6 +5,7 @@ import AboutPopup from './components/AboutPopup'
 import BandPopup from './components/BandPopup'
 import MLPopup from './components/MLPopup'
 import KPOPPopup from './components/KPOPPopup'
+import UIXPopup from './components/UIXPopup'
 
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -39,10 +40,10 @@ function App() {
           <div className="magic-circle">
             <div className="inner-circle"></div>
             <div className="suit-spinner">
-              <span style={{'--i': 1}}>♠</span>
-              <span style={{'--i': 2}}>♥</span>
-              <span style={{'--i': 3}}>♦</span>
-              <span style={{'--i': 4}}>♣</span>
+              <span style={{ '--i': 1 }}>♠</span>
+              <span style={{ '--i': 2 }}>♥</span>
+              <span style={{ '--i': 3 }}>♦</span>
+              <span style={{ '--i': 4 }}>♣</span>
             </div>
           </div>
           <div className="loading-title">IFest 6.0</div>
@@ -91,7 +92,7 @@ function App() {
           <span>2026</span>
         </div>
       </div>
-      
+
       {activeMenu && (
         <div className="ui-container interactive-ui">
           {activeMenu.id === 'about' ? (
@@ -100,9 +101,11 @@ function App() {
             <BandPopup onClose={closePopup} />
           ) : activeMenu.id === 'ml' ? (
             <MLPopup onClose={closePopup} />
-          )  : activeMenu.id === 'kpop' ? (
+          ) : activeMenu.id === 'kpop' ? (
             <KPOPPopup onClose={closePopup} />
-          ): (
+          ) : activeMenu.id === 'uiux' ? (
+            <UIXPopup onClose={closePopup} />
+          ) : (
             <Popup item={activeMenu} onClose={closePopup} />
           )}
         </div>
