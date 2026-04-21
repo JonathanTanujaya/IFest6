@@ -248,7 +248,7 @@ export default function UIXPopup({ onClose }) {
             <div className="uix-info-card">
               <span className="uix-ic-label">📑 Panduan</span>
               <div className="uix-ic-value">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="uix-guidebook-btn">
+                <a href="https://drive.google.com/file/d/1RrfMFTB35t8Vhm4Dq2shydYO_WthBb2i/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="uix-guidebook-btn">
                   📖 Guidebook I-Fest 6.0 2026 ↗
                 </a>
               </div>

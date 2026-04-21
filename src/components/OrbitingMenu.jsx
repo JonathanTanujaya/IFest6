@@ -8,14 +8,13 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
   // Calculate positions for each menu item in a circle
   const getPositions = () => {
     const angleStep = (Math.PI * 2) / items.length;
+    // Explicit Y offsets so no two items share the same height — prevents label overlap
+    const yOffsets = [0.5, 2.5, -2.0, 1.8, -0.8, -2.5, 2.0, -1.5];
     return items.map((item, index) => {
       const angle = index * angleStep;
-      // Position on the X and Z axes to orbit around the Y axis
       const x = Math.sin(angle) * radius;
       const z = Math.cos(angle) * radius;
-      // Stagger heights more aggressively to avoid overlap
-      const y = Math.sin(angle * 2 + index * 0.5) * 2.2; 
-      
+      const y = yOffsets[index % yOffsets.length];
       return { x, y, z, ...item };
     });
   }

@@ -276,7 +276,7 @@ export default function BandPopup({ onClose }) {
             <div className="band-info-card">
               <span className="band-ic-label">📑 Panduan</span>
               <div className="band-ic-value">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="band-guidebook-btn" style={{display: 'inline-flex', marginTop: '4px', fontSize: '12px'}}>
+                <a href="https://drive.google.com/file/d/1riETzVwuxXjEQ5JHTZ2s7nMoE2ytaQgr/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="band-guidebook-btn" style={{display: 'inline-flex', marginTop: '4px', fontSize: '12px'}}>
                   📖 Guidebook I-Fest 6.0 2026 ↗
                 </a>
               </div>

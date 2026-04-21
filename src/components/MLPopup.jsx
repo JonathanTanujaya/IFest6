@@ -229,7 +229,7 @@ export default function MLPopup({ onClose }) {
             <div className="ml-info-card">
               <span className="ml-ic-label">📑 Panduan</span>
               <div className="ml-ic-value">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="ml-guidebook-btn">
+                <a href="https://drive.google.com/file/d/1Gr0UwklNy1LcxyzupGwmqwsyFRXziMiX/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="ml-guidebook-btn">
                   📖 Guidebook I-Fest 6.0 2026 ↗
                 </a>
               </div>
@@ -324,12 +324,12 @@ export default function MLPopup({ onClose }) {
                 <div className="ml-player-grid">
                   <div>
                     <div className="ml-member-field-label">Nama Pemain Cadangan <span className="req">*</span></div>
-                    <input className="ml-text-input" type="text" placeholder="Nama cadangan…" required value={cadangan.nama} onChange={e => setCadangan({...cadangan, nama: e.target.value})} />
+                    <input className="ml-text-input" type="text" placeholder="Nama cadangan…" required value={cadangan.nama} onChange={e => setCadangan({ ...cadangan, nama: e.target.value })} />
                   </div>
                   <div>
                     <div className="ml-member-field-label">Nickname &amp; ID Pemain Cadangan <span className="req">*</span></div>
                     <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                    <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={cadangan.nickId} onChange={e => setCadangan({...cadangan, nickId: e.target.value})} />
+                    <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={cadangan.nickId} onChange={e => setCadangan({ ...cadangan, nickId: e.target.value })} />
                   </div>
                 </div>
               </div>

@@ -809,23 +809,180 @@ body::after {
    ORBITING MENU LABELS
    =========================== */
 .orbit-menu-label {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   padding: 8px 16px;
   border-radius: 9999px;
   color: white;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: clamp(0.65rem, 1.8vw, 0.9rem);
   cursor: pointer;
   user-select: none;
   transition: all 0.2s ease;
   white-space: nowrap;
-  pointer-events: auto; /* Needed so clicks work on Html overlay */
+  pointer-events: auto;
+  max-width: 160px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .orbit-menu-label:hover {
-  background: rgba(59, 130, 246, 0.8);
-  transform: scale(1.1);
+  background: rgba(59, 130, 246, 0.85);
+  transform: scale(1.08);
   border-color: rgba(96, 165, 250, 0.8);
+  box-shadow: 0 0 16px rgba(96, 165, 250, 0.3);
 }
+
+/* ===========================
+   RESPONSIVE — POPUP OVERLAY
+   =========================== */
+
+/* Make all popup overlays scroll properly on mobile */
+.band-popup-overlay,
+.kp-popup-overlay,
+.ml-popup-overlay,
+.uix-popup-overlay {
+  align-items: flex-start !important;
+  padding: 16px 10px 48px !important;
+}
+
+@media (max-width: 600px) {
+  /* Orbit label smaller on phones */
+  .orbit-menu-label {
+    font-size: 0.62rem;
+    padding: 5px 10px;
+    max-width: 110px;
+  }
+
+  /* Band popup */
+  .band-popup-container {
+    border-radius: 16px !important;
+  }
+  .band-header {
+    padding: 40px 18px 28px !important;
+  }
+  .band-description-card,
+  .band-form-section,
+  .band-submit-section {
+    margin-left: 12px !important;
+    margin-right: 12px !important;
+    padding: 16px 14px !important;
+  }
+  .band-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .band-member-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .band-role-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .band-decl-choices {
+    flex-direction: column !important;
+  }
+
+  /* KPop popup */
+  .kp-popup-container {
+    border-radius: 16px !important;
+  }
+  .kp-header {
+    padding: 40px 16px 26px !important;
+  }
+  .kp-description-card,
+  .kp-form-section,
+  .kp-submit-section {
+    margin-left: 12px !important;
+    margin-right: 12px !important;
+    padding: 16px 14px !important;
+  }
+  .kp-player-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .kp-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .kp-decl-choices {
+    flex-direction: column !important;
+  }
+  .kp-gender-group {
+    flex-direction: row !important;
+  }
+
+  /* ML popup */
+  .ml-popup-container {
+    border-radius: 16px !important;
+    max-height: none !important;
+  }
+  .ml-header {
+    padding: 36px 16px 24px !important;
+  }
+  .ml-description-card,
+  .ml-form-section,
+  .ml-submit-section {
+    margin-left: 12px !important;
+    margin-right: 12px !important;
+    padding: 16px 14px !important;
+  }
+  .ml-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .ml-player-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .ml-decl-choices {
+    flex-direction: column !important;
+  }
+  .ml-submit-btn {
+    min-width: unset !important;
+    width: 100% !important;
+    font-size: 14px !important;
+    padding: 12px !important;
+  }
+
+  /* UIX popup */
+  .uix-popup-container {
+    border-radius: 16px !important;
+  }
+  .uix-header {
+    padding: 40px 16px 26px !important;
+  }
+  .uix-description-card,
+  .uix-form-section,
+  .uix-submit-section {
+    margin-left: 12px !important;
+    margin-right: 12px !important;
+    padding: 16px 14px !important;
+  }
+  .uix-player-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .uix-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .uix-choice-group {
+    flex-direction: column !important;
+  }
+  .uix-decl-choices {
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .orbit-menu-label {
+    font-size: 0.55rem;
+    padding: 4px 8px;
+    max-width: 90px;
+  }
+
+  .about-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .band-role-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+

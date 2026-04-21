@@ -226,7 +226,7 @@ export default function KPopPopup({ onClose }) {
             <div className="kp-info-card">
               <span className="kp-ic-label">📑 Panduan</span>
               <div className="kp-ic-value">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="kp-guidebook-btn">
+                <a href="https://drive.google.com/file/d/1vYkt3xO0yBsxkQRVGh_GukCCfE_YY-XU/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="kp-guidebook-btn">
                   📖 Guidebook I-Fest 6.0 2026 ↗
                 </a>
               </div>
