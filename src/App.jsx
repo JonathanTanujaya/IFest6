@@ -3,6 +3,7 @@ import Scene from './components/Scene'
 import Popup from './components/Popup'
 import AboutPopup from './components/AboutPopup'
 import BandPopup from './components/BandPopup'
+import MLPopup from './components/MLPopup'
 
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -96,7 +97,10 @@ function App() {
             <AboutPopup item={activeMenu} onClose={closePopup} />
           ) : activeMenu.id === 'band' ? (
             <BandPopup onClose={closePopup} />
-          ) : (
+          ): activeMenu.id === 'ML' ? (
+            <MLPopup onClose={closePopup} />
+          )
+           : (
             <Popup item={activeMenu} onClose={closePopup} />
           )}
         </div>
