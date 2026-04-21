@@ -208,7 +208,7 @@ export default function BandPopup({ onClose }) {
             <p className="band-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
             <div style={{ marginTop: '28px' }}>
               <a href="https://wa.me/6281395346415" target="_blank" rel="noreferrer" className="band-contact-btn" style={{ display: 'inline-flex' }}>
-                📞 Hubungi Panitia
+                📞 Grup WhatsApp
               </a>
             </div>
           </div>
