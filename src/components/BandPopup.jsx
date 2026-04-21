@@ -207,7 +207,7 @@ export default function BandPopup({ onClose }) {
             <div className="band-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
             <p className="band-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
             <div style={{ marginTop: '28px' }}>
-              <a href="https://wa.me/6281395346415" target="_blank" rel="noreferrer" className="band-contact-btn" style={{ display: 'inline-flex' }}>
+              <a href="https://chat.whatsapp.com/L8EReuHY2g68fXIjnjC4sx?mode=gi_t" target="_blank" rel="noreferrer" className="band-contact-btn" style={{ display: 'inline-flex' }}>
                 📞 Grup WhatsApp
               </a>
             </div>
