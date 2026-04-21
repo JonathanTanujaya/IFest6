@@ -1,5 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, CreditCard, FileText } from 'lucide-react';
+import { processFilesParallel } from '../utils/fileUtils';
 import './UIXPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxj5cmvTuTvhboPXuphqKRP7Js73TnwNzjrNAZPlB4U6u-0CV49GfLgZDPrjL5AOvww-Q/exec';
@@ -68,13 +69,7 @@ export default function UIXPopup({ onClose }) {
     }
   };
 
-  const fileToBase64 = (file) =>
-    new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = () => res(r.result.split(',')[1]);
-      r.onerror = rej;
-      r.readAsDataURL(file);
-    });
+  const [submitStatus, setSubmitStatus] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,9 +101,24 @@ export default function UIXPopup({ onClose }) {
     }
 
     setIsSubmitting(true);
+    setSubmitStatus('Mengompres file...');
 
     try {
-      const bayarB64 = await fileToBase64(buktiBayar);
+      // Collect ALL files and process in parallel (compressed)
+      const filesToProcess = [
+        { key: 'bayarB64', file: buktiBayar },
+      ];
+
+      members.forEach((m, i) => {
+        if (m.kartuIdentitas) {
+          filesToProcess.push({ key: `kipB64_p${i + 1}`, file: m.kartuIdentitas });
+        }
+      });
+
+      setSubmitStatus(`Mengompres & memproses ${filesToProcess.length} file...`);
+      const fileResults = await processFilesParallel(filesToProcess);
+
+      setSubmitStatus('Mengirim data...');
 
       const payload = {
         timestamp: new Date().toLocaleString('id-ID'),
@@ -118,10 +128,10 @@ export default function UIXPopup({ onClose }) {
         asalInstansi: asalInstansi.trim(),
         decl1, decl2, decl3,
         bayarName: buktiBayar.name,
-        bayarB64,
+        bayarB64: fileResults.bayarB64,
       };
 
-      // Members
+      // Members — file data already processed in parallel above
       for (let i = 0; i < members.length; i++) {
         const m = members[i];
         const idx = i + 1;
@@ -130,7 +140,7 @@ export default function UIXPopup({ onClose }) {
         payload[`email_p${idx}`] = m.email.trim();
         if (m.kartuIdentitas) {
           payload[`kipName_p${idx}`] = m.kartuIdentitas.name;
-          payload[`kipB64_p${idx}`] = await fileToBase64(m.kartuIdentitas);
+          payload[`kipB64_p${idx}`] = fileResults[`kipB64_p${idx}`];
         }
       }
 
@@ -147,6 +157,7 @@ export default function UIXPopup({ onClose }) {
       console.error(err);
       setErrorMsg('Terjadi kesalahan: ' + err.message + '. Silakan coba lagi atau hubungi panitia.');
       setIsSubmitting(false);
+      setSubmitStatus('');
       if (popupRef.current) popupRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -497,6 +508,7 @@ export default function UIXPopup({ onClose }) {
                 ? <span>🎨 Kirim Pendaftaran</span>
                 : <div className="uix-loader-ring"></div>}
             </button>
+            {isSubmitting && submitStatus && <p style={{marginTop: '12px', fontSize: '12px', color: 'var(--uix-cyan-dim)', fontStyle: 'italic'}}>{submitStatus}</p>}
             <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--uix-text-muted)', fontStyle: 'italic' }}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>

@@ -38,6 +38,12 @@
   justify-content: center;
   padding: 16px;
   overflow-y: auto;
+  animation: mlOverlayIn 0.3s ease-out forwards;
+}
+
+@keyframes mlOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* ── Container ──────────────────────────── */
@@ -55,6 +61,12 @@
   padding: 0 0 32px 0;
   scrollbar-width: thin;
   scrollbar-color: var(--ml-gold-dim) transparent;
+  animation: mlPopIn 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes mlPopIn {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .ml-popup-container::-webkit-scrollbar { width: 5px; }

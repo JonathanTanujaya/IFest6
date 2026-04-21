@@ -1,5 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, CreditCard } from 'lucide-react';
+import { compressAndEncode } from '../utils/fileUtils';
 import './MLPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeFFD1Uw06gFk14VwAlp6DUSd46MEdGAcEdBvuyejjIXiphoo1_JdnXOyhGy3Lauk-/exec';
@@ -66,13 +67,7 @@ export default function MLPopup({ onClose }) {
     setCadangan({ nama: '', nickId: '' });
   };
 
-  const fileToBase64 = (file) =>
-    new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = () => res(r.result.split(',')[1]);
-      r.onerror = rej;
-      r.readAsDataURL(file);
-    });
+  const [submitStatus, setSubmitStatus] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,9 +102,12 @@ export default function MLPopup({ onClose }) {
     }
 
     setIsSubmitting(true);
+    setSubmitStatus('Mengompres file...');
 
     try {
-      const bayarB64 = await fileToBase64(buktiBayar);
+      const bayarB64 = await compressAndEncode(buktiBayar);
+
+      setSubmitStatus('Mengirim data...');
 
       const payload = {
         timestamp: new Date().toLocaleString('id-ID'),
@@ -143,6 +141,7 @@ export default function MLPopup({ onClose }) {
       console.error(err);
       setErrorMsg('Terjadi kesalahan: ' + err.message + '. Silakan coba lagi atau hubungi panitia.');
       setIsSubmitting(false);
+      setSubmitStatus('');
       if (popupRef.current) popupRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -408,6 +407,7 @@ export default function MLPopup({ onClose }) {
                 ? <span>🎮 Kirim Pendaftaran</span>
                 : <div className="ml-loader-ring"></div>}
             </button>
+            {isSubmitting && submitStatus && <p style={{marginTop: '12px', fontSize: '12px', color: 'var(--ml-text-muted)', fontStyle: 'italic'}}>{submitStatus}</p>}
             <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--ml-text-muted)', fontStyle: 'italic' }}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>

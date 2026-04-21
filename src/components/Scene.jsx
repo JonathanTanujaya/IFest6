@@ -118,7 +118,7 @@ export default function Scene({ onMenuClick }) {
       <ParticleDust count={120} />
 
       {/* Orbiting Menu Items */}
-      <OrbitingMenu items={menuItems} onMenuClick={onMenuClick} radius={10} />
+      <OrbitingMenu items={menuItems} onMenuClick={onMenuClick} radius={14} />
 
       {/* Camera controls — 360° drag rotation */}
       <OrbitControls

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, FileText, CreditCard, Image as ImageIcon } from 'lucide-react';
+import { compressAndEncode, processFilesParallel } from '../utils/fileUtils';
 import './BandPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvJmkk9JaR2fRazamIY6Z3j--6yT8tvUCxvLbv0fQI_Tv3UxGYum1OY5LWNZozTak2Gw/exec';
@@ -74,14 +75,7 @@ export default function BandPopup({ onClose }) {
     }
   };
 
-  const fileToBase64 = (file) => {
-    return new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = () => res(r.result.split(',')[1]);
-      r.onerror = rej;
-      r.readAsDataURL(file);
-    });
-  };
+  const [submitStatus, setSubmitStatus] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,19 +118,26 @@ export default function BandPopup({ onClose }) {
     }
 
     setIsSubmitting(true);
+    setSubmitStatus('Mengompres file...');
 
     try {
       const memberRows = validMembers.map((m, i) =>
         `Peserta ${i+1}: ${m.nama} | ${m.peran} | ${m.wa}`
       ).join('\n');
 
-      let logoB64 = '', logoName = '';
+      // Compress & encode all files in parallel
+      const filesToProcess = [
+        { key: 'dokIdB64', file: dokIdentitas },
+        { key: 'bayarB64', file: buktiBayar },
+      ];
       if (bandLogo) {
-        logoB64 = await fileToBase64(bandLogo);
-        logoName = bandLogo.name;
+        filesToProcess.push({ key: 'logoB64', file: bandLogo });
       }
-      const dokIdB64 = await fileToBase64(dokIdentitas);
-      const bayarB64 = await fileToBase64(buktiBayar);
+
+      setSubmitStatus('Mengompres & memproses file...');
+      const fileResults = await processFilesParallel(filesToProcess);
+
+      setSubmitStatus('Mengirim data...');
 
       const payload = {
         timestamp: new Date().toLocaleString('id-ID'),
@@ -151,10 +152,13 @@ export default function BandPopup({ onClose }) {
         decl1,
         decl2,
         decl3,
-        // Files
-        logoName, logoB64,
-        dokIdName: dokIdentitas.name, dokIdB64,
-        bayarName: buktiBayar.name, bayarB64,
+        // Files (compressed)
+        logoName: bandLogo ? bandLogo.name : '',
+        logoB64: fileResults.logoB64 || '',
+        dokIdName: dokIdentitas.name,
+        dokIdB64: fileResults.dokIdB64,
+        bayarName: buktiBayar.name,
+        bayarB64: fileResults.bayarB64,
       };
 
       // Members individual columns
@@ -178,6 +182,7 @@ export default function BandPopup({ onClose }) {
       console.error(err);
       setErrorMsg('Terjadi kesalahan: ' + err.message + '. Silakan coba lagi atau hubungi panitia.');
       setIsSubmitting(false);
+      setSubmitStatus('');
       if (popupRef.current) popupRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -552,6 +557,7 @@ export default function BandPopup({ onClose }) {
             <button type="submit" className="band-submit-btn" disabled={isSubmitting}>
               {!isSubmitting ? <span>🎩 Kirim Pendaftaran</span> : <div className="band-loader-ring" style={{display: 'block'}}></div>}
             </button>
+            {isSubmitting && submitStatus && <p style={{marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic'}}>{submitStatus}</p>}
             <p style={{marginTop: '16px', fontSize: '11.5px', color: 'var(--text-muted)', fontStyle: 'italic'}}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>
