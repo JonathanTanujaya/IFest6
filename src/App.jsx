@@ -101,7 +101,7 @@ function App() {
           ) : activeMenu.id === 'ml' ? (
             <MLPopup onClose={closePopup} />
           )  : activeMenu.id === 'kpop' ? (
-            <MLPopup onClose={closePopup} />
+            <KPOPPopup onClose={closePopup} />
           ): (
             <Popup item={activeMenu} onClose={closePopup} />
           )}
