@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { X, CreditCard } from 'lucide-react';
-import './MLPopup.css';
+import './KPOPPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH5fAtMUh0MOgD76HecoB4xvJ_pdmI7J2J6baEFv77OFr2O8TGqh8a_Tlxnb_cFjR8/exec';
 
