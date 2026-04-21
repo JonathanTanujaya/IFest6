@@ -1,35 +1,26 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { X, CreditCard } from 'lucide-react';
-import './MLPopup.css';
+import { X, Upload } from 'lucide-react';
+import './KPopPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH5fAtMUh0MOgD76HecoB4xvJ_pdmI7J2J6baEFv77OFr2O8TGqh8a_Tlxnb_cFjR8/exec';
 
-const SUITS_ARR = ['♠', '♥', '♦', '♣'];
+const NOTES = ['🎵', '🎶', '💃', '🎤', '✨', '🌸', '⭐', '💫', '🎧', '🌟'];
 
-export default function MLPopup({ onClose }) {
+const EMPTY_PLAYER = (id) => ({ id, nama: '', gender: '', wa: '', email: '' });
+
+export default function KPopPopup({ onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   // Team info
   const [namaTim, setNamaTim] = useState('');
+  const [asalInstansi, setAsalInstansi] = useState('');
 
-  // Kapten
-  const [namaKapten, setNamaKapten] = useState('');
-  const [nickIdKapten, setNickIdKapten] = useState('');
-  const [waKapten, setWaKapten] = useState('');
-
-  // Players 2–5
-  const [players, setPlayers] = useState([
-    { id: 2, nama: '', nickId: '' },
-    { id: 3, nama: '', nickId: '' },
-    { id: 4, nama: '', nickId: '' },
-    { id: 5, nama: '', nickId: '' },
-  ]);
-
-  // Sub
-  const [namaCadangan, setNamaCadangan] = useState('');
-  const [nickIdCadangan, setNickIdCadangan] = useState('');
+  // Players 1–6 (1–3 required, 4–6 optional)
+  const [players, setPlayers] = useState(
+    Array.from({ length: 6 }, (_, i) => EMPTY_PLAYER(i + 1))
+  );
 
   // Payment
   const [buktiBayar, setBuktiBayar] = useState(null);
@@ -41,20 +32,17 @@ export default function MLPopup({ onClose }) {
 
   const popupRef = useRef(null);
 
-  const suitsData = useMemo(() => {
-    return Array.from({ length: 14 }).map((_, i) => ({
-      suit: ['♠', '♥', '♦', '♣', '🃏'][i % 5],
+  const notesData = useMemo(() =>
+    Array.from({ length: 16 }).map((_, i) => ({
+      symbol: NOTES[i % NOTES.length],
       left: Math.random() * 100,
       bottom: Math.random() * -200,
-      duration: 18 + Math.random() * 20,
-      delay: Math.random() * 15,
-      color: i % 2 === 0 ? '#d4a93f' : '#a81528',
-    }));
-  }, []);
+      duration: 18 + Math.random() * 22,
+      delay: Math.random() * 18,
+    })), []);
 
-  const updatePlayer = (id, field, value) => {
+  const updatePlayer = (id, field, value) =>
     setPlayers(players.map(p => (p.id === id ? { ...p, [field]: value } : p)));
-  };
 
   const fileToBase64 = (file) =>
     new Promise((res, rej) => {
@@ -71,17 +59,29 @@ export default function MLPopup({ onClose }) {
     const errors = [];
     let valid = true;
 
-    if (!namaTim.trim()) { errors.push('Nama Tim'); valid = false; }
-    if (!namaKapten.trim()) { errors.push('Nama Kapten'); valid = false; }
-    if (!nickIdKapten.trim()) { errors.push('Nickname & ID Kapten'); valid = false; }
-    if (!waKapten.trim()) { errors.push('No. WA Kapten'); valid = false; }
+    if (!namaTim.trim())       { errors.push('Nama Tim'); valid = false; }
+    if (!asalInstansi.trim())  { errors.push('Asal Instansi'); valid = false; }
 
-    players.forEach((p) => {
-      if (!p.nama.trim()) { errors.push(`Nama Pemain ${p.id}`); valid = false; }
-      if (!p.nickId.trim()) { errors.push(`Nickname & ID Pemain ${p.id}`); valid = false; }
+    // Players 1–3 required
+    players.slice(0, 3).forEach((p) => {
+      if (!p.nama.trim())   { errors.push(`Nama Peserta ${p.id}`); valid = false; }
+      if (!p.gender)        { errors.push(`Gender Peserta ${p.id}`); valid = false; }
+      if (!p.wa.trim())     { errors.push(`No. WA Peserta ${p.id}`); valid = false; }
+      if (!p.email.trim())  { errors.push(`Email Peserta ${p.id}`); valid = false; }
     });
 
-    if (!buktiBayar) { errors.push('Bukti Pembayaran'); valid = false; }
+    // Players 4–6: validate only if any field is partially filled
+    players.slice(3).forEach((p) => {
+      const anyFilled = p.nama.trim() || p.gender || p.wa.trim() || p.email.trim();
+      if (anyFilled) {
+        if (!p.nama.trim())   { errors.push(`Nama Peserta ${p.id}`); valid = false; }
+        if (!p.gender)        { errors.push(`Gender Peserta ${p.id}`); valid = false; }
+        if (!p.wa.trim())     { errors.push(`No. WA Peserta ${p.id}`); valid = false; }
+        if (!p.email.trim())  { errors.push(`Email Peserta ${p.id}`); valid = false; }
+      }
+    });
+
+    if (!buktiBayar)          { errors.push('Bukti Pembayaran'); valid = false; }
     if (!decl1 || !decl2 || !decl3) { errors.push('Pernyataan'); valid = false; }
 
     if (!valid) {
@@ -97,21 +97,19 @@ export default function MLPopup({ onClose }) {
 
       const payload = {
         timestamp: new Date().toLocaleString('id-ID'),
-        formType: 'MLBB',
+        formType: 'KPOP_DC',
         namaTim: namaTim.trim(),
-        namaKapten: namaKapten.trim(),
-        nickIdKapten: nickIdKapten.trim(),
-        waKapten: waKapten.trim(),
-        namaCadangan: namaCadangan.trim(),
-        nickIdCadangan: nickIdCadangan.trim(),
+        asalInstansi: asalInstansi.trim(),
         decl1, decl2, decl3,
         bayarName: buktiBayar.name,
         bayarB64,
       };
 
       players.forEach((p) => {
-        payload[`nama_p${p.id}`] = p.nama.trim();
-        payload[`nickId_p${p.id}`] = p.nickId.trim();
+        payload[`nama_p${p.id}`]   = p.nama.trim();
+        payload[`gender_p${p.id}`] = p.gender;
+        payload[`wa_p${p.id}`]     = p.wa.trim();
+        payload[`email_p${p.id}`]  = p.email.trim();
       });
 
       await fetch(SCRIPT_URL, {
@@ -134,30 +132,29 @@ export default function MLPopup({ onClose }) {
   /* ── SUCCESS SCREEN ── */
   if (isSuccess) {
     return (
-      <div className="ml-popup-overlay" onClick={onClose}>
-        <div className="ml-popup-container ml-success-container" onClick={e => e.stopPropagation()}>
-          <button className="ml-close-btn" onClick={onClose}><X size={20} /></button>
-          <div className="ml-suits-bg">
-            {suitsData.map((s, i) => (
-              <div key={i} className="ml-suit" style={{
-                left: `${s.left}%`, bottom: `${s.bottom}px`,
-                animationDuration: `${s.duration}s`, animationDelay: `${s.delay}s`, color: s.color,
-              }}>{s.suit}</div>
+      <div className="kp-popup-overlay" onClick={onClose}>
+        <div className="kp-popup-container kp-success-container" onClick={e => e.stopPropagation()}>
+          <button className="kp-close-btn" onClick={onClose}><X size={20} /></button>
+          <div className="kp-notes-bg">
+            {notesData.map((n, i) => (
+              <div key={i} className="kp-note" style={{
+                left: `${n.left}%`, bottom: `${n.bottom}px`,
+                animationDuration: `${n.duration}s`, animationDelay: `${n.delay}s`,
+              }}>{n.symbol}</div>
             ))}
           </div>
-          <div className="ml-success-screen">
-            <span className="ml-success-emoji">🏆</span>
-            <h2 className="ml-success-title">Pendaftaran Berhasil!</h2>
-            <p className="ml-success-sub">
-              Terima kasih telah mendaftarkan tim Anda untuk Online Tournament Mobile Legends I-Fest 6.0 2026.<br />
+          <div className="kp-success-screen">
+            <span className="kp-success-emoji">🏆</span>
+            <h2 className="kp-success-title">Pendaftaran Berhasil!</h2>
+            <p className="kp-success-sub">
+              Terima kasih telah mendaftarkan tim Anda untuk K-Pop Dance Cover I-Fest 6.0 2026.<br />
               Data Anda telah tercatat. Panitia akan menghubungi Anda segera.
             </p>
-            <div className="ml-divider-ornament">♠ ♥ ♦ ♣</div>
-            <p className="ml-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
-            <div style={{ marginTop: '28px' }}>
-              <a href="https://wa.me/6281282003811" target="_blank" rel="noreferrer" className="ml-contact-btn" style={{ display: 'inline-flex' }}>
-                📞 Hubungi Panitia
-              </a>
+            <div className="kp-divider-ornament">🎵 💃 🎶 ✨</div>
+            <p className="kp-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
+            <div style={{ marginTop: '28px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="https://wa.me/6289530602592" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Hubungi Wewen</a>
+              <a href="https://wa.me/6282281371274" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Hubungi Dea</a>
             </div>
           </div>
         </div>
@@ -167,66 +164,80 @@ export default function MLPopup({ onClose }) {
 
   /* ── MAIN FORM ── */
   return (
-    <div className="ml-popup-overlay" onClick={onClose}>
-      <div className="ml-popup-container" onClick={e => e.stopPropagation()} ref={popupRef}>
+    <div className="kp-popup-overlay" onClick={onClose}>
+      <div className="kp-popup-container" onClick={e => e.stopPropagation()} ref={popupRef}>
 
-        {/* Floating Suits Background */}
-        <div className="ml-suits-bg">
-          {suitsData.map((s, i) => (
-            <div key={i} className="ml-suit" style={{
-              left: `${s.left}%`, bottom: `${s.bottom}px`,
-              animationDuration: `${s.duration}s`, animationDelay: `${s.delay}s`, color: s.color,
-            }}>{s.suit}</div>
+        {/* Floating Notes Background */}
+        <div className="kp-notes-bg">
+          {notesData.map((n, i) => (
+            <div key={i} className="kp-note" style={{
+              left: `${n.left}%`, bottom: `${n.bottom}px`,
+              animationDuration: `${n.duration}s`, animationDelay: `${n.delay}s`,
+            }}>{n.symbol}</div>
           ))}
         </div>
 
-        <button className="ml-close-btn" onClick={onClose}><X size={20} /></button>
+        <button className="kp-close-btn" onClick={onClose}><X size={20} /></button>
 
         {/* HEADER */}
-        <div className="ml-header">
-          <div className="ml-header-corner tl">♠</div>
-          <div className="ml-header-corner tr">♥</div>
-          <div className="ml-header-corner bl">♣</div>
-          <div className="ml-header-corner br">♦</div>
-          <p className="ml-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <span className="ml-hat-icon">🎮</span>
-          <h1>Online Tournament<br />Mobile Legends</h1>
+        <div className="kp-header">
+          <div className="kp-header-corner tl">🎵</div>
+          <div className="kp-header-corner tr">✨</div>
+          <div className="kp-header-corner bl">💃</div>
+          <div className="kp-header-corner br">🎶</div>
+          <p className="kp-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
+          <span className="kp-hat-icon">💃</span>
+          <h1>K-Pop Dance Cover<br />Competition</h1>
           <h2>Formulir Pendaftaran I-Fest 6.0 — 2026</h2>
-          <div className="ml-divider-ornament">♠ ♥ ♦ ♣</div>
+          <div className="kp-divider-ornament">🎵 💃 🎶 ✨</div>
         </div>
 
         {/* DESCRIPTION */}
-        <div className="ml-description-card">
-          <p className="ml-desc-text">
-            Selamat datang di <strong style={{ color: 'var(--ml-text)' }}>Turnamen Online Mobile Legends: Bang Bang I-Fest 6.0 2026!</strong> 🎩♥️<br />
-            Kompetisi yang diselenggarakan secara daring oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang. Kompetisi ini mempertemukan tim-tim E-Sports Mobile Legends dari berbagai daerah sebagai wadah untuk menunjukkan kemampuan terbaik sekaligus mempererat hubungan antar komunitas gamer.
+        <div className="kp-description-card">
+          <p className="kp-desc-text">
+            Selamat datang di <strong style={{ color: 'var(--kp-text)' }}>K-Pop Dance Cover Competition I-Fest 6.0 2026!</strong> 💃🎶<br />
+            Kompetisi ini diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang dan terbuka untuk umum. Kegiatan ini bertujuan untuk menyalurkan kreativitas serta bakat peserta dalam bidang seni tari, khususnya K-Pop Dance Cover.
           </p>
 
-          <div className="ml-info-grid">
-            <div className="ml-info-card">
-              <span className="ml-ic-label">💰 HTM</span>
-              <div className="ml-ic-value">
-                Rp60.000,-<br />
-                <small style={{ color: 'var(--ml-text-muted)' }}>BCA 0210999396<br />a.n. Yayasan Multi Data Palembang</small>
+          <div className="kp-requirements-box">
+            <div className="kp-req-title">📌 Persyaratan Peserta</div>
+            <ul className="kp-req-list">
+              <li>Peserta merupakan Warga Negara Indonesia (WNI).</li>
+              <li>Lomba diikuti dalam bentuk tim, bukan individu.</li>
+              <li>Setiap tim terdiri dari minimal 3 orang dan maksimal 6 orang.</li>
+              <li>Setiap peserta hanya diperbolehkan tergabung dalam satu tim.</li>
+              <li>Apabila lolos sebagai finalis, peserta dari luar kota wajib hadir dan tampil secara langsung (offline) di Palembang sesuai jadwal yang ditentukan panitia.</li>
+              <li>Seluruh biaya transportasi, akomodasi, dan kebutuhan selama di Palembang menjadi tanggung jawab masing-masing peserta.</li>
+              <li>Peserta wajib membawakan dance cover sesuai dengan gender asli dari grup yang dibawakan (dilarang keras cross-gender cover).</li>
+              <li>Peserta wajib mengikuti akun Instagram resmi I-Fest 6.0 HIMIF UMDP (<strong style={{ color: 'var(--kp-lavender)' }}>@himif.umdp</strong>).</li>
+            </ul>
+          </div>
+
+          <div className="kp-info-grid">
+            <div className="kp-info-card">
+              <span className="kp-ic-label">💰 HTM</span>
+              <div className="kp-ic-value">
+                Rp80.000,-<br />
+                <small style={{ color: 'var(--kp-text-muted)' }}>BCA 0210999396<br />a.n. Yayasan Multi Data Palembang</small>
               </div>
             </div>
-            <div className="ml-info-card">
-              <span className="ml-ic-label">📑 Panduan</span>
-              <div className="ml-ic-value">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="ml-guidebook-btn">
+            <div className="kp-info-card">
+              <span className="kp-ic-label">📑 Panduan</span>
+              <div className="kp-ic-value">
+                <a href="#" target="_blank" rel="noopener noreferrer" className="kp-guidebook-btn">
                   📖 Guidebook I-Fest 6.0 2026 ↗
                 </a>
               </div>
             </div>
           </div>
 
-          <p className="ml-desc-text" style={{ textAlign: 'center', margin: '18px 0 18px' }}>
-            💡 Siapkan Tim Terbaikmu dan Jadilah <strong style={{ color: 'var(--ml-gold)' }}>JUARA!</strong> 🏆🍷
+          <p className="kp-desc-text" style={{ textAlign: 'center', margin: '16px 0 14px' }}>
+            🔥 Siapkan Tim Terbaikmu dan <strong style={{ color: 'var(--kp-pink)' }}>Tunjukkan Performa Terbaikmu!</strong> 🏆
           </p>
 
-          <div className="ml-contact-row">
-            <a href="https://wa.me/6281282003811" target="_blank" rel="noreferrer" className="ml-contact-btn">📞 Klaudius (WA)</a>
-            <a href="https://wa.me/6281279968881" target="_blank" rel="noreferrer" className="ml-contact-btn">📞 Reizan (WA)</a>
+          <div className="kp-contact-row">
+            <a href="https://wa.me/6289530602592" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Wewen (WA)</a>
+            <a href="https://wa.me/6282281371274" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Dea (WA)</a>
           </div>
         </div>
 
@@ -234,115 +245,178 @@ export default function MLPopup({ onClose }) {
         <form onSubmit={handleSubmit}>
 
           {/* SECTION 1 */}
-          <div className="ml-form-section">
-            <div className="ml-section-header">
-              <div className="ml-section-icon">🎮</div>
-              <div className="ml-section-title-group">
-                <span className="ml-section-number">Bagian I</span>
-                <div className="ml-section-title">Informasi Tim &amp; Pemain</div>
+          <div className="kp-form-section">
+            <div className="kp-section-header">
+              <div className="kp-section-icon">💃</div>
+              <div className="kp-section-title-group">
+                <span className="kp-section-number">Bagian I</span>
+                <div className="kp-section-title">Informasi Tim &amp; Peserta</div>
               </div>
             </div>
 
             {/* Nama Tim */}
-            <div className="ml-field">
-              <div className="ml-field-label">Nama Tim <span className="req">*</span></div>
-              <input className="ml-text-input" type="text" placeholder="Nama tim Anda…" required value={namaTim} onChange={e => setNamaTim(e.target.value)} />
+            <div className="kp-field">
+              <div className="kp-field-label">Nama Tim <span className="req">*</span></div>
+              <input
+                className="kp-text-input"
+                type="text"
+                placeholder="Nama tim Anda…"
+                required
+                value={namaTim}
+                onChange={e => setNamaTim(e.target.value)}
+              />
             </div>
 
-            {/* --- KAPTEN --- */}
-            <div className="ml-player-card kapten">
-              <div className="ml-player-header">
-                <div className="ml-player-badge">
-                  <span style={{ color: 'var(--ml-gold)', marginRight: '4px' }}>♛</span> Kapten Tim
-                </div>
-              </div>
-              <div className="ml-player-grid">
-                <div>
-                  <div className="ml-member-field-label">Nama Kapten <span className="req">*</span></div>
-                  <input className="ml-text-input" type="text" placeholder="Nama lengkap kapten…" required value={namaKapten} onChange={e => setNamaKapten(e.target.value)} />
-                </div>
-                <div>
-                  <div className="ml-member-field-label">No. WhatsApp Kapten <span className="req">*</span></div>
-                  <input className="ml-text-input" type="tel" placeholder="08xxxxxxxxxx" required value={waKapten} onChange={e => setWaKapten(e.target.value)} />
-                </div>
-              </div>
-              <div style={{ marginTop: '14px' }}>
-                <div className="ml-member-field-label">Nickname &amp; ID Kapten <span className="req">*</span></div>
-                <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={nickIdKapten} onChange={e => setNickIdKapten(e.target.value)} />
-              </div>
+            {/* Asal Instansi */}
+            <div className="kp-field">
+              <div className="kp-field-label">Asal Instansi <span className="req">*</span></div>
+              <input
+                className="kp-text-input"
+                type="text"
+                placeholder="Universitas / Sekolah / Komunitas…"
+                required
+                value={asalInstansi}
+                onChange={e => setAsalInstansi(e.target.value)}
+              />
             </div>
 
-            {/* --- PLAYERS 2–5 --- */}
-            {players.map((p, index) => (
-              <div key={p.id} className="ml-player-card">
-                <div className="ml-player-header">
-                  <div className="ml-player-badge">
-                    <span style={{ color: 'var(--ml-red)', fontSize: '14px', marginRight: '4px' }}>{SUITS_ARR[(index + 1) % 4]}</span> Pemain {p.id}
+            {/* PLAYERS 1–6 */}
+            {players.map((p, index) => {
+              const isRequired = p.id <= 3;
+              return (
+                <div key={p.id} className={`kp-player-card${p.id === 1 ? ' kapten' : ''}${!isRequired ? ' optional' : ''}`}>
+                  <div className="kp-player-header">
+                    <div className="kp-player-badge">
+                      <span style={{ color: p.id === 1 ? 'var(--kp-pink)' : 'var(--kp-text-muted)', marginRight: '4px' }}>
+                        {p.id === 1 ? '♛' : ['🎵', '🎶', '💃', '✨', '🌸'][index % 5]}
+                      </span>
+                      {p.id === 1 ? 'Peserta 1 (Ketua Tim)' : `Peserta ${p.id}`}
+                      {!isRequired && (
+                        <span className="kp-badge" style={{ marginLeft: '8px' }}>Opsional</span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="ml-player-grid">
-                  <div>
-                    <div className="ml-member-field-label">Nama Pemain {p.id} <span className="req">*</span></div>
-                    <input className="ml-text-input" type="text" placeholder={`Nama pemain ${p.id}…`} required value={p.nama} onChange={e => updatePlayer(p.id, 'nama', e.target.value)} />
-                  </div>
-                  <div>
-                    <div className="ml-member-field-label">Nickname &amp; ID Pemain {p.id} <span className="req">*</span></div>
-                    <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                    <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={p.nickId} onChange={e => updatePlayer(p.id, 'nickId', e.target.value)} />
-                  </div>
-                </div>
-              </div>
-            ))}
 
-            {/* --- CADANGAN --- */}
-            <div className="ml-player-card optional">
-              <div className="ml-player-header">
-                <div className="ml-player-badge">
-                  <span style={{ color: 'var(--ml-text-muted)', fontSize: '14px', marginRight: '4px' }}>✦</span> Pemain Cadangan
-                  <span className="ml-badge" style={{ marginLeft: '8px' }}>Opsional</span>
-                </div>
-              </div>
-              <div className="ml-player-grid">
-                <div>
-                  <div className="ml-member-field-label">Nama Pemain Cadangan</div>
-                  <input className="ml-text-input" type="text" placeholder="Nama cadangan (jika ada)…" value={namaCadangan} onChange={e => setNamaCadangan(e.target.value)} />
-                </div>
-                <div>
-                  <div className="ml-member-field-label">Nickname &amp; ID Pemain Cadangan</div>
-                  <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                  <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" value={nickIdCadangan} onChange={e => setNickIdCadangan(e.target.value)} />
-                </div>
-              </div>
-            </div>
+                  {/* Row 1: Nama + Gender */}
+                  <div className="kp-player-grid" style={{ marginBottom: '12px' }}>
+                    <div>
+                      <div className="kp-member-field-label">
+                        Nama Peserta {p.id} {isRequired && <span className="req">*</span>}
+                      </div>
+                      <input
+                        className="kp-text-input"
+                        type="text"
+                        placeholder={`Nama lengkap peserta ${p.id}…`}
+                        required={isRequired}
+                        value={p.nama}
+                        onChange={e => updatePlayer(p.id, 'nama', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <div className="kp-member-field-label">
+                        Gender Peserta {p.id} {isRequired && <span className="req">*</span>}
+                      </div>
+                      <div className="kp-gender-group">
+                        <div className="kp-gender-option">
+                          <input
+                            type="radio"
+                            name={`gender_p${p.id}`}
+                            id={`gender_p${p.id}_l`}
+                            value="Laki-Laki"
+                            required={isRequired}
+                            checked={p.gender === 'Laki-Laki'}
+                            onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
+                          />
+                          <label className="kp-gender-label" htmlFor={`gender_p${p.id}_l`}>
+                            👦 Laki-Laki
+                          </label>
+                        </div>
+                        <div className="kp-gender-option">
+                          <input
+                            type="radio"
+                            name={`gender_p${p.id}`}
+                            id={`gender_p${p.id}_p`}
+                            value="Perempuan"
+                            checked={p.gender === 'Perempuan'}
+                            onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
+                          />
+                          <label className="kp-gender-label" htmlFor={`gender_p${p.id}_p`}>
+                            👧 Perempuan
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-            {/* --- BUKTI BAYAR --- */}
-            <div className="ml-field" style={{ marginTop: '24px' }}>
-              <div className="ml-field-label">Bukti Pembayaran <span className="req">*</span></div>
-              <div className="ml-field-hint">
-                Format Penamaan File: <strong style={{ color: 'var(--ml-gold-dim)' }}>TRANSFER-MLBB-NamaTim</strong><br />
+                  {/* Row 2: WA + Email */}
+                  <div className="kp-player-grid">
+                    <div>
+                      <div className="kp-member-field-label">
+                        No. WhatsApp Peserta {p.id} {isRequired && <span className="req">*</span>}
+                      </div>
+                      <input
+                        className="kp-text-input"
+                        type="tel"
+                        placeholder="08xxxxxxxxxx"
+                        required={isRequired}
+                        value={p.wa}
+                        onChange={e => updatePlayer(p.id, 'wa', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <div className="kp-member-field-label">
+                        Email Peserta {p.id} {isRequired && <span className="req">*</span>}
+                      </div>
+                      <input
+                        className="kp-text-input"
+                        type="email"
+                        placeholder="email@contoh.com"
+                        required={isRequired}
+                        value={p.email}
+                        onChange={e => updatePlayer(p.id, 'email', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* BUKTI BAYAR */}
+            <div className="kp-field" style={{ marginTop: '24px' }}>
+              <div className="kp-field-label">Bukti Pembayaran <span className="req">*</span></div>
+              <div className="kp-field-hint">
+                Format Penamaan File: <strong style={{ color: 'var(--kp-gold-dim)' }}>TRANSFER-DC-NamaTim</strong><br />
                 BCA 0210999396 a.n. Yayasan Multi Data Palembang
               </div>
-              <div className="ml-file-drop">
-                <input type="file" accept="image/*" required onChange={e => { if (e.target.files?.[0]) setBuktiBayar(e.target.files[0]); }} />
-                <span className="ml-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="ml-file-drop-text">Seret &amp; lepas bukti transfer di sini, atau <span>klik untuk memilih</span></div>
-                {buktiBayar && <div className="ml-file-name-display">📎 {buktiBayar.name}</div>}
+              <div className="kp-file-drop">
+                <input
+                  type="file"
+                  accept="image/*"
+                  required
+                  onChange={e => { if (e.target.files?.[0]) setBuktiBayar(e.target.files[0]); }}
+                />
+                <span className="kp-file-drop-icon">
+                  <Upload size={28} style={{ margin: '0 auto', display: 'block' }} />
+                </span>
+                <div className="kp-file-drop-text">
+                  Seret &amp; lepas bukti transfer di sini, atau <span>klik untuk memilih</span>
+                </div>
+                {buktiBayar && <div className="kp-file-name-display">📎 {buktiBayar.name}</div>}
               </div>
             </div>
           </div>
 
           {/* SECTION 2 */}
-          <div className="ml-form-section">
-            <div className="ml-section-header">
-              <div className="ml-section-icon">📜</div>
-              <div className="ml-section-title-group">
-                <span className="ml-section-number">Bagian II</span>
-                <div className="ml-section-title">Pernyataan</div>
+          <div className="kp-form-section">
+            <div className="kp-section-header">
+              <div className="kp-section-icon">📜</div>
+              <div className="kp-section-title-group">
+                <span className="kp-section-number">Bagian II</span>
+                <div className="kp-section-title">Pernyataan</div>
               </div>
             </div>
 
-            <div className="ml-declaration-note">
+            <div className="kp-declaration-note">
               ⚠️ Mohon pastikan seluruh data sudah benar sebelum memilih <strong>'Setuju'</strong>. Anda masih dapat melakukan perbaikan data sebelum formulir dikirimkan.
             </div>
 
@@ -352,24 +426,37 @@ export default function MLPopup({ onClose }) {
                 val: decl1, set: setDecl1,
               },
               {
-                text: 'Saya berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam Mobile Legends I-Fest 6.0 2026.',
+                text: 'Saya dan tim berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam K-Pop Dance Cover I-Fest 6.0 2026.',
                 val: decl2, set: setDecl2,
               },
               {
-                text: 'Jika saya melakukan pelanggaran terhadap peraturan yang berlaku, saya siap menerima sanksi yang diberikan, termasuk kemungkinan diskualifikasi dari kompetisi.',
+                text: 'Jika saya atau tim saya melakukan pelanggaran terhadap peraturan yang berlaku, kami siap menerima sanksi yang diberikan, termasuk kemungkinan diskualifikasi dari kompetisi.',
                 val: decl3, set: setDecl3,
               },
             ].map((decl, i) => (
-              <div className="ml-decl-item" key={i}>
-                <div className="ml-decl-text">{decl.text}</div>
-                <div className="ml-decl-choices">
-                  <div className="ml-decl-choice agree">
-                    <input type="radio" name={`decl${i}`} id={`mdecl${i}y`} value="Setuju" required onChange={e => decl.set(e.target.value)} />
-                    <label className="ml-decl-choice-label" htmlFor={`mdecl${i}y`}>✓ Setuju</label>
+              <div className="kp-decl-item" key={i}>
+                <div className="kp-decl-text">{decl.text}</div>
+                <div className="kp-decl-choices">
+                  <div className="kp-decl-choice agree">
+                    <input
+                      type="radio"
+                      name={`kpdecl${i}`}
+                      id={`kpdecl${i}y`}
+                      value="Setuju"
+                      required
+                      onChange={e => decl.set(e.target.value)}
+                    />
+                    <label className="kp-decl-choice-label" htmlFor={`kpdecl${i}y`}>✓ Setuju</label>
                   </div>
-                  <div className="ml-decl-choice disagree">
-                    <input type="radio" name={`decl${i}`} id={`mdecl${i}n`} value="Tidak Setuju" onChange={e => decl.set(e.target.value)} />
-                    <label className="ml-decl-choice-label" htmlFor={`mdecl${i}n`}>✗ Tidak Setuju</label>
+                  <div className="kp-decl-choice disagree">
+                    <input
+                      type="radio"
+                      name={`kpdecl${i}`}
+                      id={`kpdecl${i}n`}
+                      value="Tidak Setuju"
+                      onChange={e => decl.set(e.target.value)}
+                    />
+                    <label className="kp-decl-choice-label" htmlFor={`kpdecl${i}n`}>✗ Tidak Setuju</label>
                   </div>
                 </div>
               </div>
@@ -377,15 +464,15 @@ export default function MLPopup({ onClose }) {
           </div>
 
           {/* SUBMIT */}
-          <div className="ml-submit-section">
-            {errorMsg && <div className="ml-alert error">{errorMsg}</div>}
-            <div className="ml-submit-divider">✦ Siap Bertanding ✦</div>
-            <button type="submit" className="ml-submit-btn" disabled={isSubmitting}>
+          <div className="kp-submit-section">
+            {errorMsg && <div className="kp-alert error">{errorMsg}</div>}
+            <div className="kp-submit-divider">✨ Siap Tampil ✨</div>
+            <button type="submit" className="kp-submit-btn" disabled={isSubmitting}>
               {!isSubmitting
-                ? <span>🎮 Kirim Pendaftaran</span>
-                : <div className="ml-loader-ring"></div>}
+                ? <span>💃 Kirim Pendaftaran</span>
+                : <div className="kp-loader-ring"></div>}
             </button>
-            <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--ml-text-muted)', fontStyle: 'italic' }}>
+            <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>
           </div>
