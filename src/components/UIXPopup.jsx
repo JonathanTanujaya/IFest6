@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { X, CreditCard, FileText } from 'lucide-react';
 import './UIXPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH5fAtMUh0MOgD76HecoB4xvJ_pdmI7J2J6baEFv77OFr2O8TGqh8a_Tlxnb_cFjR8/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxj5cmvTuTvhboPXuphqKRP7Js73TnwNzjrNAZPlB4U6u-0CV49GfLgZDPrjL5AOvww-Q/exec';
 
 const MAX_MEMBERS = 3;
 const REQ_MEMBERS = 1;

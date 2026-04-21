@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo } from 'react';
 import { X, CreditCard } from 'lucide-react';
 import './MLPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH5fAtMUh0MOgD76HecoB4xvJ_pdmI7J2J6baEFv77OFr2O8TGqh8a_Tlxnb_cFjR8/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeFFD1Uw06gFk14VwAlp6DUSd46MEdGAcEdBvuyejjIXiphoo1_JdnXOyhGy3Lauk-/exec';
 
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 
@@ -285,7 +285,7 @@ export default function MLPopup({ onClose }) {
               <div style={{ marginTop: '14px' }}>
                 <div className="ml-member-field-label">Nickname &amp; ID Kapten <span className="req">*</span></div>
                 <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={nickIdKapten} onChange={e => setNickIdKapten(e.target.value)} />
+                <input className="ml-text-input" type="text" placeholder="Nickname (ID-nya)…" required value={nickIdKapten} onChange={e => setNickIdKapten(e.target.value)} />
               </div>
             </div>
 
@@ -305,7 +305,7 @@ export default function MLPopup({ onClose }) {
                   <div>
                     <div className="ml-member-field-label">Nickname &amp; ID Pemain {p.id} <span className="req">*</span></div>
                     <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                    <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={p.nickId} onChange={e => updatePlayer(p.id, 'nickId', e.target.value)} />
+                    <input className="ml-text-input" type="text" placeholder="Nickname (ID-nya)…" required value={p.nickId} onChange={e => updatePlayer(p.id, 'nickId', e.target.value)} />
                   </div>
                 </div>
               </div>
@@ -329,7 +329,7 @@ export default function MLPopup({ onClose }) {
                   <div>
                     <div className="ml-member-field-label">Nickname &amp; ID Pemain Cadangan <span className="req">*</span></div>
                     <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                    <input className="ml-text-input" type="text" placeholder="NicknameMu (ID-nya)…" required value={cadangan.nickId} onChange={e => setCadangan({ ...cadangan, nickId: e.target.value })} />
+                    <input className="ml-text-input" type="text" placeholder="Nickname (ID-nya)…" required value={cadangan.nickId} onChange={e => setCadangan({ ...cadangan, nickId: e.target.value })} />
                   </div>
                 </div>
               </div>
