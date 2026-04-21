@@ -24,23 +24,16 @@ function PanoramaSphere() {
   const { scene } = useThree();
 
   useEffect(() => {
-    const textureLoader = new THREE.TextureLoader();
-    
-    textureLoader.load(
-      '/Background/bgLast.jpeg',
-      (loadedTexture) => {
-        // Set the correct color space and mapping for a 360 background
-        loadedTexture.colorSpace = THREE.SRGBColorSpace;
-        loadedTexture.mapping = THREE.EquirectangularReflectionMapping;
-        
-        // Apply texture directly as the scene background
-        scene.background = loadedTexture;
-      },
-      undefined,
-      (error) => {
-        console.warn('Failed to load background texture:', error);
-      }
-    );
+   const geometry = new THREE.SphereGeometry(500, 60, 40);
+    geometry.scale(-1, 1, 1); // balik supaya dilihat dari dalam
+
+    const texture = new THREE.TextureLoader().load('/Background/bgLast.jpeg');
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
     return () => {
       // Cleanup the background when unmounted
