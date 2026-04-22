@@ -1,5 +1,5 @@
-import { useRef, useState, useEffect, useCallback } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useRef, useState, useEffect } from 'react'
+import { useFrame } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 
@@ -38,20 +38,28 @@ function MenuItem({ item, onMenuClick, visible }) {
         <meshBasicMaterial color={item.color} />
       </mesh>
 
-      <Html distanceFactor={18} center zIndexRange={[100, 0]}>
+      <Html distanceFactor={0.6} center zIndexRange={[100, 0]}>
         <div
-          className="orbit-menu-label"
+          className="orbit-menu-card"
           onClick={() => onMenuClick(item)}
           style={{
-            borderColor: item.color,
-            textShadow: `0 0 10px ${item.color}`,
             opacity: finalOpacity,
-            transform: visible ? 'translateY(0)' : 'translateY(10px)',
-            transition: `transform 0.5s ease ${item.index * 0.08}s`,
+            transform: visible ? 'translateY(0)' : 'translateY(20px)',
+            transition: `transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${item.index * 0.08}s`,
             pointerEvents: finalOpacity > 0.3 ? 'auto' : 'none',
           }}
         >
-          {item.title}
+          <div className="orbit-menu-image-shell" style={{ borderColor: item.color, boxShadow: `0 8px 32px ${item.color}40` }}>
+            <img className="orbit-menu-image" src={item.image} alt={item.title} loading="lazy" />
+          </div>
+
+          <div className="orbit-menu-copy">
+            <div className="orbit-menu-badge" style={{ color: item.color, backgroundColor: `${item.color}22` }}>
+              {item.badge || 'Detail Lomba'}
+            </div>
+            <div className="orbit-menu-title">{item.title}</div>
+            <div className="orbit-menu-desc">{item.description}</div>
+          </div>
         </div>
       </Html>
     </group>
@@ -74,7 +82,7 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
     const angleStep = (Math.PI * 2) / count;
 
     // Well-separated Y offsets — no two items within 0.8 units vertically
-    const yOffsets = [0.5, 3.2, -2.8, -0.8, 2.2, -3.5, 1.5, -1.8];
+    const yOffsets = [0.3, 2.2, -2.0, -0.6, 1.4, -2.6, 1.0, -1.4];
 
     return items.map((item, index) => {
       const angle = index * angleStep;
@@ -88,7 +96,7 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
   const positionedItems = getPositions();
 
   // Make the entire menu group orbit slowly
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y -= delta * 0.05;
     }

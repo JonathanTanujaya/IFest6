@@ -182,3 +182,109 @@
     border-right-color: var(--border);
   }
 }
+
+/* Orbiting menu image cards */
+.orbit-menu-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 140px;
+  cursor: pointer;
+  user-select: none;
+  will-change: transform, opacity;
+  text-align: center;
+}
+
+.orbit-menu-image-shell {
+  width: 90px;
+  height: 90px;
+  padding: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(7, 9, 26, 0.7), rgba(18, 13, 40, 0.85));
+  backdrop-filter: blur(8px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orbit-menu-card:hover .orbit-menu-image-shell {
+  transform: translateY(-8px) scale(1.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.orbit-menu-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.orbit-menu-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.orbit-menu-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid currentColor;
+}
+
+.orbit-menu-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #fff;
+  text-wrap: balance;
+  font-weight: 700;
+}
+
+.orbit-menu-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.75);
+  text-wrap: balance;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .orbit-menu-card {
+    width: 120px;
+  }
+
+  .orbit-menu-image-shell {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+  }
+
+  .orbit-menu-image {
+    border-radius: 12px;
+  }
+
+  .orbit-menu-title {
+    font-size: 12px;
+  }
+
+  .orbit-menu-desc {
+    font-size: 7px;
+  }
+}

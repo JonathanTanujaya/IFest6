@@ -66,19 +66,19 @@ export default function KPopPopup({ onClose }) {
     const errors = [];
     let valid = true;
 
-    if (!namaTim.trim())       { errors.push('Nama Tim'); valid = false; }
-    if (!asalInstansi.trim())  { errors.push('Asal Instansi'); valid = false; }
+    if (!namaTim.trim()) { errors.push('Nama Tim'); valid = false; }
+    if (!asalInstansi.trim()) { errors.push('Asal Instansi'); valid = false; }
 
     // All players in the list must be fully filled (optional ones are added intentionally)
     players.forEach((p, i) => {
       const label = `Peserta ${i + 1}`;
-      if (!p.nama.trim())   { errors.push(`Nama ${label}`); valid = false; }
-      if (!p.gender)        { errors.push(`Gender ${label}`); valid = false; }
-      if (!p.wa.trim())     { errors.push(`No. WA ${label}`); valid = false; }
-      if (!p.email.trim())  { errors.push(`Email ${label}`); valid = false; }
+      if (!p.nama.trim()) { errors.push(`Nama ${label}`); valid = false; }
+      if (!p.gender) { errors.push(`Gender ${label}`); valid = false; }
+      if (!p.wa.trim()) { errors.push(`No. WA ${label}`); valid = false; }
+      if (!p.email.trim()) { errors.push(`Email ${label}`); valid = false; }
     });
 
-    if (!buktiBayar)          { errors.push('Bukti Pembayaran'); valid = false; }
+    if (!buktiBayar) { errors.push('Bukti Pembayaran'); valid = false; }
     if (!decl1 || !decl2 || !decl3) { errors.push('Pernyataan'); valid = false; }
 
     if (!valid) {
@@ -107,10 +107,10 @@ export default function KPopPopup({ onClose }) {
 
       players.forEach((p, i) => {
         const idx = i + 1;
-        payload[`nama_p${idx}`]   = p.nama.trim();
+        payload[`nama_p${idx}`] = p.nama.trim();
         payload[`gender_p${idx}`] = p.gender;
-        payload[`wa_p${idx}`]     = p.wa.trim();
-        payload[`email_p${idx}`]  = p.email.trim();
+        payload[`wa_p${idx}`] = p.wa.trim();
+        payload[`email_p${idx}`] = p.email.trim();
       });
 
       await fetch(SCRIPT_URL, {
@@ -488,7 +488,7 @@ export default function KPopPopup({ onClose }) {
                 ? <span>💃 Kirim Pendaftaran</span>
                 : <div className="kp-loader-ring"></div>}
             </button>
-            {isSubmitting && submitStatus && <p style={{marginTop: '12px', fontSize: '12px', color: 'var(--kp-text-muted)', fontStyle: 'italic'}}>{submitStatus}</p>}
+            {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>{submitStatus}</p>}
             <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>

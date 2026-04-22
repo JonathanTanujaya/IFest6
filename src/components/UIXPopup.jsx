@@ -508,7 +508,7 @@ export default function UIXPopup({ onClose }) {
                 ? <span>🎨 Kirim Pendaftaran</span>
                 : <div className="uix-loader-ring"></div>}
             </button>
-            {isSubmitting && submitStatus && <p style={{marginTop: '12px', fontSize: '12px', color: 'var(--uix-cyan-dim)', fontStyle: 'italic'}}>{submitStatus}</p>}
+            {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--uix-cyan-dim)', fontStyle: 'italic' }}>{submitStatus}</p>}
             <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--uix-text-muted)', fontStyle: 'italic' }}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>

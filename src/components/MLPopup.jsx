@@ -407,7 +407,7 @@ export default function MLPopup({ onClose }) {
                 ? <span>🎮 Kirim Pendaftaran</span>
                 : <div className="ml-loader-ring"></div>}
             </button>
-            {isSubmitting && submitStatus && <p style={{marginTop: '12px', fontSize: '12px', color: 'var(--ml-text-muted)', fontStyle: 'italic'}}>{submitStatus}</p>}
+            {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--ml-text-muted)', fontStyle: 'italic' }}>{submitStatus}</p>}
             <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--ml-text-muted)', fontStyle: 'italic' }}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>
