@@ -33,12 +33,12 @@ function MenuItem({ item, onMenuClick, visible }) {
 
   return (
     <group position={[item.x, item.y, item.z]}>
-      <mesh ref={meshRef}>
-        <sphereGeometry args={[0.2, 16, 16]} />
-        <meshBasicMaterial color={item.color} />
+      <mesh ref={meshRef} visible={false}>
+        <sphereGeometry args={[0.01, 4, 4]} />
+        <meshBasicMaterial />
       </mesh>
 
-      <Html distanceFactor={0.6} center zIndexRange={[100, 0]}>
+      <Html distanceFactor={0.4} center zIndexRange={[100, 0]}>
         <div
           className="orbit-menu-card"
           onClick={() => onMenuClick(item)}
@@ -51,14 +51,6 @@ function MenuItem({ item, onMenuClick, visible }) {
         >
           <div className="orbit-menu-image-shell" style={{ borderColor: item.color, boxShadow: `0 8px 32px ${item.color}40` }}>
             <img className="orbit-menu-image" src={item.image} alt={item.title} loading="lazy" />
-          </div>
-
-          <div className="orbit-menu-copy">
-            <div className="orbit-menu-badge" style={{ color: item.color, backgroundColor: `${item.color}22` }}>
-              {item.badge || 'Detail Lomba'}
-            </div>
-            <div className="orbit-menu-title">{item.title}</div>
-            <div className="orbit-menu-desc">{item.description}</div>
           </div>
         </div>
       </Html>
@@ -76,19 +68,15 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
     return () => clearTimeout(t)
   }, [])
 
-  // Calculate positions for each menu item in a circle
   const getPositions = () => {
     const count = items.length;
     const angleStep = (Math.PI * 2) / count;
-
-    // Well-separated Y offsets — no two items within 0.8 units vertically
-    const yOffsets = [0.3, 2.2, -2.0, -0.6, 1.4, -2.6, 1.0, -1.4];
 
     return items.map((item, index) => {
       const angle = index * angleStep;
       const x = Math.sin(angle) * radius;
       const z = Math.cos(angle) * radius;
-      const y = yOffsets[index % yOffsets.length];
+      const y = 0; // All items aligned at the same height
       return { x, y, z, index, ...item };
     });
   }

@@ -6,14 +6,14 @@ import OrbitingMenu from './OrbitingMenu'
 
 // Menu items that orbit in 3D space
 const menuItems = [
-  { id: 'about', title: 'About IFest', description: 'Di IFest 6.0, kami membawa tema "REWIND: THE MAGIC RETURNS" untuk mengingatkan kembali bahwa setiap dari kamu memiliki sihir untuk bersinar.', color: '#fbbf24', image: '/assets/ifest.webp', badge: 'Explore' },
-  { id: 'uiux', title: 'UI/UX Design', description: 'Rancang pengalaman digital masa depan yang tak terlupakan.', color: '#8b5cf6', image: '/assets/uiux.png', badge: 'Detail Lomba' },
-  { id: 'poster', title: 'Poster Digital', description: 'Ubah kanvas kosong menjadi karya visual penuh makna.', color: '#ec4899', image: '/assets/poster.png', badge: 'Detail Lomba' },
-  { id: 'ml', title: 'Mobile Legends', description: 'Susun strategi, kalahkan lawan, dan raih tahta Land of Dawn.', color: '#3b82f6', image: '/assets/ml.png', badge: 'Detail Lomba' },
-  { id: 'kpop', title: 'K-Pop Dance Cover', description: 'Sinkronisasikan gerakanmu dan kuasai panggung utama.', color: '#10b981', image: '/assets/kpop.png', badge: 'Detail Lomba' },
-  { id: 'band', title: 'Band Competition', description: 'Lantunkan melodimu dan buat seluruh arena bergema.', color: '#f97316', image: '/assets/band.png', badge: 'Detail Lomba' },
-  { id: 'machine', title: 'Machine Learning Competition', description: 'Ubah data menjadi wawasan, prediksi, dan keajaiban. Tunjukkan kecerdasan algoritmikmu dan ciptakan solusi masa depan yang cerdas!', color: '#fbbf24', image: '/assets/AI.png', badge: 'Detail Lomba' },
-  { id: 'compe', title: 'Competitive Programming', description: 'Tantang dirimu dalam kompetisi coding yang menguji logika, efisiensi, dan kecepatan pemecahan masalah. Buktikan bahwa kamu adalah programmer terbaik!', color: '#356e2aff', image: '/assets/compe.png', badge: 'Detail Lomba' },
+  { id: 'about', title: 'About IFest', description: 'Di IFest 6.0, kami membawa tema "REWIND: THE MAGIC RETURNS" untuk mengingatkan kembali bahwa setiap dari kamu memiliki sihir untuk bersinar.', color: '#fbbf24', image: '/Compress/ifest.webp', badge: 'Explore' },
+  { id: 'uiux', title: 'UI/UX Design', description: 'Rancang pengalaman digital masa depan yang tak terlupakan.', color: '#8b5cf6', image: '/Compress/uiux.webp', badge: 'Detail Lomba' },
+  { id: 'poster', title: 'Poster Digital', description: 'Ubah kanvas kosong menjadi karya visual penuh makna.', color: '#ec4899', image: '/Compress/poster.webp', badge: 'Detail Lomba' },
+  { id: 'ml', title: 'Mobile Legends', description: 'Susun strategi, kalahkan lawan, dan raih tahta Land of Dawn.', color: '#3b82f6', image: '/Compress/ml.webp', badge: 'Detail Lomba' },
+  { id: 'kpop', title: 'K-Pop Dance Cover', description: 'Sinkronisasikan gerakanmu dan kuasai panggung utama.', color: '#10b981', image: '/Compress/kpop.webp', badge: 'Detail Lomba' },
+  { id: 'band', title: 'Band Competition', description: 'Lantunkan melodimu dan buat seluruh arena bergema.', color: '#f97316', image: '/Compress/band.webp', badge: 'Detail Lomba' },
+  { id: 'machine', title: 'Machine Learning Competition', description: 'Ubah data menjadi wawasan, prediksi, dan keajaiban. Tunjukkan kecerdasan algoritmikmu dan ciptakan solusi masa depan yang cerdas!', color: '#fbbf24', image: '/Compress/AI.webp', badge: 'Detail Lomba' },
+  { id: 'compe', title: 'Competitive Programming', description: 'Tantang dirimu dalam kompetisi coding yang menguji logika, efisiensi, dan kecepatan pemecahan masalah. Buktikan bahwa kamu adalah programmer terbaik!', color: '#356e2aff', image: '/Compress/compe.webp', badge: 'Detail Lomba' },
 ];
 
 /**
