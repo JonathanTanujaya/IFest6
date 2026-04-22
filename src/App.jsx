@@ -47,8 +47,8 @@ function App() {
               <span style={{ '--i': 4 }}>♣</span>
             </div>
           </div>
-          <div className="loading-title">IFest 6.0</div>
-          <div className="loading-subtitle">REWIND: THE MAGIC RETURNS</div>
+          <div className="loading-title">I-Fest 6.0</div>
+          <div className="loading-subtitle">CTRL: Convergence of the Realms</div>
           <div className="loading-bar-container">
             <div className="loading-bar"></div>
           </div>
@@ -73,9 +73,9 @@ function App() {
 
         {/* Top edge text */}
         <div className="frame-label frame-top">
-          <span className="frame-title">IFest 6.0</span>
+          <span className="frame-title">I-Fest 6.0</span>
           <span className="frame-divider">◆</span>
-          <span className="frame-subtitle">REWIND: THE MAGIC RETURNS</span>
+          <span className="frame-subtitle">CTRL: Convergence of the Realms</span>
         </div>
 
         {/* Bottom edge text */}

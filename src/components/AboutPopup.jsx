@@ -156,7 +156,7 @@ const aboutFeatures = [
   {
     icon: 'potion',
     title: 'Transformasi Digital',
-    desc: 'Seperti ramuan ajaib yang mengubah segalanya, IFest 6.0 menghadirkan pengalaman digital yang transformatif.',
+    desc: 'Seperti ramuan ajaib yang mengubah segalanya, I-Fest 6.0 menghadirkan pengalaman digital yang transformatif.',
   },
   {
     icon: 'clock',
@@ -171,7 +171,7 @@ const aboutFeatures = [
   {
     icon: 'key',
     title: 'Buka Potensimu',
-    desc: 'Setiap peserta memiliki kunci unik. IFest 6.0 adalah pintu menuju kesempatan tanpa batas.',
+    desc: 'Setiap peserta memiliki kunci unik. I-Fest 6.0 adalah pintu menuju kesempatan tanpa batas.',
   },
   {
     icon: 'mushroom',
@@ -212,8 +212,8 @@ export default function AboutPopup({ item, onClose }) {
         {/* Header */}
         <div className="about-header">
           <div className="about-crown" aria-hidden="true">👑</div>
-          <h2 className="about-title">About IFest 6.0</h2>
-          <p className="about-tagline">✦ REWIND: THE MAGIC RETURNS ✦</p>
+          <h2 className="about-title">About I-Fest 6.0</h2>
+          <p className="about-tagline">✦ CTRL: Convergence of the Realms ✦</p>
           <div className="about-divider" aria-hidden="true">
             <span>♠</span>
             <span>♥</span>
@@ -225,9 +225,9 @@ export default function AboutPopup({ item, onClose }) {
         {/* Main Description */}
         <div className="about-description">
           <p>
-            Di IFest 6.0, kami membawa tema <em>"REWIND: THE MAGIC RETURNS"</em> — 
+            Di I-Fest 6.0, kami membawa tema <em>"CTRL: Convergence of the Realms"</em> — 
             terinspirasi dari dunia ajaib Alice in Wonderland. Seperti Alice yang menemukan 
-            dunia penuh keajaiban di balik lubang kelinci, IFest 6.0 mengajakmu 
+            dunia penuh keajaiban di balik lubang kelinci, I-Fest 6.0 mengajakmu 
             menjelajahi dunia kreativitas dan teknologi tanpa batas.
           </p>
           <p className="about-quote">

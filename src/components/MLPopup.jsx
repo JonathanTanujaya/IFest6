@@ -274,11 +274,11 @@ export default function MLPopup({ onClose }) {
               <div className="ml-player-grid">
                 <div>
                   <div className="ml-member-field-label">Nama Kapten <span className="req">*</span></div>
-                  <input className="ml-text-input" type="text" placeholder="Nama lengkap kapten…" required value={namaKapten} onChange={e => setNamaKapten(e.target.value)} />
+                  <input className="ml-text-input" type="text" placeholder="Nama lengkap kapten…" required value={namaKapten} onChange={e => setNamaKapten(e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
                 </div>
                 <div>
                   <div className="ml-member-field-label">No. WhatsApp Kapten <span className="req">*</span></div>
-                  <input className="ml-text-input" type="tel" placeholder="08xxxxxxxxxx" required value={waKapten} onChange={e => setWaKapten(e.target.value)} />
+                  <input className="ml-text-input" type="tel" placeholder="08xxxxxxxxxx" required value={waKapten} onChange={e => setWaKapten(e.target.value.replace(/[^0-9]/g, ''))} />
                 </div>
               </div>
               <div style={{ marginTop: '14px' }}>
@@ -299,7 +299,7 @@ export default function MLPopup({ onClose }) {
                 <div className="ml-player-grid">
                   <div>
                     <div className="ml-member-field-label">Nama Pemain {p.id} <span className="req">*</span></div>
-                    <input className="ml-text-input" type="text" placeholder={`Nama pemain ${p.id}…`} required value={p.nama} onChange={e => updatePlayer(p.id, 'nama', e.target.value)} />
+                    <input className="ml-text-input" type="text" placeholder={`Nama pemain ${p.id}…`} required value={p.nama} onChange={e => updatePlayer(p.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
                   </div>
                   <div>
                     <div className="ml-member-field-label">Nickname &amp; ID Pemain {p.id} <span className="req">*</span></div>
@@ -323,7 +323,7 @@ export default function MLPopup({ onClose }) {
                 <div className="ml-player-grid">
                   <div>
                     <div className="ml-member-field-label">Nama Pemain Cadangan <span className="req">*</span></div>
-                    <input className="ml-text-input" type="text" placeholder="Nama cadangan…" required value={cadangan.nama} onChange={e => setCadangan({ ...cadangan, nama: e.target.value })} />
+                    <input className="ml-text-input" type="text" placeholder="Nama cadangan…" required value={cadangan.nama} onChange={e => setCadangan({ ...cadangan, nama: e.target.value.replace(/[^a-zA-Z\s]/g, '') })} />
                   </div>
                   <div>
                     <div className="ml-member-field-label">Nickname &amp; ID Pemain Cadangan <span className="req">*</span></div>
@@ -389,10 +389,7 @@ export default function MLPopup({ onClose }) {
                     <input type="radio" name={`decl${i}`} id={`mdecl${i}y`} value="Setuju" required onChange={e => decl.set(e.target.value)} />
                     <label className="ml-decl-choice-label" htmlFor={`mdecl${i}y`}>✓ Setuju</label>
                   </div>
-                  <div className="ml-decl-choice disagree">
-                    <input type="radio" name={`decl${i}`} id={`mdecl${i}n`} value="Tidak Setuju" onChange={e => decl.set(e.target.value)} />
-                    <label className="ml-decl-choice-label" htmlFor={`mdecl${i}n`}>✗ Tidak Setuju</label>
-                  </div>
+
                 </div>
               </div>
             ))}

@@ -367,7 +367,7 @@ export default function UIXPopup({ onClose }) {
                           placeholder={`Nama lengkap peserta ${displayNum}…`}
                           required={isRequired}
                           value={m.nama}
-                          onChange={e => updateMember(m.id, 'nama', e.target.value)}
+                          onChange={e => updateMember(m.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
                         />
                       </div>
                       <div>
@@ -378,7 +378,7 @@ export default function UIXPopup({ onClose }) {
                           placeholder="08xxxxxxxxxx"
                           required={isRequired}
                           value={m.wa}
-                          onChange={e => updateMember(m.id, 'wa', e.target.value)}
+                          onChange={e => updateMember(m.id, 'wa', e.target.value.replace(/[^0-9]/g, ''))}
                         />
                       </div>
                     </div>
@@ -484,16 +484,7 @@ export default function UIXPopup({ onClose }) {
                     />
                     <label className="uix-decl-choice-label" htmlFor={`uixdecl${i}y`}>✓ Setuju</label>
                   </div>
-                  <div className="uix-decl-choice disagree">
-                    <input
-                      type="radio"
-                      name={`uixdecl${i}`}
-                      id={`uixdecl${i}n`}
-                      value="Tidak Setuju"
-                      onChange={e => decl.set(e.target.value)}
-                    />
-                    <label className="uix-decl-choice-label" htmlFor={`uixdecl${i}n`}>✗ Tidak Setuju</label>
-                  </div>
+
                 </div>
               </div>
             ))}

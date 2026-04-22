@@ -6,7 +6,7 @@ import OrbitingMenu from './OrbitingMenu'
 
 // Menu items that orbit in 3D space
 const menuItems = [
-  { id: 'about', title: 'About IFest', description: 'Di IFest 6.0, kami membawa tema "REWIND: THE MAGIC RETURNS" untuk mengingatkan kembali bahwa setiap dari kamu memiliki sihir untuk bersinar.', color: '#fbbf24', image: '/Compress/ifest.webp', badge: 'Explore' },
+  { id: 'about', title: 'About I-Fest', description: 'Di I-Fest 6.0, kami membawa tema "CTRL: Convergence of the Realms" untuk mengingatkan kembali bahwa setiap dari kamu memiliki sihir untuk bersinar.', color: '#fbbf24', image: '/Compress/ifest.webp', badge: 'Explore' },
   { id: 'uiux', title: 'UI/UX Design', description: 'Rancang pengalaman digital masa depan yang tak terlupakan.', color: '#8b5cf6', image: '/Compress/uiux.webp', badge: 'Detail Lomba' },
   { id: 'poster', title: 'Poster Digital', description: 'Ubah kanvas kosong menjadi karya visual penuh makna.', color: '#ec4899', image: '/Compress/poster.webp', badge: 'Detail Lomba' },
   { id: 'ml', title: 'Mobile Legends', description: 'Susun strategi, kalahkan lawan, dan raih tahta Land of Dawn.', color: '#3b82f6', image: '/Compress/ml.webp', badge: 'Detail Lomba' },

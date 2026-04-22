@@ -320,7 +320,7 @@ export default function KPopPopup({ onClose }) {
                           placeholder={`Nama lengkap peserta ${displayNum}…`}
                           required={isRequired}
                           value={p.nama}
-                          onChange={e => updatePlayer(p.id, 'nama', e.target.value)}
+                          onChange={e => updatePlayer(p.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
                         />
                       </div>
                       <div>
@@ -371,7 +371,7 @@ export default function KPopPopup({ onClose }) {
                           placeholder="08xxxxxxxxxx"
                           required={isRequired}
                           value={p.wa}
-                          onChange={e => updatePlayer(p.id, 'wa', e.target.value)}
+                          onChange={e => updatePlayer(p.id, 'wa', e.target.value.replace(/[^0-9]/g, ''))}
                         />
                       </div>
                       <div>
@@ -464,16 +464,7 @@ export default function KPopPopup({ onClose }) {
                     />
                     <label className="kp-decl-choice-label" htmlFor={`kpdecl${i}y`}>✓ Setuju</label>
                   </div>
-                  <div className="kp-decl-choice disagree">
-                    <input
-                      type="radio"
-                      name={`kpdecl${i}`}
-                      id={`kpdecl${i}n`}
-                      value="Tidak Setuju"
-                      onChange={e => decl.set(e.target.value)}
-                    />
-                    <label className="kp-decl-choice-label" htmlFor={`kpdecl${i}n`}>✗ Tidak Setuju</label>
-                  </div>
+
                 </div>
               </div>
             ))}

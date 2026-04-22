@@ -391,11 +391,11 @@ export default function BandPopup({ onClose }) {
                     <div className="band-member-grid">
                       <div>
                         <div className="band-member-field-label">Nama Lengkap {isRequired && <span className="req">*</span>}</div>
-                        <input className="band-text-input" type="text" placeholder={`Nama peserta ${index + 1}…`} required={isRequired} value={m.nama} onChange={e => updateMember(m.id, 'nama', e.target.value)} />
+                        <input className="band-text-input" type="text" placeholder={`Nama peserta ${index + 1}…`} required={isRequired} value={m.nama} onChange={e => updateMember(m.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
                       </div>
                       <div>
                         <div className="band-member-field-label">No. WhatsApp {isRequired && <span className="req">*</span>}</div>
-                        <input className="band-text-input" type="tel" placeholder="08xxxxxxxxxx" required={isRequired} value={m.wa} onChange={e => updateMember(m.id, 'wa', e.target.value)} />
+                        <input className="band-text-input" type="tel" placeholder="08xxxxxxxxxx" required={isRequired} value={m.wa} onChange={e => updateMember(m.id, 'wa', e.target.value.replace(/[^0-9]/g, ''))} />
                       </div>
                     </div>
                     <div style={{ marginTop: '14px' }}>
@@ -430,11 +430,11 @@ export default function BandPopup({ onClose }) {
               <div className="band-official-box">
                 <div className="band-field">
                   <div className="band-member-field-label">Nama Official / Pendamping</div>
-                  <input className="band-text-input" type="text" placeholder="Nama pendamping (jika ada)…" value={namaOfficial} onChange={e => setNamaOfficial(e.target.value)} />
+                  <input className="band-text-input" type="text" placeholder="Nama pendamping (jika ada)…" value={namaOfficial} onChange={e => setNamaOfficial(e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
                 </div>
                 <div className="band-field" style={{ marginBottom: 0 }}>
                   <div className="band-member-field-label">No. WhatsApp Official</div>
-                  <input className="band-text-input" type="tel" placeholder="Contoh: 08123456789" value={waOfficial} onChange={e => setWaOfficial(e.target.value)} />
+                  <input className="band-text-input" type="tel" placeholder="Contoh: 08123456789" value={waOfficial} onChange={e => setWaOfficial(e.target.value.replace(/[^0-9]/g, ''))} />
                 </div>
               </div>
             </div>
@@ -541,10 +541,7 @@ export default function BandPopup({ onClose }) {
                     <input type="radio" name={`decl${i}`} id={`decl${i}y`} value="Setuju" required onChange={e => decl.set(e.target.value)} />
                     <label className="band-decl-choice-label" htmlFor={`decl${i}y`}>✓ Setuju</label>
                   </div>
-                  <div className="band-decl-choice disagree">
-                    <input type="radio" name={`decl${i}`} id={`decl${i}n`} value="Tidak Setuju" onChange={e => decl.set(e.target.value)} />
-                    <label className="band-decl-choice-label" htmlFor={`decl${i}n`}>✗ Tidak Setuju</label>
-                  </div>
+
                 </div>
               </div>
             ))}
