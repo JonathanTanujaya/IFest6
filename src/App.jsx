@@ -6,6 +6,7 @@ import BandPopup from './components/BandPopup'
 import MLPopup from './components/MLPopup'
 import KPOPPopup from './components/KPOPPopup'
 import UIXPopup from './components/UIXPopup'
+import ComingSoonPopup from './components/ComingSoonPopup'
 
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -105,6 +106,8 @@ function App() {
             <KPOPPopup onClose={closePopup} />
           ) : activeMenu.id === 'uiux' ? (
             <UIXPopup onClose={closePopup} />
+          ) : ['poster', 'machine', 'compe'].includes(activeMenu.id) ? (
+            <ComingSoonPopup compId={activeMenu.id} onClose={closePopup} />
           ) : (
             <Popup item={activeMenu} onClose={closePopup} />
           )}

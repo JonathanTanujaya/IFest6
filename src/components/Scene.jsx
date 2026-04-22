@@ -17,32 +17,35 @@ const menuItems = [
 ];
 
 /**
- * 360° Panorama using the background image wrapped inside a sphere.
- * The image is mapped onto the full sphere interior — as user rotates 
- * the camera, they see different parts of the image wrapped around them.
+ * 360° Panorama using CubeTextureLoader for a proper cubemap skybox.
+ * Six images (px, nx, py, ny, pz, nz) are loaded and set as scene.background.
  */
 function PanoramaSphere() {
   const { scene } = useThree();
 
   useEffect(() => {
-    const geometry = new THREE.SphereGeometry(500, 60, 40);
-    geometry.scale(-1, 1, 1); // balik supaya dilihat dari dalam
+    const loader = new THREE.CubeTextureLoader();
+    loader.setPath('/Background/Panoramic/');
 
-    const texture = new THREE.TextureLoader().load('/Background/bgLast.jpeg');
+    const texture = loader.load([
+      'px.jpg', // right  (+X)
+      'nx.jpg', // left   (-X)
+      'py.jpg', // top    (+Y)
+      'ny.jpg', // bottom (-Y)
+      'pz.jpg', // front  (+Z)
+      'nz.jpg', // back   (-Z)
+    ]);
+
     texture.colorSpace = THREE.SRGBColorSpace;
-
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    scene.background = texture;
 
     return () => {
       // Cleanup the background when unmounted
       scene.background = null;
+      texture.dispose();
     };
   }, [scene]);
 
-  // No need to render a sphere geometry, scene.background handles it optimally
   return null;
 }
 
