@@ -12,7 +12,7 @@ const menuItems = [
   { id: 'ml', title: 'Mobile Legends', description: 'Susun strategi, kalahkan lawan, dan raih tahta Land of Dawn.', color: '#3b82f6', image: '/Compress/ml.webp', badge: 'Detail Lomba' },
   { id: 'kpop', title: 'K-Pop Dance Cover', description: 'Sinkronisasikan gerakanmu dan kuasai panggung utama.', color: '#10b981', image: '/Compress/kpop.webp', badge: 'Detail Lomba' },
   { id: 'band', title: 'Band Competition', description: 'Lantunkan melodimu dan buat seluruh arena bergema.', color: '#f97316', image: '/Compress/band.webp', badge: 'Detail Lomba' },
-  { id: 'machine', title: 'Machine Learning Competition', description: 'Ubah data menjadi wawasan, prediksi, dan keajaiban. Tunjukkan kecerdasan algoritmikmu dan ciptakan solusi masa depan yang cerdas!', color: '#fbbf24', image: '/Compress/AI.webp', badge: 'Detail Lomba' },
+  { id: 'machine', title: 'Machine Learning Competition', description: 'Ubah data menjadi wawasan, prediksi, dan keajaiban. Tunjukkan kecerdasan algoritmikmu dan ciptakan solusi masa depan yang cerdas!', color: '#fbbf24', image: '/Compress/machine.webp', badge: 'Detail Lomba' },
   { id: 'compe', title: 'Competitive Programming', description: 'Tantang dirimu dalam kompetisi coding yang menguji logika, efisiensi, dan kecepatan pemecahan masalah. Buktikan bahwa kamu adalah programmer terbaik!', color: '#356e2aff', image: '/Compress/compe.webp', badge: 'Detail Lomba' },
 ];
 
