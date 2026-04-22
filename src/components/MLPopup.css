@@ -59,8 +59,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0 0 32px 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--ml-gold-dim) transparent;
+  scrollbar-width: none;
   animation: mlPopIn 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -70,8 +69,7 @@
 }
 
 .ml-popup-container::-webkit-scrollbar { width: 5px; }
-.ml-popup-container::-webkit-scrollbar-track { background: transparent; }
-.ml-popup-container::-webkit-scrollbar-thumb { background: var(--ml-gold-dim); border-radius: 4px; }
+.ml-popup-container::-webkit-scrollbar { display: none; }
 
 /* ── Floating Suits Background ─────────── */
 .ml-suits-bg {

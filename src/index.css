@@ -494,6 +494,7 @@ body::after {
   max-width: 720px;
   max-height: 85vh;
   overflow-y: auto;
+    scrollbar-width: none;
   box-shadow: 
     0 0 60px rgba(139, 92, 246, 0.15),
     0 0 120px rgba(251, 191, 36, 0.05),
@@ -508,17 +509,7 @@ body::after {
 
 /* Custom scrollbar for about popup */
 .about-popup-content::-webkit-scrollbar {
-  width: 6px;
-}
-.about-popup-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-.about-popup-content::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.3);
-  border-radius: 3px;
-}
-.about-popup-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.5);
+  display: none;
 }
 
 /* Wonderland background decorations */
