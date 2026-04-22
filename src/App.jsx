@@ -11,6 +11,7 @@ import ComingSoonPopup from './components/ComingSoonPopup'
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   // Fade out loading screen after scene mounts
   useEffect(() => {
@@ -23,7 +24,11 @@ function App() {
   };
 
   const closePopup = () => {
-    setActiveMenu(null);
+    setIsClosing(true);
+    setTimeout(() => {
+      setActiveMenu(null);
+      setIsClosing(false);
+    }, 400); // 400ms duration for fade out animation
   };
 
   return (
@@ -95,7 +100,7 @@ function App() {
       </div>
 
       {activeMenu && (
-        <div className="ui-container interactive-ui">
+        <div className={`ui-container interactive-ui ${isClosing ? 'closing' : ''}`}>
           {activeMenu.id === 'about' ? (
             <AboutPopup item={activeMenu} onClose={closePopup} />
           ) : activeMenu.id === 'band' ? (

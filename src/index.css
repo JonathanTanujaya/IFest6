@@ -989,3 +989,41 @@ body::after {
   }
 }
 
+
+/* ===========================
+   CLOSING ANIMATIONS
+   =========================== */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes popOut {
+  from { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  to { 
+    opacity: 0; 
+    transform: scale(0.8);
+  }
+}
+
+.closing .popup-overlay,
+.closing .uix-popup-overlay,
+.closing .band-popup-overlay,
+.closing .cs-popup-overlay,
+.closing .kp-popup-overlay,
+.closing .ml-popup-overlay {
+  animation: fadeOut 0.4s forwards ease-out !important;
+}
+
+.closing .popup-content,
+.closing .uix-popup-container,
+.closing .band-popup-container,
+.closing .cs-popup-container,
+.closing .about-popup-content,
+.closing .kp-popup-container,
+.closing .ml-popup-container {
+  animation: popOut 0.4s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}

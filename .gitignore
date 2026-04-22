@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+results.csv
+stress-test.js
+summary.json
+test.js
+parse_summary.js
