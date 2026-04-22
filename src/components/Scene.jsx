@@ -28,12 +28,12 @@ function PanoramaSphere() {
     loader.setPath('/Background/Panoramic/');
 
     const texture = loader.load([
-      'px.jpg', // right  (+X)
-      'nx.jpg', // left   (-X)
-      'py.jpg', // top    (+Y)
-      'ny.jpg', // bottom (-Y)
-      'pz.jpg', // front  (+Z)
-      'nz.jpg', // back   (-Z)
+      'px.webp', // right  (+X)
+      'nx.webp', // left   (-X)
+      'py.webp', // top    (+Y)
+      'ny.webp', // bottom (-Y)
+      'pz.webp', // front  (+Z)
+      'nz.webp', // back   (-Z)
     ]);
 
     texture.colorSpace = THREE.SRGBColorSpace;
