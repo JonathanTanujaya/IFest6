@@ -3,7 +3,7 @@ import { X, CreditCard } from 'lucide-react';
 import { processFilesParallel } from '../utils/fileUtils';
 import './PDPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVQ_1p5NiF-KHRNPQQpzqLC8q1RTOj-HUFG1NjWZYLHcymp22ox67EX0UFG-NLqXJ1SA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0ZPdlC_HX1fQiCOGuZW4DwW3269kIGJKhEkvwQGyDGqUKcfavpFtsWXpS4hc6VgKC/exec'; // Replace with real script URL
 
 export default function PDPopup({ onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
