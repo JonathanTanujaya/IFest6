@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel } from '../utils/fileUtils';
 import './MachinePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/REPLACE_WITH_MACHINE_SCRIPT_ID/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzK0xgM7Buw69VPle1gkus6uAwq2MnecIaZN1wZkIdttei7bEw5CIpw0GlUL1yQ-OC6/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 2; // 1 mandatory member + 1 optional member = 2 members max (plus 1 kapten = 3 total)
 
@@ -16,7 +16,7 @@ export default function MachinePopup({ onClose }) {
   const [namaTim, setNamaTim] = useState('');
   const [asalKota, setAsalKota] = useState('');
   const [asalInstansi, setAsalInstansi] = useState('');
-  
+
   const [ketuaTim, setKetuaTim] = useState('');
   const [kpKetua, setKpKetua] = useState(null);
 
@@ -237,11 +237,11 @@ export default function MachinePopup({ onClose }) {
             Selamat datang di kompetisi I-Fest 6.0 2026! Isi form pendaftaran di bawah ini dengan menyertakan Surat Pernyataan:
           </p>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <a 
-              href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="machine-guidebook-btn" 
+            <a
+              href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="machine-guidebook-btn"
               style={{ display: "inline-flex" }}
             >
               📄 Download Surat Pernyataan
@@ -342,7 +342,7 @@ export default function MachinePopup({ onClose }) {
 
             {/* Anggota Tim */}
             <div className="machine-field-label" style={{ marginBottom: '16px', marginTop: '24px' }}>
-              Anggota Tim 
+              Anggota Tim
               <span className="machine-badge">1 anggota wajib, 1 anggota opsional</span>
             </div>
 

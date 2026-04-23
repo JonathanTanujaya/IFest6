@@ -494,6 +494,55 @@
   font-weight: 700;
 }
 
+/* ── Member Buttons ─────────────────────── */
+.ml-member-remove {
+  background: none;
+  border: 1px solid rgba(168, 21, 40, 0.3);
+  border-radius: 6px;
+  color: var(--ml-red);
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 12px;
+  transition: all 0.2s;
+  font-family: 'Georgia', serif;
+}
+
+.ml-member-remove:hover {
+  background: rgba(168, 21, 40, 0.15);
+  border-color: var(--ml-red-bright);
+}
+
+.ml-add-btn {
+  width: 100%;
+  background: none;
+  border: 1.5px dashed rgba(212, 169, 63, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  color: var(--ml-gold-dim);
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.ml-add-btn:hover:not(:disabled) {
+  border-color: var(--ml-gold);
+  color: var(--ml-gold);
+  background: rgba(212, 169, 63, 0.04);
+}
+
+.ml-add-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 /* ── File Drop ──────────────────────────── */
 .ml-file-drop {
   position: relative;
