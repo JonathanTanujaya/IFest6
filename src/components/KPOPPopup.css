@@ -841,3 +841,21 @@
   text-transform: uppercase;
   margin: 16px 0 0;
 }
+
+
+/* Mobile Layout Stabilizers */
+@media(max-width: 480px) {
+  .kp-header-eyebrow {
+    font-size: 8.5px !important;
+    letter-spacing: 1.5px !important;
+    line-height: 1.6;
+    word-wrap: break-word;
+  }
+  .kp-header h1, .kp-header h2 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  .kp-popup-container {
+    max-width: 100% !important;
+  }
+}

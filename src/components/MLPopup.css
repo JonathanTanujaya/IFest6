@@ -760,3 +760,21 @@
   .ml-decl-choices { flex-direction: column; }
   .ml-submit-btn { min-width: 180px; padding: 12px 24px; font-size: 14px; }
 }
+
+
+/* Mobile Layout Stabilizers */
+@media(max-width: 480px) {
+  .ml-header-eyebrow {
+    font-size: 8.5px !important;
+    letter-spacing: 1.5px !important;
+    line-height: 1.6;
+    word-wrap: break-word;
+  }
+  .ml-header h1, .ml-header h2 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  .ml-popup-container {
+    max-width: 100% !important;
+  }
+}

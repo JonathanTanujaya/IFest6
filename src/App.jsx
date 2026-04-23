@@ -6,6 +6,9 @@ import BandPopup from './components/BandPopup'
 import MLPopup from './components/MLPopup'
 import KPOPPopup from './components/KPOPPopup'
 import UIXPopup from './components/UIXPopup'
+import CompePopup from './components/CompePopup'
+import PDPopup from './components/PDPopup'
+import MachinePopup from './components/MachinePopup'
 import ComingSoonPopup from './components/ComingSoonPopup'
 
 // Map of valid ?form= values to their menu item objects
@@ -133,8 +136,12 @@ function App() {
             <KPOPPopup onClose={closePopup} />
           ) : activeMenu.id === 'uiux' ? (
             <UIXPopup onClose={closePopup} />
-          ) : ['poster', 'machine', 'compe'].includes(activeMenu.id) ? (
-            <ComingSoonPopup compId={activeMenu.id} onClose={closePopup} />
+          ) : activeMenu.id === 'compe' ? (
+            <CompePopup onClose={closePopup} />
+          ) : activeMenu.id === 'poster' ? (
+            <PDPopup onClose={closePopup} />
+          ) : activeMenu.id === 'machine' ? (
+            <MachinePopup onClose={closePopup} />
           ) : (
             <Popup item={activeMenu} onClose={closePopup} />
           )}

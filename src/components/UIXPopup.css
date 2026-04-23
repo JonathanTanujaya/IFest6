@@ -860,3 +860,22 @@
   color: var(--uix-red);
   font-weight: 700;
 }
+
+
+
+/* Mobile Layout Stabilizers */
+@media(max-width: 480px) {
+  .uix-header-eyebrow {
+    font-size: 8.5px !important;
+    letter-spacing: 1.5px !important;
+    line-height: 1.6;
+    word-wrap: break-word;
+  }
+  .uix-header h1, .uix-header h2 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  .uix-popup-container {
+    max-width: 100% !important;
+  }
+}
