@@ -340,7 +340,14 @@ export default function CompePopup({ onClose }) {
         <form onSubmit={validateAndSubmit}>
           <div className="cp-form-section">
             <div className="cp-section-header">
-              <div className="cp-section-icon">💻</div>
+              <div className="cp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="cp-section-title-group">
                 <span className="cp-section-number">Bagian I</span>
                 <div className="cp-section-title">Informasi Tim &amp; Peserta</div>
@@ -525,7 +532,14 @@ export default function CompePopup({ onClose }) {
 
           <div className="cp-form-section">
             <div className="cp-section-header">
-              <div className="cp-section-icon">📜</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="cp-section-title-group">
                 <span className="cp-section-number">Bagian II</span>
                 <div className="cp-section-title">Pernyataan</div>
@@ -566,7 +580,15 @@ export default function CompePopup({ onClose }) {
             {errorMsg && <div className="cp-alert error show" style={{ display: 'block' }}>{errorMsg}</div>}
             <div className="cp-submit-divider">✦ Siap untuk Bertanding ✦</div>
             <button type="submit" className="cp-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting ? <span>🚀 Kirim Pendaftaran</span> : <div className="cp-loader-ring" style={{ display: 'block' }}></div>}
+              {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+                Kirim Pendaftaran
+              </span> : <div className="cp-loader-ring" style={{ display: 'block' }}></div>}
             </button>
             {isSubmitting && submitStatus && (
               <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>

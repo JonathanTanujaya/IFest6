@@ -348,9 +348,9 @@ export default function UIXPopup({ onClose }) {
                 const isRequired = index < REQ_MEMBERS;
                 const displayNum = index + 1;
                 return (
-                  <div key={m.id} className={`uix-player-card${index === 0 ? ' leader' : ''}${!isRequired ? ' optional' : ''}`}>
-                    <div className="uix-player-header">
-                      <div className="uix-player-badge">
+                  <div key={m.id} className={`uix-member-card${index === 0 ? ' leader' : ''}${!isRequired ? ' optional' : ''}`}>
+                    <div className="uix-member-header">
+                      <div className="uix-member-badge">
                         <span style={{ color: index === 0 ? 'var(--gold)' : 'var(--text-muted)', marginRight: '6px' }}>
                           {ICONS[index % 3]}
                         </span>
@@ -365,7 +365,7 @@ export default function UIXPopup({ onClose }) {
                     </div>
 
                     {/* Nama + WA */}
-                    <div className="uix-player-grid" style={{ marginBottom: '12px' }}>
+                    <div className="uix-member-grid" style={{ marginBottom: '12px' }}>
                       <div>
                         <div className="uix-member-field-label">Nama Peserta {displayNum} {isRequired && <span className="req">*</span>}</div>
                         <input

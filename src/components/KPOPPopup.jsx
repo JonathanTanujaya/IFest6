@@ -432,7 +432,14 @@ export default function KPopPopup({ onClose }) {
           {/* SECTION 2 */}
           <div className="kp-form-section">
             <div className="kp-section-header">
-              <div className="kp-section-icon">📜</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="kp-section-title-group">
                 <span className="kp-section-number">Bagian II</span>
                 <div className="kp-section-title">Pernyataan</div>
@@ -484,14 +491,14 @@ export default function KPopPopup({ onClose }) {
             <button type="submit" className="kp-submit-btn" disabled={isSubmitting}>
               {!isSubmitting
                 ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <img
-                      src="/Compress/maskot.webp"
-                      alt=""
-                      aria-hidden="true"
-                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                    />
-                    Kirim Pendaftaran
-                  </span>
+                  <img
+                    src="/Compress/maskot.webp"
+                    alt=""
+                    aria-hidden="true"
+                    style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                  />
+                  Kirim Pendaftaran
+                </span>
                 : <div className="kp-loader-ring"></div>}
             </button>
             {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>{submitStatus}</p>}
