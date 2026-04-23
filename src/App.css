@@ -272,28 +272,59 @@
 
 @media (max-width: 768px) {
   .orbit-menu-card {
-    width: 90px;
+    width: 70px;
   }
 
   .orbit-menu-image-shell {
-    width: 56px;
-    height: 56px;
-    min-width: 56px;
-    min-height: 56px;
-    max-width: 56px;
-    max-height: 56px;
-    border-radius: 12px;
-  }
-
-  .orbit-menu-image {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    max-width: 48px;
+    max-height: 48px;
     border-radius: 10px;
   }
 
+  .orbit-menu-image {
+    border-radius: 8px;
+  }
+
   .orbit-menu-title {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .orbit-menu-desc {
     font-size: 6px;
+  }
+}
+
+/* Mobile landscape: short viewport — cards must be much smaller */
+@media (max-height: 500px) and (orientation: landscape) {
+  .orbit-menu-card {
+    width: 44px;
+    gap: 2px;
+  }
+
+  .orbit-menu-image-shell {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    min-height: 34px;
+    max-width: 34px;
+    max-height: 34px;
+    border-radius: 7px;
+    border-width: 1.5px;
+  }
+
+  .orbit-menu-image {
+    border-radius: 5px;
+  }
+
+  .orbit-menu-title {
+    font-size: 7px;
+  }
+
+  .orbit-menu-desc {
+    display: none;
   }
 }

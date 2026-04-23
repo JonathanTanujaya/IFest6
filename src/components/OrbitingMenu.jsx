@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 
@@ -12,6 +12,11 @@ function MenuItem({ item, onMenuClick, visible }) {
   const [facing, setFacing] = useState(1)
   const worldPos = useRef(new THREE.Vector3())
   const camDir = useRef(new THREE.Vector3())
+  const { size } = useThree()
+
+  // Responsive distanceFactor: smaller on landscape mobile (short viewport)
+  const isLandscapeMobile = size.height < 500 && size.width > size.height
+  const distanceFactor = isLandscapeMobile ? 0.22 : (size.width < 768 ? 0.32 : 0.4)
 
   useFrame(({ camera }) => {
     if (!meshRef.current) return
@@ -38,7 +43,7 @@ function MenuItem({ item, onMenuClick, visible }) {
         <meshBasicMaterial />
       </mesh>
 
-      <Html distanceFactor={0.4} center zIndexRange={[100, 0]}>
+      <Html distanceFactor={distanceFactor} center zIndexRange={[100, 0]}>
         <div
           className="orbit-menu-card"
           onClick={() => onMenuClick(item)}

@@ -848,7 +848,9 @@
   .uix-header { padding: 36px 18px 26px; }
   .uix-description-card,
   .uix-form-section,
-  .uix-submit-section { margin-left: 14px; margin-right: 14px; padding: 16px; }
+  .uix-submit-section { margin-left: 12px; margin-right: 12px; padding: 16px 14px; }
+  .uix-player-card { padding: 12px; }
+  .uix-info-card { padding: 10px 11px; }
   .uix-player-grid { grid-template-columns: 1fr; }
   .uix-decl-choices { flex-direction: column; }
   .uix-choice-group { flex-direction: column; }

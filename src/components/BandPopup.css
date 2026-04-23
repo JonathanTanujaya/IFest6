@@ -163,7 +163,8 @@
 
 /* ─── Section cards ─── */
 .band-form-section { background: var(--surface); border: 1px solid var(--gold-dim); border-top: none; padding: 36px 32px; z-index: 1; position: relative; }
-@media(max-width:560px){ .band-form-section { padding: 28px 18px; } .band-description-card { padding: 24px 18px; } .band-header { padding: 48px 18px 36px; } }
+@media(max-width:560px){ .band-form-section { padding: 22px 14px; } .band-description-card { padding: 20px 14px; } .band-header { padding: 44px 16px 32px; } }
+@media(max-width:520px){ .band-info-card { padding: 10px 12px; } .band-member-card { padding: 16px 14px; } .band-popup-overlay { padding: 28px 10px; } }
 .band-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .band-section-icon { width: 44px; height: 44px; background: linear-gradient(135deg, var(--red), #6b0e1a); border: 1px solid var(--red-bright); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: 0 0 20px var(--red-glow); }
 .band-section-title-group { flex: 1; text-align: left; }

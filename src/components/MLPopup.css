@@ -752,8 +752,10 @@
   .ml-header { padding: 36px 18px 26px; }
   .ml-description-card,
   .ml-form-section,
-  .ml-submit-section { margin: 16px 14px 0; padding: 18px 14px; }
+  .ml-submit-section { margin: 16px 12px 0; padding: 16px 12px; }
   .ml-info-grid { grid-template-columns: 1fr; }
+  .ml-info-card { padding: 10px 12px; }
+  .ml-player-card { padding: 12px; }
   .ml-player-grid { grid-template-columns: 1fr; }
   .ml-decl-choices { flex-direction: column; }
   .ml-submit-btn { min-width: 180px; padding: 12px 24px; font-size: 14px; }

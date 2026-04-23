@@ -247,6 +247,14 @@
   .kp-info-grid { grid-template-columns: 1fr; }
 }
 
+@media (max-width: 520px) {
+  .kp-info-card { padding: 10px 11px; }
+  .kp-player-card { padding: 12px; }
+  .kp-description-card,
+  .kp-form-section { margin-left: 12px; margin-right: 12px; padding: 16px 14px; }
+  .kp-submit-section { margin-left: 12px; margin-right: 12px; }
+}
+
 .kp-info-card {
   background: rgba(255, 110, 199, 0.06);
   border: 1px solid rgba(255, 110, 199, 0.18);
