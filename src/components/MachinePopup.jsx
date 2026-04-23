@@ -238,9 +238,8 @@ export default function MachinePopup({ onClose }) {
           </p>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <a
-              href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing"
-              target="_blank"
-              rel="noreferrer"
+              href="/Surat.docx"
+              download="Surat_Pernyataan_MachineLearning_IFest6.docx"
               className="machine-guidebook-btn"
               style={{ display: "inline-flex" }}
             >
@@ -509,7 +508,15 @@ export default function MachinePopup({ onClose }) {
             {errorMsg && <div className="machine-alert error show" style={{ display: 'block' }}>{errorMsg}</div>}
             <div className="machine-submit-divider">✦ Siap Bertanding ✦</div>
             <button type="submit" className="machine-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting ? <span>🎩 Kirim Pendaftaran</span> : <div className="machine-loader-ring" style={{ display: 'block' }}></div>}
+              {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+                Kirim Pendaftaran
+              </span> : <div className="machine-loader-ring" style={{ display: 'block' }}></div>}
             </button>
             {isSubmitting && submitStatus && (
               <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>
