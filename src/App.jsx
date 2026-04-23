@@ -8,6 +8,18 @@ import KPOPPopup from './components/KPOPPopup'
 import UIXPopup from './components/UIXPopup'
 import ComingSoonPopup from './components/ComingSoonPopup'
 
+// Map of valid ?form= values to their menu item objects
+const FORM_MAP = {
+  about:   { id: 'about',   title: 'About I-Fest' },
+  uiux:    { id: 'uiux',    title: 'UI/UX Design' },
+  poster:  { id: 'poster',  title: 'Poster Digital' },
+  ml:      { id: 'ml',      title: 'Mobile Legends' },
+  kpop:    { id: 'kpop',    title: 'K-Pop Dance Cover' },
+  band:    { id: 'band',    title: 'Band Competition' },
+  machine: { id: 'machine', title: 'Machine Learning Competition' },
+  compe:   { id: 'compe',   title: 'Competitive Programming' },
+};
+
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -16,6 +28,21 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 2500);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Deep-link: auto-open popup from ?form= query parameter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const formKey = params.get('form')?.toLowerCase();
+    if (formKey && FORM_MAP[formKey]) {
+      // Wait for loading screen to fade, then open the popup
+      const timer = setTimeout(() => {
+        setActiveMenu(FORM_MAP[formKey]);
+        // Clean URL so refresh doesn't re-trigger
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const handleMenuClick = (menuItem) => {
