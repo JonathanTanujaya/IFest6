@@ -245,6 +245,7 @@ body::after {
   right: 16px;
   bottom: 16px;
   border: 1px solid rgba(251, 191, 36, 0.2);
+  border-top: none; /* removed — the top line is drawn by .frame-top */
   border-radius: 4px;
   pointer-events: none;
 }
@@ -257,6 +258,7 @@ body::after {
   right: 20px;
   bottom: 20px;
   border: 1px solid rgba(139, 92, 246, 0.15);
+  border-top: none; /* also removed — top line drawn by .frame-top */
   border-radius: 2px;
   pointer-events: none;
 }
@@ -293,11 +295,32 @@ body::after {
 }
 
 .frame-top {
-  top: 6px;
+  top: 9px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.7rem;
-  color: rgba(251, 191, 36, 0.65);
+  color: rgba(251, 191, 36, 0.9);
+  padding: 0 14px;
+  background: transparent;
+}
+
+/* Horizontal lines extending from the text to the border edges */
+.frame-top::before,
+.frame-top::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50vw - 50% - 16px);
+  height: 0;
+  border-top: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.frame-top::before {
+  right: 100%;
+}
+
+.frame-top::after {
+  left: 100%;
 }
 
 .frame-title {
@@ -306,20 +329,22 @@ body::after {
   background: linear-gradient(135deg, #fbbf24, #f59e0b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.4));
 }
 
 .frame-divider {
   font-size: 0.5rem;
-  color: rgba(139, 92, 246, 0.6);
+  color: rgba(139, 92, 246, 0.8);
 }
 
 .frame-subtitle {
   font-weight: 400;
   font-size: 0.6rem;
-  color: rgba(139, 92, 246, 0.5);
+  color: rgba(192, 132, 252, 0.85);
   font-family: 'Inter', sans-serif;
   letter-spacing: 0.25em;
   text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
 }
 
 .frame-bottom {

@@ -27,3 +27,6 @@ stress-test.js
 summary.json
 test.js
 parse_summary.js
+
+.vercel
+.env*.local
