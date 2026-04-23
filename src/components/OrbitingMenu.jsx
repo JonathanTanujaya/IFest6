@@ -10,6 +10,13 @@ import * as THREE from 'three'
 // ─────────────────────────────────────────────────────────────
 const cardSize = 2.1
 
+// ─────────────────────────────────────────────────────────────
+//  📐  Y OFFSET
+//  Geser posisi kartu ke atas (+) atau ke bawah (-).
+//  0 = tengah scene · -0.3 = lebih ke bawah · 0.3 = lebih ke atas
+// ─────────────────────────────────────────────────────────────
+const yOffset = 0.39
+
 // Base dimensions at cardSize = 1  (rasio 3:4, portrait)
 const BASE_W = 56   // px — lebar shell desktop
 const BASE_H = 75   // px — tinggi shell desktop (3:4)
@@ -65,19 +72,20 @@ function MenuItem({ item, onMenuClick, visible }) {
       </mesh>
 
       <Html distanceFactor={df} center zIndexRange={[100, 0]}>
+        {/* pointer-events: none on wrapper — lets touch drag pass through to canvas */}
         <div
           className="orbit-menu-card"
-          onClick={() => onMenuClick(item)}
           style={{
             opacity: finalOpacity,
             width: `${shellW + 16}px`,
             transform: visible ? 'translateY(0)' : 'translateY(20px)',
             transition: `transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${item.index * 0.08}s`,
-            pointerEvents: finalOpacity > 0.3 ? 'auto' : 'none',
+            pointerEvents: 'none',   // ← never block canvas touch/drag
           }}
         >
           <div
             className="orbit-menu-image-shell"
+            onClick={() => onMenuClick(item)}
             style={{
               width: `${shellW}px`,
               height: `${shellH}px`,
@@ -87,6 +95,9 @@ function MenuItem({ item, onMenuClick, visible }) {
               maxHeight: `${shellH}px`,
               borderColor: item.color,
               boxShadow: `0 8px 32px ${item.color}40`,
+              // Only the image shell is clickable, not the transparent wrapper
+              pointerEvents: finalOpacity > 0.3 ? 'auto' : 'none',
+              cursor: 'pointer',
             }}
           >
             <img className="orbit-menu-image" src={item.image} alt={item.title} loading="lazy" />
@@ -113,7 +124,7 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
       const angle = index * angleStep
       const x = Math.sin(angle) * radius
       const z = Math.cos(angle) * radius
-      return { x, y: 0, z, index, ...item }
+      return { x, y: yOffset, z, index, ...item }
     })
   }
 

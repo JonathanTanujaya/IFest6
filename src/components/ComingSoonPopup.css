@@ -321,15 +321,23 @@
   100% { opacity: 0; transform: translateY(-80px) scale(0.3); }
 }
 
-/* ── Responsive ────────────────────────── */
+/* ── Responsive ──────────────────────── */
 @media (max-width: 480px) {
-  .cs-content {
-    padding: 48px 24px 36px;
+  /* Align to top so popup never gets clipped above the fold */
+  .cs-popup-overlay {
+    align-items: flex-start;
+    padding: 20px 12px 40px;
   }
+
+  .cs-content {
+    padding: 40px 20px 32px;
+  }
+
   .cs-icon-wrapper {
     width: 80px;
     height: 80px;
   }
+
   .cs-icon-emoji {
     font-size: 36px;
   }

@@ -598,6 +598,15 @@ body::after {
   line-height: 1.2;
 }
 
+/* Responsive title: mobile shows short, desktop shows full */
+.about-title-mobile  { display: none; }
+.about-title-desktop { display: inline; }
+
+@media (max-width: 640px) {
+  .about-title-mobile  { display: inline; }
+  .about-title-desktop { display: none; }
+}
+
 .about-tagline {
   font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
@@ -840,7 +849,8 @@ body::after {
 .ml-popup-overlay,
 .uix-popup-overlay {
   align-items: flex-start !important;
-  padding: 16px 10px 48px !important;
+  padding: 16px 16px 48px !important;
+  scrollbar-gutter: stable;
 }
 
 @media (max-width: 600px) {

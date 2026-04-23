@@ -212,7 +212,10 @@ export default function AboutPopup({ item, onClose }) {
         {/* Header */}
         <div className="about-header">
           <div className="about-crown" aria-hidden="true">👑</div>
-          <h2 className="about-title">About I-Fest 6.0</h2>
+          <h2 className="about-title">
+            <span className="about-title-mobile">I-Fest 6.0</span>
+            <span className="about-title-desktop">Informatical Festival 6.0</span>
+          </h2>
           <p className="about-tagline">✦ CTRL: Convergence of the Realms ✦</p>
           <div className="about-divider" aria-hidden="true">
             <span>♠</span>
@@ -225,9 +228,9 @@ export default function AboutPopup({ item, onClose }) {
         {/* Main Description */}
         <div className="about-description">
           <p>
-            Di I-Fest 6.0, kami membawa tema <em>"CTRL: Convergence of the Realms"</em> — 
-            terinspirasi dari dunia ajaib Alice in Wonderland. Seperti Alice yang menemukan 
-            dunia penuh keajaiban di balik lubang kelinci, I-Fest 6.0 mengajakmu 
+            Di I-Fest 6.0, kami membawa tema <em>"CTRL: Convergence of the Realms"</em> —
+            terinspirasi dari dunia ajaib Alice in Wonderland. Seperti Alice yang menemukan
+            dunia penuh keajaiban di balik lubang kelinci, I-Fest 6.0 mengajakmu
             menjelajahi dunia kreativitas dan teknologi tanpa batas.
           </p>
           <p className="about-quote">
@@ -256,6 +259,7 @@ export default function AboutPopup({ item, onClose }) {
         <button
           className="about-cta"
           style={{ backgroundColor: item.color }}
+          onClick={onClose}
         >
           ✨ Mulai Petualanganmu
         </button>
