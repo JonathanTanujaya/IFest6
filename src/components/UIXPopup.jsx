@@ -227,14 +227,14 @@ export default function UIXPopup({ onClose }) {
         {/* DESCRIPTION */}
         <div className="uix-description-card">
           <p className="uix-desc-text">
-            Selamat datang di <strong style={{ color: 'var(--uix-text)' }}>UI/UX Competition I-Fest 6.0 2026!</strong> 🎩♥️<br />
+            Selamat datang di <strong style={{ color: 'var(--gold)' }}>UI/UX Competition I-Fest 6.0 2026!</strong> 🎩♥️<br />
             Kompetisi yang diselenggarakan secara daring oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang. Kompetisi ini melibatkan siswa SMA dan Mahasiswa di seluruh wilayah Indonesia untuk menguji kemampuan peserta dalam merancang desain User Interface (UI) dan User Experience (UX) untuk aplikasi berbasis mobile.
           </p>
           <p className="uix-desc-text">
             Metode atau format yang digunakan dalam kompetisi ini adalah sistem berbasis design thinking dan project-based competition, di mana peserta akan mengikuti beberapa tahapan utama, mulai dari pendaftaran, technical meeting, pengerjaan karya, hingga presentasi dan penilaian akhir. Dalam kompetisi ini, peserta (individu atau tim beranggotakan 2–3 orang) akan diberikan subtema serta topik Sustainable Development Goals (SDGs) secara acak oleh panitia, yang kemudian harus dikembangkan menjadi solusi desain aplikasi mobile berbasis UI/UX.
           </p>
           <p className="uix-desc-text" style={{ marginBottom: '18px' }}>
-            <strong style={{ color: 'var(--uix-cyan)' }}>🗝️ Tema: "Exploring Digital Wonderland: Designing Meaningful Solutions for a Better Future"</strong><br />
+            <strong style={{ color: 'var(--gold)' }}>🗝️ Tema: "Exploring Digital Wonderland: Designing Meaningful Solutions for a Better Future"</strong><br />
             Tema ini mengajak peserta untuk mengeksplorasi dan merancang solusi digital yang inovatif serta bermakna dalam menjawab berbagai permasalahan yang selaras dengan Sustainable Development Goals (SDGs). Peserta diharapkan mampu mengidentifikasi permasalahan nyata di berbagai sektor seperti pendidikan, kesehatan, lingkungan, sosial, dan smart city, kemudian mengembangkan solusi berbasis desain UI/UX yang berfokus pada kebutuhan pengguna (user-centered design).
           </p>
 
@@ -253,7 +253,7 @@ export default function UIXPopup({ onClose }) {
               <span className="uix-ic-label">💰 HTM</span>
               <div className="uix-ic-value">
                 Rp60.000,-<br />
-                <small style={{ color: 'var(--uix-text-muted)' }}>BCA 0210999396<br />a.n. Yayasan Multi Data Palembang</small>
+                <small style={{ color: 'var(--text-muted)' }}>BCA 0210999396<br />a.n. Yayasan Multi Data Palembang</small>
               </div>
             </div>
             <div className="uix-info-card">
@@ -267,7 +267,7 @@ export default function UIXPopup({ onClose }) {
           </div>
 
           <p className="uix-desc-text" style={{ textAlign: 'center', margin: '16px 0 14px' }}>
-            💡 Siapkan Tim Terbaikmu dan Jadilah <strong style={{ color: 'var(--uix-cyan)' }}>JUARA!</strong> 🏆
+            💡 Siapkan Tim Terbaikmu dan Jadilah <strong style={{ color: 'var(--gold)' }}>JUARA!</strong> 🏆
           </p>
 
           <div className="uix-contact-row">
@@ -344,7 +344,7 @@ export default function UIXPopup({ onClose }) {
                   <div key={m.id} className={`uix-player-card${index === 0 ? ' leader' : ''}${!isRequired ? ' optional' : ''}`}>
                     <div className="uix-player-header">
                       <div className="uix-player-badge">
-                        <span style={{ color: index === 0 ? 'var(--uix-cyan)' : 'var(--uix-text-muted)', marginRight: '6px' }}>
+                        <span style={{ color: index === 0 ? 'var(--gold)' : 'var(--text-muted)', marginRight: '6px' }}>
                           {ICONS[index % 3]}
                         </span>
                         Peserta {displayNum}
@@ -399,7 +399,7 @@ export default function UIXPopup({ onClose }) {
                     {/* Kartu Identitas */}
                     <div>
                       <div className="uix-member-field-label">Kartu Identitas Peserta {displayNum} {isRequired && <span className="req">*</span>}</div>
-                      <div className="uix-field-hint">Format: <strong style={{ color: 'var(--uix-cyan-dim)' }}>KIP-NamaPeserta{displayNum}</strong></div>
+                      <div className="uix-field-hint">Format: <strong style={{ color: 'var(--gold-dim)' }}>KIP-NamaPeserta{displayNum}</strong></div>
                       <div className="uix-file-drop small">
                         <input
                           type="file"
@@ -425,7 +425,7 @@ export default function UIXPopup({ onClose }) {
             <div className="uix-field" style={{ marginTop: '8px' }}>
               <div className="uix-field-label">Bukti Transfer Pembayaran <span className="req">*</span></div>
               <div className="uix-field-hint">
-                Format Penamaan File: <strong style={{ color: 'var(--uix-cyan-dim)' }}>TRANSFER-UIX-NamaTim</strong><br />
+                Format Penamaan File: <strong style={{ color: 'var(--gold-dim)' }}>TRANSFER-UIX-NamaTim</strong><br />
                 BCA 0210999396 a.n. Yayasan Multi Data Palembang
               </div>
               <div className="uix-file-drop">
@@ -499,8 +499,8 @@ export default function UIXPopup({ onClose }) {
                 ? <span>🎨 Kirim Pendaftaran</span>
                 : <div className="uix-loader-ring"></div>}
             </button>
-            {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--uix-cyan-dim)', fontStyle: 'italic' }}>{submitStatus}</p>}
-            <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--uix-text-muted)', fontStyle: 'italic' }}>
+            {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>{submitStatus}</p>}
+            <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--text-muted)', fontStyle: 'italic' }}>
               Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
             </p>
           </div>
