@@ -137,7 +137,7 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
   })
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} rotation={[0, Math.PI, 0]}>
       {positionedItems.map((item) => (
         <MenuItem
           key={item.id}
