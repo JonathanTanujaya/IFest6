@@ -27,6 +27,15 @@ function App() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Redirect unknown paths (e.g. /random) back to homepage
+  useEffect(() => {
+    if (window.location.pathname !== '/') {
+      // Preserve query string (e.g. ?form=band) if present
+      const search = window.location.search;
+      window.history.replaceState({}, '', '/' + search);
+    }
+  }, []);
+
   // Fade out loading screen after scene mounts
   useEffect(() => {
     const timer = setTimeout(() => setIsLoaded(true), 2500);
