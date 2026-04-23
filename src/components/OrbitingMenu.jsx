@@ -3,6 +3,22 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
 import * as THREE from 'three'
 
+// ─────────────────────────────────────────────────────────────
+//  🎴  CARD SIZE CONTROL
+//  Ubah angka di bawah ini untuk mengatur ukuran semua kartu.
+//  1 = ukuran default · 1.5 = lebih besar · 0.8 = lebih kecil
+// ─────────────────────────────────────────────────────────────
+const cardSize = 2.1
+
+// Base dimensions at cardSize = 1  (rasio 3:4, portrait)
+const BASE_W = 56   // px — lebar shell desktop
+const BASE_H = 75   // px — tinggi shell desktop (3:4)
+const BASE_DF = 0.45 // distanceFactor desktop
+
+// Responsive scale multipliers (applied on top of cardSize)
+const SCALE_MOBILE_PORTRAIT = 0.85   // ≤768px portrait
+const SCALE_MOBILE_LANDSCAPE = 0.55   // landscape + max-height ≤500px
+
 /**
  * Single menu item — checks if it faces the camera each frame
  * and fades opacity accordingly (prevents back-side overlap).
@@ -14,22 +30,27 @@ function MenuItem({ item, onMenuClick, visible }) {
   const camDir = useRef(new THREE.Vector3())
   const { size } = useThree()
 
-  // Responsive distanceFactor: smaller on landscape mobile (short viewport)
+  // Pick responsive multiplier based on viewport
   const isLandscapeMobile = size.height < 500 && size.width > size.height
-  const distanceFactor = isLandscapeMobile ? 0.22 : (size.width < 768 ? 0.32 : 0.4)
+  const isMobilePortrait = size.width < 768 && !isLandscapeMobile
+  const rScale = isLandscapeMobile
+    ? SCALE_MOBILE_LANDSCAPE
+    : isMobilePortrait
+      ? SCALE_MOBILE_PORTRAIT
+      : 1
+
+  // Final dimensions — all derived from cardSize
+  const shellW = Math.round(BASE_W * cardSize * rScale)
+  const shellH = Math.round(BASE_H * cardSize * rScale)
+  const df = BASE_DF * cardSize * rScale
 
   useFrame(({ camera }) => {
     if (!meshRef.current) return
-    // Get world position of this menu item
     meshRef.current.getWorldPosition(worldPos.current)
-    // Direction from camera to item
     camDir.current.copy(worldPos.current).sub(camera.position).normalize()
-    // Camera's forward direction
     const camFwd = new THREE.Vector3()
     camera.getWorldDirection(camFwd)
-    // Dot product: 1 = directly in front, -1 = directly behind
     const dot = camFwd.dot(camDir.current)
-    // Smooth value: visible when dot > 0.1, hidden when dot < -0.2
     const alpha = THREE.MathUtils.clamp((dot + 0.2) / 0.6, 0, 1)
     setFacing(alpha)
   })
@@ -43,18 +64,31 @@ function MenuItem({ item, onMenuClick, visible }) {
         <meshBasicMaterial />
       </mesh>
 
-      <Html distanceFactor={distanceFactor} center zIndexRange={[100, 0]}>
+      <Html distanceFactor={df} center zIndexRange={[100, 0]}>
         <div
           className="orbit-menu-card"
           onClick={() => onMenuClick(item)}
           style={{
             opacity: finalOpacity,
+            width: `${shellW + 16}px`,
             transform: visible ? 'translateY(0)' : 'translateY(20px)',
             transition: `transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${item.index * 0.08}s`,
             pointerEvents: finalOpacity > 0.3 ? 'auto' : 'none',
           }}
         >
-          <div className="orbit-menu-image-shell" style={{ borderColor: item.color, boxShadow: `0 8px 32px ${item.color}40` }}>
+          <div
+            className="orbit-menu-image-shell"
+            style={{
+              width: `${shellW}px`,
+              height: `${shellH}px`,
+              minWidth: `${shellW}px`,
+              minHeight: `${shellH}px`,
+              maxWidth: `${shellW}px`,
+              maxHeight: `${shellH}px`,
+              borderColor: item.color,
+              boxShadow: `0 8px 32px ${item.color}40`,
+            }}
+          >
             <img className="orbit-menu-image" src={item.image} alt={item.title} loading="lazy" />
           </div>
         </div>
@@ -67,33 +101,29 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
   const groupRef = useRef()
   const [visible, setVisible] = useState(false)
 
-  // Staggered entrance — wait a moment before showing labels
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 800)
     return () => clearTimeout(t)
   }, [])
 
   const getPositions = () => {
-    const count = items.length;
-    const angleStep = (Math.PI * 2) / count;
-
+    const count = items.length
+    const angleStep = (Math.PI * 2) / count
     return items.map((item, index) => {
-      const angle = index * angleStep;
-      const x = Math.sin(angle) * radius;
-      const z = Math.cos(angle) * radius;
-      const y = 0; // All items aligned at the same height
-      return { x, y, z, index, ...item };
-    });
+      const angle = index * angleStep
+      const x = Math.sin(angle) * radius
+      const z = Math.cos(angle) * radius
+      return { x, y: 0, z, index, ...item }
+    })
   }
 
-  const positionedItems = getPositions();
+  const positionedItems = getPositions()
 
-  // Make the entire menu group orbit slowly
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y -= delta * 0.05;
+      groupRef.current.rotation.y -= delta * 0.05
     }
-  });
+  })
 
   return (
     <group ref={groupRef}>
@@ -108,5 +138,3 @@ export default function OrbitingMenu({ items, onMenuClick, radius = 8 }) {
     </group>
   )
 }
-
-

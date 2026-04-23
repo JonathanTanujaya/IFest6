@@ -189,23 +189,18 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  width: 70px;
+  width: 80px;
   cursor: pointer;
   user-select: none;
   will-change: transform, opacity;
   text-align: center;
 }
 
+/* Portrait shell — dimensions injected by OrbitingMenu.jsx (cardSize) */
 .orbit-menu-image-shell {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
-  max-width: 400px;
-  max-height: 400px;
   padding: 2px;
   border: 2px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(135deg, rgba(7, 9, 26, 0.7), rgba(18, 13, 40, 0.85));
   backdrop-filter: blur(8px);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -213,6 +208,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  /* width / height set via inline style from cardSize constant */
 }
 
 .orbit-menu-card:hover .orbit-menu-image-shell {
@@ -225,7 +221,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  object-position: center top; /* show top of image (subject area) */
+  border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
@@ -270,23 +267,11 @@
   overflow: hidden;
 }
 
+/* ── Mobile portrait ≤768px ── */
 @media (max-width: 768px) {
-  .orbit-menu-card {
-    width: 70px;
-  }
-
-  .orbit-menu-image-shell {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    max-width: 48px;
-    max-height: 48px;
-    border-radius: 10px;
-  }
-
+  /* Shell dimensions handled by cardSize in OrbitingMenu.jsx */
   .orbit-menu-image {
-    border-radius: 8px;
+    border-radius: 5px;
   }
 
   .orbit-menu-title {
@@ -298,26 +283,15 @@
   }
 }
 
-/* Mobile landscape: short viewport — cards must be much smaller */
+/* ── Mobile landscape: short viewport ── */
 @media (max-height: 500px) and (orientation: landscape) {
+  /* Shell dimensions handled by cardSize in OrbitingMenu.jsx */
   .orbit-menu-card {
-    width: 44px;
     gap: 2px;
   }
 
-  .orbit-menu-image-shell {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    min-height: 34px;
-    max-width: 34px;
-    max-height: 34px;
-    border-radius: 7px;
-    border-width: 1.5px;
-  }
-
   .orbit-menu-image {
-    border-radius: 5px;
+    border-radius: 4px;
   }
 
   .orbit-menu-title {
