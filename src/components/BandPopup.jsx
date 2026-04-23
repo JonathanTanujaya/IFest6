@@ -219,6 +219,11 @@ export default function BandPopup({ onClose }) {
             </p>
             <div className="band-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
             <p className="band-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
+            <div style={{ marginTop: '28px' }}>
+              <a href="https://chat.whatsapp.com/L8EReuHY2g68fXIjnjC4sx" target="_blank" rel="noreferrer" className="band-contact-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                💬 Join Grup WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -327,7 +332,14 @@ export default function BandPopup({ onClose }) {
         <form onSubmit={handleSubmit}>
           <div className="band-form-section">
             <div className="band-section-header">
-              <div className="band-section-icon">🎸</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="band-section-title-group">
                 <span className="band-section-number">Bagian I</span>
                 <div className="band-section-title">Informasi Peserta</div>
@@ -633,7 +645,15 @@ export default function BandPopup({ onClose }) {
             {errorMsg && <div className="band-alert error show" style={{ display: 'block' }}>{errorMsg}</div>}
             <div className="band-submit-divider">✦ Siap Mengguncang Panggung ✦</div>
             <button type="submit" className="band-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting ? <span>🎩 Kirim Pendaftaran</span> : <div className="band-loader-ring" style={{ display: 'block' }}></div>}
+              {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <img
+                      src="/Compress/maskot.webp"
+                      alt=""
+                      aria-hidden="true"
+                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                    />
+                    Kirim Pendaftaran
+                  </span> : <div className="band-loader-ring" style={{ display: 'block' }}></div>}
             </button>
             {isSubmitting && submitStatus && (
               <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>

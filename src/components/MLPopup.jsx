@@ -170,8 +170,8 @@ export default function MLPopup({ onClose }) {
             <div className="ml-divider-ornament">♠ ♥ ♦ ♣</div>
             <p className="ml-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
             <div style={{ marginTop: '28px' }}>
-              <a href="https://wa.me/6281282003811" target="_blank" rel="noreferrer" className="ml-contact-btn" style={{ display: 'inline-flex' }}>
-                📞 Grup WhatsApp
+              <a href="https://chat.whatsapp.com/K8C7jevkjES9xENhM5Mr6h" target="_blank" rel="noreferrer" className="ml-contact-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                💬 Join Grup WhatsApp
               </a>
             </div>
           </div>
@@ -251,7 +251,14 @@ export default function MLPopup({ onClose }) {
           {/* SECTION 1 */}
           <div className="ml-form-section">
             <div className="ml-section-header">
-              <div className="ml-section-icon">🎮</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="ml-section-title-group">
                 <span className="ml-section-number">Bagian I</span>
                 <div className="ml-section-title">Informasi Tim &amp; Pemain</div>
@@ -357,7 +364,14 @@ export default function MLPopup({ onClose }) {
           {/* SECTION 2 */}
           <div className="ml-form-section">
             <div className="ml-section-header">
-              <div className="ml-section-icon">📜</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="ml-section-title-group">
                 <span className="ml-section-number">Bagian II</span>
                 <div className="ml-section-title">Pernyataan</div>
@@ -401,7 +415,15 @@ export default function MLPopup({ onClose }) {
             <div className="ml-submit-divider">✦ Siap Bertanding ✦</div>
             <button type="submit" className="ml-submit-btn" disabled={isSubmitting}>
               {!isSubmitting
-                ? <span>🎮 Kirim Pendaftaran</span>
+                ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <img
+                    src="/Compress/maskot.webp"
+                    alt=""
+                    aria-hidden="true"
+                    style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                  />
+                  Kirim Pendaftaran
+                </span>
                 : <div className="ml-loader-ring"></div>}
             </button>
             {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--ml-text-muted)', fontStyle: 'italic' }}>{submitStatus}</p>}

@@ -155,7 +155,7 @@ export default function KPopPopup({ onClose }) {
             <div className="kp-divider-ornament">🎵 💃 🎶 ✨</div>
             <p className="kp-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
             <div style={{ marginTop: '28px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="https://wa.me/6289530602592" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Grup WhatsApp</a>
+              <a href="https://chat.whatsapp.com/ESQRkHH5MNtGfN9QsofJLX" target="_blank" rel="noreferrer" className="kp-contact-btn" style={{ alignItems: 'center', gap: '8px' }}>💬 Join Grup WhatsApp</a>
             </div>
           </div>
         </div>
@@ -248,7 +248,14 @@ export default function KPopPopup({ onClose }) {
           {/* SECTION 1 */}
           <div className="kp-form-section">
             <div className="kp-section-header">
-              <div className="kp-section-icon">💃</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="kp-section-title-group">
                 <span className="kp-section-number">Bagian I</span>
                 <div className="kp-section-title">Informasi Tim &amp; Peserta</div>
@@ -292,9 +299,9 @@ export default function KPopPopup({ onClose }) {
                 const isRequired = index < REQ_PLAYERS;
                 const displayNum = index + 1;
                 return (
-                  <div key={p.id} className={`kp-player-card${index === 0 ? ' kapten' : ''}${!isRequired ? ' optional' : ''}`}>
-                    <div className="kp-player-header">
-                      <div className="kp-player-badge">
+                  <div key={p.id} className={`kp-member-card${index === 0 ? ' kapten' : ''}${!isRequired ? ' optional' : ''}`}>
+                    <div className="kp-member-header">
+                      <div className="kp-member-badge">
                         <span style={{ color: index === 0 ? 'var(--kp-pink)' : 'var(--kp-text-muted)', marginRight: '4px' }}>
                           {index === 0 ? '♛' : ['🎵', '🎶', '💃', '✨', '🌸'][index % 5]}
                         </span>
@@ -309,7 +316,7 @@ export default function KPopPopup({ onClose }) {
                     </div>
 
                     {/* Row 1: Nama + Gender */}
-                    <div className="kp-player-grid" style={{ marginBottom: '12px' }}>
+                    <div className="kp-member-grid" style={{ marginBottom: '12px' }}>
                       <div>
                         <div className="kp-member-field-label">
                           Nama Peserta {displayNum} {isRequired && <span className="req">*</span>}
@@ -327,8 +334,8 @@ export default function KPopPopup({ onClose }) {
                         <div className="kp-member-field-label">
                           Gender Peserta {displayNum} {isRequired && <span className="req">*</span>}
                         </div>
-                        <div className="kp-gender-group">
-                          <div className="kp-gender-option">
+                        <div className="kp-choice-group" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                          <div className="kp-choice-item">
                             <input
                               type="radio"
                               name={`gender_p${p.id}`}
@@ -338,11 +345,11 @@ export default function KPopPopup({ onClose }) {
                               checked={p.gender === 'Laki-Laki'}
                               onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
                             />
-                            <label className="kp-gender-label" htmlFor={`gender_p${p.id}_l`}>
+                            <label className="kp-choice-label" htmlFor={`gender_p${p.id}_l`}>
                               👦 Laki-Laki
                             </label>
                           </div>
-                          <div className="kp-gender-option">
+                          <div className="kp-choice-item">
                             <input
                               type="radio"
                               name={`gender_p${p.id}`}
@@ -351,7 +358,7 @@ export default function KPopPopup({ onClose }) {
                               checked={p.gender === 'Perempuan'}
                               onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
                             />
-                            <label className="kp-gender-label" htmlFor={`gender_p${p.id}_p`}>
+                            <label className="kp-choice-label" htmlFor={`gender_p${p.id}_p`}>
                               👧 Perempuan
                             </label>
                           </div>
@@ -360,7 +367,7 @@ export default function KPopPopup({ onClose }) {
                     </div>
 
                     {/* Row 2: WA + Email */}
-                    <div className="kp-player-grid">
+                    <div className="kp-member-grid">
                       <div>
                         <div className="kp-member-field-label">
                           No. WhatsApp Peserta {displayNum} {isRequired && <span className="req">*</span>}
@@ -476,7 +483,15 @@ export default function KPopPopup({ onClose }) {
             <div className="kp-submit-divider">✨ Siap Tampil ✨</div>
             <button type="submit" className="kp-submit-btn" disabled={isSubmitting}>
               {!isSubmitting
-                ? <span>💃 Kirim Pendaftaran</span>
+                ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <img
+                      src="/Compress/maskot.webp"
+                      alt=""
+                      aria-hidden="true"
+                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                    />
+                    Kirim Pendaftaran
+                  </span>
                 : <div className="kp-loader-ring"></div>}
             </button>
             {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>{submitStatus}</p>}

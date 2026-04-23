@@ -186,7 +186,7 @@ export default function UIXPopup({ onClose }) {
             <div className="uix-divider-ornament">◇ △ ○ □</div>
             <p className="uix-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
             <div style={{ marginTop: '28px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="https://wa.me/6281993996633" target="_blank" rel="noreferrer" className="uix-contact-btn">📞 Grup WhatsApp</a>
+              <a href="https://chat.whatsapp.com/FtWxugGQsvREjIcLDfqZJ7" target="_blank" rel="noreferrer" className="uix-contact-btn" style={{ alignItems: 'center', gap: '8px' }}>💬 Join Grup WhatsApp</a>
             </div>
           </div>
         </div>
@@ -282,7 +282,14 @@ export default function UIXPopup({ onClose }) {
           {/* SECTION 1 */}
           <div className="uix-form-section">
             <div className="uix-section-header">
-              <div className="uix-section-icon">🎨</div>
+              <div className="uix-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="uix-section-title-group">
                 <span className="uix-section-number">Bagian I</span>
                 <div className="uix-section-title">Informasi Tim &amp; Peserta</div>
@@ -445,7 +452,14 @@ export default function UIXPopup({ onClose }) {
           {/* SECTION 2 */}
           <div className="uix-form-section">
             <div className="uix-section-header">
-              <div className="uix-section-icon">📜</div>
+              <div className="uix-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="uix-section-title-group">
                 <span className="uix-section-number">Bagian II</span>
                 <div className="uix-section-title">Pernyataan</div>
@@ -496,7 +510,15 @@ export default function UIXPopup({ onClose }) {
             <div className="uix-submit-divider">✦ Siap Berkarya ✦</div>
             <button type="submit" className="uix-submit-btn" disabled={isSubmitting}>
               {!isSubmitting
-                ? <span>🎨 Kirim Pendaftaran</span>
+                ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    <img
+                      src="/Compress/maskot.webp"
+                      alt=""
+                      aria-hidden="true"
+                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                    />
+                    Kirim Pendaftaran
+                  </span>
                 : <div className="uix-loader-ring"></div>}
             </button>
             {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>{submitStatus}</p>}

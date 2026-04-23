@@ -252,7 +252,14 @@ export default function MachinePopup({ onClose }) {
         <form onSubmit={handleSubmit}>
           <div className="machine-form-section">
             <div className="machine-section-header">
-              <div className="machine-section-icon">💻</div>
+              <div className="machine-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="machine-section-title-group">
                 <span className="machine-section-number">Bagian I</span>
                 <div className="machine-section-title">Informasi Tim</div>
@@ -454,7 +461,14 @@ export default function MachinePopup({ onClose }) {
 
           <div className="machine-form-section">
             <div className="machine-section-header">
-              <div className="machine-section-icon">📜</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="machine-section-title-group">
                 <span className="machine-section-number">Bagian II</span>
                 <div className="machine-section-title">PERNYATAAN</div>

@@ -9,7 +9,6 @@ import UIXPopup from './components/UIXPopup'
 import CompePopup from './components/CompePopup'
 import PDPopup from './components/PDPopup'
 import MachinePopup from './components/MachinePopup'
-import ComingSoonPopup from './components/ComingSoonPopup'
 
 // Map of valid ?form= values to their menu item objects
 const FORM_MAP = {

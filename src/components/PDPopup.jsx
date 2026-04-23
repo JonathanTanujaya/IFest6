@@ -144,6 +144,11 @@ export default function PDPopup({ onClose }) {
             </p>
             <div className="pd-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
             <p className="pd-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
+            <div style={{ marginTop: '28px' }}>
+              <a href="https://chat.whatsapp.com/KGFy79xuyskEAyqdeXRRZu" target="_blank" rel="noreferrer" className="pd-contact-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                💬 Join Grup WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -247,7 +252,14 @@ export default function PDPopup({ onClose }) {
         <form onSubmit={validateAndSubmit}>
           <div className="pd-form-section">
             <div className="pd-section-header">
-              <div className="pd-section-icon">🖌️</div>
+              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="pd-section-title-group">
                 <span className="pd-section-number">Bagian I</span>
                 <div className="pd-section-title">Informasi Peserta</div>
@@ -355,7 +367,14 @@ export default function PDPopup({ onClose }) {
 
           <div className="pd-form-section">
             <div className="pd-section-header">
-              <div className="pd-section-icon">📜</div>
+             <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+              </div>
               <div className="pd-section-title-group">
                 <span className="pd-section-number">Bagian II</span>
                 <div className="pd-section-title">Pernyataan</div>
@@ -396,7 +415,15 @@ export default function PDPopup({ onClose }) {
             {errorMsg && <div className="pd-alert error show" style={{ display: 'block' }}>{errorMsg}</div>}
             <div className="pd-submit-divider">✦ Siap Mengirim Karya ✦</div>
             <button type="submit" className="pd-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting ? <span>🎩 Kirim Pendaftaran</span> : <div className="pd-loader-ring" style={{ display: 'block' }}></div>}
+              {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+                Kirim Pendaftaran
+              </span> : <div className="pd-loader-ring" style={{ display: 'block' }}></div>}
             </button>
             {isSubmitting && submitStatus && (
               <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>
