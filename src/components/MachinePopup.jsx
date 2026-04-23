@@ -226,7 +226,7 @@ export default function MachinePopup({ onClose }) {
           <div className="machine-header-corner bl">♣</div>
           <div className="machine-header-corner br">♦</div>
           <p className="machine-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <span className="machine-hat-icon">💻</span>
+          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
           <h1>Machine Learning Competition <br />I-Fest 6.0</h1>
           <h2>Formulir Pendaftaran I-Fest 6.0 2026</h2>
           <div className="machine-divider-ornament">♠ ♥ ♦ ♣</div>

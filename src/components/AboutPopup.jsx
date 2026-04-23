@@ -211,7 +211,7 @@ export default function AboutPopup({ item, onClose }) {
 
         {/* Header */}
         <div className="about-header">
-          <div className="about-crown" aria-hidden="true">👑</div>
+          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
           <h2 className="about-title">
             <span className="about-title-mobile">I-Fest 6.0</span>
             <span className="about-title-desktop">Informatical Festival 6.0</span>

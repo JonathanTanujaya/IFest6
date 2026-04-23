@@ -218,7 +218,7 @@ export default function UIXPopup({ onClose }) {
           <div className="uix-header-corner bl">○</div>
           <div className="uix-header-corner br">□</div>
           <p className="uix-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <span className="uix-hat-icon">🎨</span>
+          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
           <h1>UI/UX Design<br />Competition</h1>
           <h2>Formulir Pendaftaran I-Fest 6.0 — 2026</h2>
           <div className="uix-divider-ornament">◇ △ ○ □</div>

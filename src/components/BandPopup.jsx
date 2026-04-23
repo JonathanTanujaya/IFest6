@@ -254,7 +254,7 @@ export default function BandPopup({ onClose }) {
           <div className="band-header-corner bl">♣</div>
           <div className="band-header-corner br">♦</div>
           <p className="band-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <span className="band-hat-icon">🎩</span>
+          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
           <h1>Formulir Pendaftaran<br />Band Competition I-Fest 6.0</h1>
           <h2>I-Fest 6.0 2026</h2>
           <div className="band-divider-ornament">♠ ♥ ♦ ♣</div>

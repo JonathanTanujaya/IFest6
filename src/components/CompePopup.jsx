@@ -258,7 +258,7 @@ export default function CompePopup({ onClose }) {
           <div className="cp-header-corner bl">♣</div>
           <div className="cp-header-corner br">♦</div>
           <p className="cp-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <span className="cp-hat-icon">💻</span>
+          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
           <h1>Competitive Programming<br />I-Fest 6.0</h1>
           <h2>Formulir Pendaftaran Lomba Competitive Programming I-Fest 6.0</h2>
           <div className="cp-divider-ornament">♠ ♥ ♦ ♣</div>

@@ -179,7 +179,7 @@ export default function PDPopup({ onClose }) {
           <div className="pd-header-corner bl">♣</div>
           <div className="pd-header-corner br">♦</div>
           <p className="pd-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <span className="pd-hat-icon">🖌️</span>
+          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
           <h1>Poster Digital<br />I-Fest 6.0</h1>
           <h2>Formulir Pendaftaran Poster Digital Competition I-Fest 6.0</h2>
           <div className="pd-divider-ornament">♠ ♥ ♦ ♣</div>

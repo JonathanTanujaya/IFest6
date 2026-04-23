@@ -187,7 +187,7 @@ export default function KPopPopup({ onClose }) {
           <div className="kp-header-corner bl">💃</div>
           <div className="kp-header-corner br">🎶</div>
           <p className="kp-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <span className="kp-hat-icon">💃</span>
+          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
           <h1>K-Pop Dance Cover<br />Competition</h1>
           <h2>Formulir Pendaftaran I-Fest 6.0 — 2026</h2>
           <div className="kp-divider-ornament">🎵 💃 🎶 ✨</div>
