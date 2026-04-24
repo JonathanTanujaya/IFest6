@@ -5,7 +5,7 @@ import './MachinePopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzK0xgM7Buw69VPle1gkus6uAwq2MnecIaZN1wZkIdttei7bEw5CIpw0GlUL1yQ-OC6/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
-const MAX_MEMBERS = 2; // 1 mandatory member + 1 optional member = 2 members max (plus 1 kapten = 3 total)
+const MAX_MEMBERS = 2; // Up to 2 optional members (plus 1 mandatory kapten = 3 total)
 
 export default function MachinePopup({ onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -20,9 +20,7 @@ export default function MachinePopup({ onClose }) {
   const [ketuaTim, setKetuaTim] = useState('');
   const [kpKetua, setKpKetua] = useState(null);
 
-  const [members, setMembers] = useState([
-    { id: 1, nama: '', kp: null } // Anggota 1 (wajib)
-  ]);
+  const [members, setMembers] = useState([]);
 
   const [suratPernyataan, setSuratPernyataan] = useState(null);
   const [buktiBayar, setBuktiBayar] = useState(null);
@@ -46,7 +44,8 @@ export default function MachinePopup({ onClose }) {
 
   const addMember = () => {
     if (members.length < MAX_MEMBERS) {
-      setMembers([...members, { id: 2, nama: '', kp: null }]); // Anggota 2 (opsional)
+      const nextId = members.length + 1;
+      setMembers([...members, { id: nextId, nama: '', kp: null }]);
     }
   };
 
@@ -72,8 +71,8 @@ export default function MachinePopup({ onClose }) {
     if (!kpKetua) { errors.push('Kartu Pelajar Ketua Tim'); valid = false; }
 
     members.forEach((m, idx) => {
-      const isReq = idx === 0; // Anggota 1 wajib
-      if (isReq || m.nama.trim() || m.kp) {
+      // All members are optional, but if partially filled, require both fields
+      if (m.nama.trim() || m.kp) {
         if (!m.nama.trim()) { errors.push(`Nama Anggota ${idx + 1}`); valid = false; }
         if (!m.kp) { errors.push(`Kartu Pelajar Anggota ${idx + 1}`); valid = false; }
       }
@@ -351,44 +350,41 @@ export default function MachinePopup({ onClose }) {
             {/* Anggota Tim */}
             <div className="machine-field-label" style={{ marginBottom: '16px', marginTop: '24px' }}>
               Anggota Tim
-              <span className="machine-badge">1 anggota wajib, 1 anggota opsional</span>
+              <span className="machine-badge">Maks. 2 anggota (opsional)</span>
             </div>
 
             <div className="machine-members-container">
               {members.map((m, index) => {
-                const isRequired = index === 0;
                 return (
-                  <div key={m.id} className={`machine-member-card ${!isRequired ? 'optional' : ''}`}>
+                  <div key={m.id} className="machine-member-card optional">
                     <div className="machine-member-header">
                       <div className="machine-member-badge">
                         <span style={{ color: 'var(--red-bright)', fontSize: '14px', marginRight: '4px' }}>{SUITS_ARR[(index + 1) % 4]}</span>
                         Anggota {index + 1}
-                        {!isRequired && <span className="machine-member-optional-tag">· Opsional</span>}
+                        <span className="machine-member-optional-tag">· Opsional</span>
                       </div>
-                      {!isRequired && (
-                        <button type="button" className="machine-member-remove" onClick={() => removeMember(m.id)}>✕ Hapus</button>
-                      )}
+                      <button type="button" className="machine-member-remove" onClick={() => removeMember(m.id)}>✕ Hapus</button>
                     </div>
 
                     <div className="machine-member-grid">
                       <div>
-                        <div className="machine-member-field-label">Nama Anggota {isRequired && <span className="req">*</span>}</div>
+                        <div className="machine-member-field-label">Nama Anggota</div>
                         <input
                           className="machine-text-input"
                           type="text"
-                          required={isRequired}
+
                           placeholder={`Nama anggota ${index + 1}...`}
                           value={m.nama}
                           onChange={(e) => updateMember(m.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
                         />
                       </div>
                       <div className="machine-field" style={{ marginBottom: 0 }}>
-                        <div className="machine-member-field-label">Kartu Pelajar Anggota {index + 1} {isRequired && <span className="req">*</span>}</div>
+                        <div className="machine-member-field-label">Kartu Pelajar Anggota {index + 1}</div>
                         <div className="machine-file-drop" style={{ padding: '15px' }}>
                           <input
                             type="file"
                             accept={FILE_ACCEPT}
-                            required={isRequired}
+
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (!file) return;
@@ -414,7 +410,7 @@ export default function MachinePopup({ onClose }) {
               onClick={addMember}
               disabled={members.length >= MAX_MEMBERS}
             >
-              <span>♣</span> {members.length >= MAX_MEMBERS ? 'Maksimal anggota sudah ditambahkan' : 'Tambah Anggota 2 (Opsional)'}
+              <span>♣</span> {members.length >= MAX_MEMBERS ? 'Maksimal anggota sudah ditambahkan' : `Tambah Anggota ${members.length + 1} (Opsional)`}
             </button>
 
             {/* Administrasi */}
