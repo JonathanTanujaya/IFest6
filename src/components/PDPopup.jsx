@@ -215,12 +215,15 @@ export default function PDPopup({ onClose }) {
             <div className="pd-info-card">
               <span className="pd-ic-label">📑 Panduan</span>
               <div className="pd-ic-value">
-                <span
+                <a
+                  href="https://drive.google.com/file/d/1ommiaeUAb0QYkwCGxwLnHBvH_oD9vBfu/view?usp=drive_link"
+                  target="_blank"
+                  rel="noreferrer"
                   className="pd-guidebook-btn"
                   style={{ display: 'inline-flex', marginTop: '4px', fontSize: '12px' }}
                 >
                   📖 Guidebook I-Fest 6.0 2026
-                </span>
+                </a>
               </div>
             </div>
           </div>
