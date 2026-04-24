@@ -410,7 +410,10 @@ export default function UIXPopup({ onClose }) {
                     {/* Kartu Identitas */}
                     <div>
                       <div className="uix-member-field-label">Kartu Identitas Peserta {displayNum} {isRequired && <span className="req">*</span>}</div>
-                      <div className="uix-field-hint">Format: <strong style={{ color: 'var(--gold-dim)' }}>KIP-NamaPeserta{displayNum}</strong></div>
+                      <div className="uix-field-hint">
+                        Format: <strong style={{ color: 'var(--gold-dim)' }}>KIP-NamaPeserta{displayNum}</strong><br/>
+                        <strong style={{color:'var(--gold-dim)'}}>Maks 15 MB, 1 file saja (PDF/Image)</strong>
+                      </div>
                       <div className="uix-file-drop small">
                         <input
                           type="file"
@@ -419,7 +422,7 @@ export default function UIXPopup({ onClose }) {
                           onChange={e => handleMemberFile(m.id, e)}
                         />
                         <span className="uix-file-drop-icon"><FileText size={22} style={{ margin: '0 auto', display: 'block' }} /></span>
-                        <div className="uix-file-drop-text">Seret &amp; lepas file di sini, atau <span>klik untuk memilih</span></div>
+                        <div className="uix-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                         {m.kartuIdentitas && <div className="uix-file-name-display">📎 {m.kartuIdentitas.name}</div>}
                       </div>
                     </div>
@@ -437,7 +440,8 @@ export default function UIXPopup({ onClose }) {
               <div className="uix-field-label">Bukti Transfer Pembayaran <span className="req">*</span></div>
               <div className="uix-field-hint">
                 Format Penamaan File: <strong style={{ color: 'var(--gold-dim)' }}>TRANSFER-UIX-NamaTim</strong><br />
-                BCA 0210999396 a.n. Yayasan Multi Data Palembang
+                BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
+                <strong style={{color:'var(--gold-dim)'}}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
               </div>
               <div className="uix-file-drop">
                 <input
@@ -453,7 +457,7 @@ export default function UIXPopup({ onClose }) {
                   }}
                 />
                 <span className="uix-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="uix-file-drop-text">Seret &amp; lepas bukti transfer di sini, atau <span>klik untuk memilih</span></div>
+                <div className="uix-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                 {buktiBayar && <div className="uix-file-name-display">📎 {buktiBayar.name}</div>}
               </div>
             </div>

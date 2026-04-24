@@ -350,7 +350,8 @@ export default function MLPopup({ onClose }) {
               <div className="ml-field-label">Bukti Pembayaran <span className="req">*</span></div>
               <div className="ml-field-hint">
                 Format Penamaan File: <strong style={{ color: 'var(--ml-gold-dim)' }}>TRANSFER-MLBB-NamaTim</strong><br />
-                BCA 0210999396 a.n. Yayasan Multi Data Palembang
+                BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
+                <strong style={{color:'var(--ml-gold-dim)'}}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
               </div>
               <div className="ml-file-drop">
                 <input type="file" accept={FILE_ACCEPT} required onChange={e => {
@@ -361,7 +362,7 @@ export default function MLPopup({ onClose }) {
                   setErrorMsg(''); setBuktiBayar(file);
                 }} />
                 <span className="ml-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="ml-file-drop-text">Seret &amp; lepas bukti transfer di sini, atau <span>klik untuk memilih</span></div>
+                <div className="ml-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                 {buktiBayar && <div className="ml-file-name-display">📎 {buktiBayar.name}</div>}
               </div>
             </div>

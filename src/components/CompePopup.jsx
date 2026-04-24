@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { X, FileText, CreditCard } from 'lucide-react';
-import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
+import { processFilesParallel } from '../utils/fileUtils';
 import './CompePopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJoksmkBsqkmFCN03IAg-QEoRLO76LWy7s7DrFW1orb-tNL8u71YEPi4aWh7sYdIPEKA/exec';
@@ -293,15 +293,12 @@ export default function CompePopup({ onClose }) {
             <div className="cp-info-card">
               <span className="cp-ic-label">📑 Panduan</span>
               <div className="cp-ic-value">
-                <a
-                  href="https://drive.google.com/file/d/17YNG_Sg3hBzfg9_psAgG5DPU1IhQec6y/view?usp=sharing"
-                  target="_blank"
-                  rel="noreferrer"
+                <span
                   className="cp-guidebook-btn"
                   style={{ display: 'inline-flex', marginTop: '4px', fontSize: '12px' }}
                 >
                   📖 Guidebook EDC IFEST 6.0 2026
-                </a>
+                </span>
               </div>
             </div>
           </div>
@@ -485,18 +482,16 @@ export default function CompePopup({ onClose }) {
                       <div className="cp-file-drop">
                         <input
                           type="file"
-                          accept={FILE_ACCEPT}
+                          accept="image/*,.pdf"
                           required={isRequired}
                           onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (!file) return;
-                            const err = validateFile(file);
-                            if (err) { setErrorMsg(err); e.target.value = ''; handleMemberFile(m.id, null); return; }
-                            setErrorMsg(''); handleMemberFile(m.id, file);
+                            if (e.target.files && e.target.files[0]) {
+                              handleMemberFile(m.id, e.target.files[0]);
+                            }
                           }}
                         />
                         <span className="cp-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                        <div className="cp-file-drop-text">Seret & lepas kartu di sini, atau <span>klik untuk memilih</span></div>
+                        <div className="cp-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                         {m.kartuPelajar && <div className="cp-file-name-display" style={{ display: 'block' }}>📎 {m.kartuPelajar.name}</div>}
                       </div>
                     </div>
@@ -520,18 +515,16 @@ export default function CompePopup({ onClose }) {
               <div className="cp-file-drop">
                 <input
                   type="file"
-                  accept={FILE_ACCEPT}
+                  accept="image/*,.pdf"
                   required
                   onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const err = validateFile(file);
-                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
-                    setErrorMsg(''); setBuktiBayar(file);
+                    if (e.target.files && e.target.files[0]) {
+                      setBuktiBayar(e.target.files[0]);
+                    }
                   }}
                 />
                 <span className="cp-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="cp-file-drop-text">Seret & lepas bukti transfer di sini, atau <span>klik untuk memilih</span></div>
+                <div className="cp-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                 {buktiBayar && <div className="cp-file-name-display" style={{ display: 'block' }}>📎 {buktiBayar.name}</div>}
               </div>
             </div>
@@ -539,7 +532,7 @@ export default function CompePopup({ onClose }) {
 
           <div className="cp-form-section">
             <div className="cp-section-header">
-              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+             <div className="cp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src="/Compress/maskot.webp"
                   alt=""
@@ -587,15 +580,7 @@ export default function CompePopup({ onClose }) {
             {errorMsg && <div className="cp-alert error show" style={{ display: 'block' }}>{errorMsg}</div>}
             <div className="cp-submit-divider">✦ Siap untuk Bertanding ✦</div>
             <button type="submit" className="cp-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                />
-                Kirim Pendaftaran
-              </span> : <div className="cp-loader-ring" style={{ display: 'block' }}></div>}
+              {!isSubmitting ? <span>🚀 Kirim Pendaftaran</span> : <div className="cp-loader-ring" style={{ display: 'block' }}></div>}
             </button>
             {isSubmitting && submitStatus && (
               <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>

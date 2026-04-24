@@ -1,11 +1,149 @@
-import React, { useState, useRef, useMemo } from 'react';
+/* ============================================================
+   Google Apps Script — Machine Learning Registration I-Fest 6.0
+   Cocok dengan payload dari MachinePopup.jsx
+   ============================================================ */
+
+const SPREADSHEET_ID = '1Iu4xtzCtfVOCouGa7Lzng9HiwmwAh5MXEoyNYYeto0s';
+const SHEET_NAME     = 'MACHINE';
+const LOMBA_FOLDER   = 'MACHINE';
+const ROOT_FOLDER    = 'IFest6_Response';
+
+function getOrCreateFolder(parent, name) {
+  const iter = parent.getFoldersByName(name);
+  return iter.hasNext() ? iter.next() : parent.createFolder(name);
+}
+
+function getOrCreateSheet(ss, name) {
+  let sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    const headers = [
+      'Timestamp', 'Form Type',
+      'Nama Tim', 'Asal Kota', 'Asal Instansi',
+      'Ketua Tim', 'Kartu Ketua Name', 'Link Kartu Ketua',
+      'Anggota 1', 'KP Anggota 1 Name', 'Link KP Anggota 1',
+      'Anggota 2', 'KP Anggota 2 Name', 'Link KP Anggota 2',
+      'Surat Pernyataan Name', 'Link Surat Pernyataan',
+      'Bukti Bayar Name', 'Link Bukti Bayar',
+      'Deklarasi 1', 'Deklarasi 2', 'Deklarasi 3'
+    ];
+    sheet.appendRow(headers);
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function sanitizeFolderName(name) {
+  return (name || 'Unknown_Team')
+    .toString()
+    .trim()
+    .replace(/[\\/:*?"<>|#%]/g, '_')
+    .substring(0, 100) || 'Unknown_Team';
+}
+
+function getMimeType(filename) {
+  const ext = (filename || '').split('.').pop().toLowerCase();
+  const map = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    bmp: 'image/bmp',
+    pdf: 'application/pdf'
+  };
+  return map[ext] || 'application/octet-stream';
+}
+
+function saveFileToDrive(folder, fileName, base64Data, prefix) {
+  try {
+    if (!fileName || !base64Data) return '';
+
+    const mimeType = getMimeType(fileName);
+    const safeName = String(fileName).replace(/[\\/:*?"<>|#%]/g, '_');
+
+    const blob = Utilities.newBlob(
+      Utilities.base64Decode(base64Data),
+      mimeType,
+      prefix + '_' + safeName
+    );
+
+    const file = folder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    return file.getUrl();
+  } catch (e) {
+    return 'Error: ' + e.toString();
+  }
+}
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents || '{}');
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = getOrCreateSheet(ss, SHEET_NAME);
+
+    // Root > MACHINE > NamaTim
+    const rootFolder = getOrCreateFolder(DriveApp.getRootFolder(), ROOT_FOLDER);
+    const lombaFolder = getOrCreateFolder(rootFolder, LOMBA_FOLDER);
+    const teamFolder = getOrCreateFolder(lombaFolder, sanitizeFolderName(data.namaTim));
+
+    // Upload files
+    const kpKetuaLink = saveFileToDrive(teamFolder, data.kpKetuaName, data.kpKetuaB64, 'KPKetua');
+    const kpAnggota1Link = saveFileToDrive(teamFolder, data.kpAnggota1Name, data.kpAnggota1B64, 'KP_Anggota1');
+    const kpAnggota2Link = saveFileToDrive(teamFolder, data.kpAnggota2Name, data.kpAnggota2B64, 'KP_Anggota2');
+    const suratPernyataanLink = saveFileToDrive(teamFolder, data.spName, data.spB64, 'SuratPernyataan');
+    const buktiBayarLink = saveFileToDrive(teamFolder, data.buktiBayarName, data.buktiBayarB64, 'BuktiBayar');
+
+    const row = [
+      data.timestamp || new Date().toLocaleString('id-ID'),
+      data.formType || 'COMPETITIVE_MACHINE_LEARNING',
+
+      data.namaTim || '',
+      data.asalKota || '',
+      data.asalInstansi || '',
+
+      data.ketuaTim || '',
+      data.kpKetuaName || '',
+      kpKetuaLink,
+
+      data.anggota1 || '',
+      data.kpAnggota1Name || '',
+      kpAnggota1Link,
+
+      data.anggota2 || '',
+      data.kpAnggota2Name || '',
+      kpAnggota2Link,
+
+      data.spName || '',
+      suratPernyataanLink,
+
+      data.buktiBayarName || '',
+      buktiBayarLink,
+
+      data.decl1 || '',
+      data.decl2 || '',
+      data.decl3 || ''
+    ];
+
+    sheet.appendRow(row);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}import React, { useState, useRef, useMemo } from 'react';
 import { X, FileText, CreditCard } from 'lucide-react';
-import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
+import { processFilesParallel } from '../utils/fileUtils';
 import './MachinePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzK0xgM7Buw69VPle1gkus6uAwq2MnecIaZN1wZkIdttei7bEw5CIpw0GlUL1yQ-OC6/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/REPLACE_WITH_MACHINE_SCRIPT_ID/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
-const MAX_MEMBERS = 2; // Up to 2 optional members (plus 1 mandatory kapten = 3 total)
+const MAX_MEMBERS = 2; // 1 mandatory member + 1 optional member = 2 members max (plus 1 kapten = 3 total)
 
 export default function MachinePopup({ onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -16,11 +154,13 @@ export default function MachinePopup({ onClose }) {
   const [namaTim, setNamaTim] = useState('');
   const [asalKota, setAsalKota] = useState('');
   const [asalInstansi, setAsalInstansi] = useState('');
-
+  
   const [ketuaTim, setKetuaTim] = useState('');
   const [kpKetua, setKpKetua] = useState(null);
 
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState([
+    { id: 1, nama: '', kp: null } // Anggota 1 (wajib)
+  ]);
 
   const [suratPernyataan, setSuratPernyataan] = useState(null);
   const [buktiBayar, setBuktiBayar] = useState(null);
@@ -44,8 +184,7 @@ export default function MachinePopup({ onClose }) {
 
   const addMember = () => {
     if (members.length < MAX_MEMBERS) {
-      const nextId = members.length + 1;
-      setMembers([...members, { id: nextId, nama: '', kp: null }]);
+      setMembers([...members, { id: 2, nama: '', kp: null }]); // Anggota 2 (opsional)
     }
   };
 
@@ -71,8 +210,8 @@ export default function MachinePopup({ onClose }) {
     if (!kpKetua) { errors.push('Kartu Pelajar Ketua Tim'); valid = false; }
 
     members.forEach((m, idx) => {
-      // All members are optional, but if partially filled, require both fields
-      if (m.nama.trim() || m.kp) {
+      const isReq = idx === 0; // Anggota 1 wajib
+      if (isReq || m.nama.trim() || m.kp) {
         if (!m.nama.trim()) { errors.push(`Nama Anggota ${idx + 1}`); valid = false; }
         if (!m.kp) { errors.push(`Kartu Pelajar Anggota ${idx + 1}`); valid = false; }
       }
@@ -236,10 +375,11 @@ export default function MachinePopup({ onClose }) {
             Selamat datang di kompetisi I-Fest 6.0 2026! Isi form pendaftaran di bawah ini dengan menyertakan Surat Pernyataan:
           </p>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <a
-              href="/Surat.docx"
-              download="Surat_Pernyataan_MachineLearning_IFest6.docx"
-              className="machine-guidebook-btn"
+            <a 
+              href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="machine-guidebook-btn" 
               style={{ display: "inline-flex" }}
             >
               📄 Download Surat Pernyataan
@@ -326,21 +466,20 @@ export default function MachinePopup({ onClose }) {
                 </div>
                 <div className="machine-field" style={{ marginBottom: 0 }}>
                   <div className="machine-member-field-label">Kartu Pelajar Ketua Tim <span className="req">*</span></div>
+                  <div className="machine-field-hint">Keterangan: Unggah kartu pelajar/identitas (Image/PDF, 1 file)</div>
                   <div className="machine-file-drop" style={{ padding: '15px' }}>
                     <input
                       type="file"
-                      accept={FILE_ACCEPT}
+                      accept="image/*,.pdf"
                       required
                       onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        const err = validateFile(file);
-                        if (err) { setErrorMsg(err); e.target.value = ''; setKpKetua(null); return; }
-                        setErrorMsg(''); setKpKetua(file);
+                        if (e.target.files && e.target.files[0]) {
+                          setKpKetua(e.target.files[0]);
+                        }
                       }}
                     />
                     <span className="machine-file-drop-icon"><FileText size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
-                    <div className="machine-file-drop-text" style={{ fontSize: '11px' }}>Pilih file</div>
+                    <div className="machine-file-drop-text" style={{ fontSize: '11px' }}>Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                     {kpKetua && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {kpKetua.name}</div>}
                   </div>
                 </div>
@@ -349,52 +488,54 @@ export default function MachinePopup({ onClose }) {
 
             {/* Anggota Tim */}
             <div className="machine-field-label" style={{ marginBottom: '16px', marginTop: '24px' }}>
-              Anggota Tim
-              <span className="machine-badge">Maks. 2 anggota (opsional)</span>
+              Anggota Tim 
+              <span className="machine-badge">1 anggota wajib, 1 anggota opsional</span>
             </div>
 
             <div className="machine-members-container">
               {members.map((m, index) => {
+                const isRequired = index === 0;
                 return (
-                  <div key={m.id} className="machine-member-card optional">
+                  <div key={m.id} className={`machine-member-card ${!isRequired ? 'optional' : ''}`}>
                     <div className="machine-member-header">
                       <div className="machine-member-badge">
                         <span style={{ color: 'var(--red-bright)', fontSize: '14px', marginRight: '4px' }}>{SUITS_ARR[(index + 1) % 4]}</span>
                         Anggota {index + 1}
-                        <span className="machine-member-optional-tag">· Opsional</span>
+                        {!isRequired && <span className="machine-member-optional-tag">· Opsional</span>}
                       </div>
-                      <button type="button" className="machine-member-remove" onClick={() => removeMember(m.id)}>✕ Hapus</button>
+                      {!isRequired && (
+                        <button type="button" className="machine-member-remove" onClick={() => removeMember(m.id)}>✕ Hapus</button>
+                      )}
                     </div>
 
                     <div className="machine-member-grid">
                       <div>
-                        <div className="machine-member-field-label">Nama Anggota</div>
+                        <div className="machine-member-field-label">Nama Anggota {isRequired && <span className="req">*</span>}</div>
                         <input
                           className="machine-text-input"
                           type="text"
-
+                          required={isRequired}
                           placeholder={`Nama anggota ${index + 1}...`}
                           value={m.nama}
                           onChange={(e) => updateMember(m.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
                         />
                       </div>
                       <div className="machine-field" style={{ marginBottom: 0 }}>
-                        <div className="machine-member-field-label">Kartu Pelajar Anggota {index + 1}</div>
+                        <div className="machine-member-field-label">Kartu Pelajar Anggota {index + 1} {isRequired && <span className="req">*</span>}</div>
+                        <div className="machine-field-hint">Keterangan: Unggah kartu pelajar/identitas (Image/PDF, 1 file)</div>
                         <div className="machine-file-drop" style={{ padding: '15px' }}>
                           <input
                             type="file"
-                            accept={FILE_ACCEPT}
-
+                            accept="image/*,.pdf"
+                            required={isRequired}
                             onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (!file) return;
-                              const err = validateFile(file);
-                              if (err) { setErrorMsg(err); e.target.value = ''; updateMember(m.id, 'kp', null); return; }
-                              setErrorMsg(''); updateMember(m.id, 'kp', file);
+                              if (e.target.files && e.target.files[0]) {
+                                updateMember(m.id, 'kp', e.target.files[0]);
+                              }
                             }}
                           />
                           <span className="machine-file-drop-icon"><FileText size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
-                          <div className="machine-file-drop-text" style={{ fontSize: '11px' }}>Pilih file</div>
+                          <div className="machine-file-drop-text" style={{ fontSize: '11px' }}>Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                           {m.kp && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {m.kp.name}</div>}
                         </div>
                       </div>
@@ -410,7 +551,7 @@ export default function MachinePopup({ onClose }) {
               onClick={addMember}
               disabled={members.length >= MAX_MEMBERS}
             >
-              <span>♣</span> {members.length >= MAX_MEMBERS ? 'Maksimal anggota sudah ditambahkan' : `Tambah Anggota ${members.length + 1} (Opsional)`}
+              <span>♣</span> {members.length >= MAX_MEMBERS ? 'Maksimal anggota sudah ditambahkan' : 'Tambah Anggota 2 (Opsional)'}
             </button>
 
             {/* Administrasi */}
@@ -420,18 +561,16 @@ export default function MachinePopup({ onClose }) {
               <div className="machine-file-drop">
                 <input
                   type="file"
-                  accept={FILE_ACCEPT}
+                  accept=".pdf"
                   required
                   onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const err = validateFile(file);
-                    if (err) { setErrorMsg(err); e.target.value = ''; setSuratPernyataan(null); return; }
-                    setErrorMsg(''); setSuratPernyataan(file);
+                    if (e.target.files && e.target.files[0]) {
+                      setSuratPernyataan(e.target.files[0]);
+                    }
                   }}
                 />
                 <span className="machine-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="machine-file-drop-text">Seret & lepas bukti PDF surat pernyataan di sini, atau <span>klik untuk memilih</span></div>
+                <div className="machine-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                 {suratPernyataan && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {suratPernyataan.name}</div>}
               </div>
             </div>
@@ -445,18 +584,16 @@ export default function MachinePopup({ onClose }) {
               <div className="machine-file-drop">
                 <input
                   type="file"
-                  accept={FILE_ACCEPT}
+                  accept="image/*,.pdf"
                   required
                   onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const err = validateFile(file);
-                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
-                    setErrorMsg(''); setBuktiBayar(file);
+                    if (e.target.files && e.target.files[0]) {
+                      setBuktiBayar(e.target.files[0]);
+                    }
                   }}
                 />
                 <span className="machine-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="machine-file-drop-text">Seret & lepas bukti transfer di sini, atau <span>klik untuk memilih</span></div>
+                <div className="machine-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
                 {buktiBayar && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {buktiBayar.name}</div>}
               </div>
             </div>
@@ -464,7 +601,7 @@ export default function MachinePopup({ onClose }) {
 
           <div className="machine-form-section">
             <div className="machine-section-header">
-              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+             <div className="machine-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src="/Compress/maskot.webp"
                   alt=""
@@ -513,14 +650,14 @@ export default function MachinePopup({ onClose }) {
             <div className="machine-submit-divider">✦ Siap Bertanding ✦</div>
             <button type="submit" className="machine-submit-btn" disabled={isSubmitting}>
               {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                />
-                Kirim Pendaftaran
-              </span> : <div className="machine-loader-ring" style={{ display: 'block' }}></div>}
+                    <img
+                      src="/Compress/maskot.webp"
+                      alt=""
+                      aria-hidden="true"
+                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                    />
+                    Kirim Pendaftaran
+                  </span> : <div className="machine-loader-ring" style={{ display: 'block' }}></div>}
             </button>
             {isSubmitting && submitStatus && (
               <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>

@@ -1,9 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { X, FileText, CreditCard, Image as ImageIcon } from 'lucide-react';
+import { X } from 'lucide-react';
 import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './BandPopup.css';
 
-// User provided a Google Sheets link, but this variable needs to be a Web App URL to accept POST requests.
 const SCRIPT_URL = 'https://script.google.com/macros/s/REPLACE_WITH_BAND_SCRIPT_ID/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣', '🃏'];
 const MAX_MEMBERS = 8;
@@ -18,7 +17,7 @@ export default function BandPopup({ onClose }) {
   // Info Band
   const [namaBand, setNamaBand] = useState('');
   const [bandLogo, setBandLogo] = useState(null);
-  
+
   const [kategori, setKategori] = useState('');
   const [kategoriOther, setKategoriOther] = useState('');
   const [asalInstansi, setAsalInstansi] = useState('');
@@ -42,20 +41,19 @@ export default function BandPopup({ onClose }) {
   const [buktiBayar, setBuktiBayar] = useState(null);
 
   // Pernyataan
-  const [decl1, setDecl1] = useState('');
-  const [decl2, setDecl2] = useState('');
-  const [decl3, setDecl3] = useState('');
+  const [decl1, setDecl1] = useState(false);
+  const [decl2, setDecl2] = useState(false);
+  const [decl3, setDecl3] = useState(false);
 
   const popupRef = useRef(null);
 
   const suitsData = useMemo(() => {
-    return Array.from({ length: 14 }).map((_, i) => ({
+    return Array.from({ length: 16 }).map((_, i) => ({
       suit: SUITS_ARR[i % 5],
       left: Math.random() * 100,
-      bottom: Math.random() * -200,
-      duration: 18 + Math.random() * 20,
+      duration: 15 + Math.random() * 25,
       delay: Math.random() * 15,
-      color: i % 2 === 0 ? '#d4a93f' : '#a81528',
+      color: i % 2 === 0 ? '#e2b953' : '#c91834',
     }));
   }, []);
 
@@ -82,7 +80,7 @@ export default function BandPopup({ onClose }) {
     let valid = true;
 
     if (!namaBand.trim()) { errors.push('Nama Band'); valid = false; }
-    
+
     if (!kategori) {
       errors.push('Kategori Peserta'); valid = false;
     } else if (kategori === 'Other' && !kategoriOther.trim()) {
@@ -107,7 +105,7 @@ export default function BandPopup({ onClose }) {
     if (!buktiBayar) { errors.push('Bukti Pembayaran'); valid = false; }
 
     if (!decl1 || !decl2 || !decl3) {
-      errors.push('Seluruh Pernyataan wajib diisi');
+      errors.push('Seluruh Pernyataan wajib disetujui');
       valid = false;
     }
 
@@ -140,7 +138,7 @@ export default function BandPopup({ onClose }) {
         namaBand: namaBand.trim(),
         kategori: kategori === 'Other' ? kategoriOther.trim() : kategori,
         asalInstansi: asalInstansi.trim(),
-        
+
         officialNama: officialNama.trim(),
         officialWa: officialWa.trim(),
 
@@ -153,10 +151,10 @@ export default function BandPopup({ onClose }) {
         idB64: fileResults.dokIdentitasB64,
         buktiBayarName: buktiBayar.name,
         buktiBayarB64: fileResults.buktiBayarB64,
-        
-        decl1,
-        decl2,
-        decl3,
+
+        decl1: decl1 ? 'Setuju' : '',
+        decl2: decl2 ? 'Setuju' : '',
+        decl3: decl3 ? 'Setuju' : '',
       };
 
       members.forEach((m, idx) => {
@@ -188,42 +186,22 @@ export default function BandPopup({ onClose }) {
   if (isSuccess) {
     return (
       <div className="band-popup-overlay" onClick={onClose}>
-        <div className="band-popup-container band-success-container" onClick={(e) => e.stopPropagation()}>
-          <button className="band-close-btn" onClick={onClose}><X size={20} /></button>
-
+        <div className="band-popup-container" style={{ maxWidth: '600px' }} onClick={(e) => e.stopPropagation()}>
+          <button className="band-close-btn" onClick={onClose}><X size={24} /></button>
           <div className="band-suits-bg">
             {suitsData.map((s, i) => (
-              <div
-                key={i}
-                className="band-suit"
-                style={{
-                  left: `${s.left}%`,
-                  bottom: `${s.bottom}px`,
-                  animationDuration: `${s.duration}s`,
-                  animationDelay: `${s.delay}s`,
-                  color: s.color,
-                }}
-              >
-                {s.suit}
-              </div>
+              <div key={i} className="band-suit" style={{ left: `${s.left}%`, animationDuration: `${s.duration}s`, animationDelay: `${s.delay}s`, color: s.color }}>{s.suit}</div>
             ))}
           </div>
-
-          <div className="band-success-screen" style={{ display: 'block' }}>
-            <span className="band-success-emoji">🏆</span>
+          <div className="band-success-wrap">
+            <img src="/Compress/maskot.webp" alt="Maskot" className="band-success-icon" />
             <h2 className="band-success-title">Pendaftaran Berhasil!</h2>
-            <p className="band-success-sub">
-              Terima kasih telah mendaftarkan Band Anda.
-              <br />
-              Data Anda telah tercatat. Panitia akan menghubungi Anda segera.
+            <p className="band-success-text">
+              Terima kasih telah mendaftarkan Band Anda. Data Anda telah tercatat dan panitia akan segera menghubungi Anda.
             </p>
-            <div className="band-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
-            <p className="band-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
-            <div style={{ marginTop: '28px' }}>
-              <a href="https://chat.whatsapp.com/L8EReuHY2g68fXIjnjC4sx" target="_blank" rel="noreferrer" className="band-contact-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                💬 Join Grup WhatsApp
-              </a>
-            </div>
+            <a href="https://chat.whatsapp.com/L8EReuHY2g68fXIjnjC4sx" target="_blank" rel="noreferrer" className="band-wa-btn">
+              💬 Join Grup WhatsApp Peserta
+            </a>
           </div>
         </div>
       </div>
@@ -233,442 +211,327 @@ export default function BandPopup({ onClose }) {
   return (
     <div className="band-popup-overlay" onClick={onClose}>
       <div className="band-popup-container" onClick={(e) => e.stopPropagation()} ref={popupRef}>
+
         <div className="band-suits-bg">
           {suitsData.map((s, i) => (
-            <div
-              key={i}
-              className="band-suit"
-              style={{
-                left: `${s.left}%`,
-                bottom: `${s.bottom}px`,
-                animationDuration: `${s.duration}s`,
-                animationDelay: `${s.delay}s`,
-                color: s.color,
-              }}
-            >
-              {s.suit}
-            </div>
+            <div key={i} className="band-suit" style={{ left: `${s.left}%`, animationDuration: `${s.duration}s`, animationDelay: `${s.delay}s`, color: s.color }}>{s.suit}</div>
           ))}
         </div>
 
-        <button className="band-close-btn" onClick={onClose}><X size={20} /></button>
+        <button className="band-close-btn" onClick={onClose}><X size={24} /></button>
 
         <div className="band-header">
-          <div className="band-header-corner tl">♠</div>
-          <div className="band-header-corner tr">♥</div>
-          <div className="band-header-corner bl">♣</div>
-          <div className="band-header-corner br">♦</div>
-          <p className="band-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
-          <h1>Formulir Pendaftaran<br />Band Competition I-Fest 6.0</h1>
-          <h2>I-Fest 6.0 2026</h2>
-          <div className="band-divider-ornament">♠ ♥ ♦ ♣</div>
+          <div className="band-maskot-wrap">
+            <img src="/Compress/maskot.webp" alt="Maskot" />
+          </div>
+          <h1 className="band-title">Formulir Pendaftaran<br />Band Competition</h1>
+          <h2 className="band-subtitle">I-Fest 6.0 • HIMIF UMDP 2026</h2>
+          <div className="band-ornament"></div>
         </div>
 
-        <div className="band-description-card">
-          <p className="band-desc-text">
-            Selamat datang di <strong style={{ color: 'var(--text)' }}>Band Competition I-Fest 6.0 2026!</strong> 🎩 ♥️
-            <br />
-            Kompetisi yang diselenggarakan secara luring oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang. Kompetisi ini melibatkan siswa/i SMP-SMA/Sederajat di Kota Palembang sebagai wadah untuk menyalurkan kreativitas, bakat, serta minat mereka dalam bidang musik.
-          </p>
-
-          <p className="band-desc-text" style={{ marginBottom: '18px' }}>
-            <strong style={{ color: 'var(--gold)' }}>🗝️ Tema: "Convergence of the Realms"</strong>
-            <br />
-            Tema ini menggambarkan pertemuan berbagai dunia, karakter, dan ekspresi yang berbeda menjadi satu kesatuan harmonis melalui musik, di mana setiap penampilan merepresentasikan kreativitas dan identitas unik peserta, serta menghadirkan pertunjukan yang dinamis dan penuh makna.
-            <br /><br />
-            Peserta diwajibkan membawakan dua lagu, yang terdiri dari satu lagu wajib yang dipilih dari daftar terlampir dan satu lagu bebas yang dipilih oleh peserta.
-          </p>
-
-          <div className="band-info-grid">
-            <div className="band-info-card">
-              <span className="band-ic-label">💰 HTM</span>
-              <div className="band-ic-value">
-                Rp200.000,-
-                <br />
-                <small style={{ color: 'var(--text-muted)' }}>BCA 0210999396<br />a.n. Yayasan Multi Data Palembang</small>
-              </div>
-            </div>
-            <div className="band-info-card">
-              <span className="band-ic-label">📑 Panduan</span>
-              <div className="band-ic-value">
-                <a
-                  href="https://drive.google.com/file/d/1Gr0UwklNy1LcxyzupGwmqwsyFRXziMiX/view?usp=drive_link"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="band-guidebook-btn"
-                  style={{ display: 'inline-flex', marginTop: '4px', fontSize: '11px' }}
-                >
-                  📖 Guidebook I-Fest 6.0 2026
-                </a>
-              </div>
-            </div>
+        <div className="band-desc-section">
+          <div className="band-glass-card full" style={{ marginBottom: '24px' }}>
+            <div className="band-card-title">🎩 Convergence of the Realms</div>
+            <p className="band-card-text">
+              Selamat datang di <strong style={{ color: 'var(--gold)' }}>Band Competition I-Fest 6.0!</strong> Kompetisi ini menjadi wadah bagi siswa/i SMP-SMA/Sederajat di Kota Palembang untuk menyalurkan kreativitas, bakat, serta minat dalam bidang musik.<br /><br />
+              Peserta diwajibkan membawakan dua lagu, yang terdiri dari <strong>satu lagu wajib</strong> dan <strong>satu lagu bebas</strong> yang dapat merepresentasikan kreativitas dan identitas unik peserta.
+            </p>
           </div>
 
-          <div className="band-info-card" style={{ marginBottom: '18px' }}>
-            <span className="band-ic-label">📌 Persyaratan Peserta</span>
-            <ul className="band-req-list" style={{ marginTop: '8px' }}>
-              <li>Peserta merupakan siswa/i SMP-SMA/sederajat aktif di Perguruan tinggi di Kota Palembang;</li>
-              <li>Setiap peserta wajib melampirkan identitas dengan Surat Keterangan Aktif dan Surat Rekomendasi dari Kepala Sekolah;</li>
-              <li>Lomba diikuti dalam bentuk tim (band), bukan individu;</li>
-              <li>Peserta wajib mengikuti akun Instagram resmi I-Fest 6.0 HIMIF UMDP (@himif.umdp).</li>
-            </ul>
-          </div>
+          <div className="band-desc-grid">
+            <div className="band-glass-card">
+              <div className="band-card-title">💰 Biaya & Pembayaran</div>
+              <p className="band-card-text">
+                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp200.000,-</strong>
+                Transfer ke:<br />
+                <strong style={{ color: 'var(--gold)' }}>BCA 0210999396</strong><br />
+                a.n. Yayasan Multi Data Palembang
+              </p>
+            </div>
 
-          <p className="band-desc-text" style={{ textAlign: 'center', marginBottom: '16px' }}>
-            🎤 Siapkan Line-up Terbaikmu dan Kuasai Panggungnya! ⚡️🎸
-          </p>
-
-          <div className="band-contact-row" style={{ justifyContent: 'center' }}>
-            <a href="https://wa.me/6281395346415" target="_blank" rel="noreferrer" className="band-contact-btn">
-              📞 Jonathan (WA)
-            </a>
-            <a href="https://wa.me/6289506516117" target="_blank" rel="noreferrer" className="band-contact-btn">
-              📞 Daffa (WA)
-            </a>
+            <div className="band-glass-card">
+              <div className="band-card-title">📌 Persyaratan Utama</div>
+              <ul className="band-list">
+                <li>Siswa/i SMP-SMA/sederajat aktif di Kota Palembang</li>
+                <li>Melampirkan Surat Keterangan Aktif & Rekomendasi Kepala Sekolah</li>
+                <li>Wajib memfollow IG <strong>@himif.umdp</strong></li>
+              </ul>
+              <a href="https://drive.google.com/file/d/1Gr0UwklNy1LcxyzupGwmqwsyFRXziMiX/view?usp=drive_link" target="_blank" rel="noreferrer" className="band-guide-btn">
+                📖 Baca Guidebook Lengkap
+              </a>
+            </div>
           </div>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="band-form-section">
-            <div className="band-section-header">
-              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                />
+          <div className="band-form-wrapper">
+            {errorMsg && (
+              <div className="band-alert error">
+                <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-inline-icon" />
+                <span>{errorMsg}</span>
               </div>
-              <div className="band-section-title-group">
-                <span className="band-section-number">Bagian I</span>
-                <div className="band-section-title">Informasi Peserta</div>
-              </div>
-            </div>
+            )}
 
-            <div className="band-field">
-              <div className="band-field-label">Nama Band <span className="req">*</span></div>
-              <input
-                className="band-text-input"
-                type="text"
-                placeholder="Nama band Anda..."
-                required
-                value={namaBand}
-                onChange={(e) => setNamaBand(e.target.value)}
-              />
-            </div>
-
-            <div className="band-field">
-              <div className="band-field-label">Band Logo <span>(opsional)</span></div>
-              <div className="band-field-hint">Keterangan: <strong style={{ color: 'var(--gold-dim)' }}>Format Penamaan File: NamaTim</strong></div>
-              <div className="band-file-drop" style={{ padding: '15px' }}>
-                <input
-                  type="file"
-                  accept={FILE_ACCEPT}
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const err = validateFile(file);
-                    if (err) { setErrorMsg(err); e.target.value = ''; setBandLogo(null); return; }
-                    setErrorMsg(''); setBandLogo(file);
-                  }}
-                />
-                <span className="band-file-drop-icon"><ImageIcon size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="band-file-drop-text" style={{ fontSize: '11px' }}>Unggah logo (opsional)</div>
-                {bandLogo && <div className="band-file-name-display" style={{ display: 'block' }}>📎 {bandLogo.name}</div>}
-              </div>
-            </div>
-
-            <div className="band-field">
-              <div className="band-field-label">Kategori Peserta <span className="req">*</span></div>
-              <div className="band-choice-group">
-                {['SMP', 'SMA', 'Other'].map(cat => (
-                  <label key={cat} className="band-choice-item">
-                    <input type="radio" name="kategori" value={cat} checked={kategori === cat} onChange={e => setKategori(e.target.value)} required />
-                    <div className="band-choice-label">{cat === 'Other' ? 'Lainnya' : cat}</div>
-                  </label>
-                ))}
-              </div>
-              {kategori === 'Other' && (
-                <div className="band-other-expand show">
-                  <input type="text" className="band-text-input" placeholder="Sebutkan kategori..." value={kategoriOther} onChange={e => setKategoriOther(e.target.value)} required />
+            {/* Step 1: Info */}
+            <div className="band-form-step">
+              <div className="band-step-header">
+                <div className="band-step-icon" aria-hidden="true">
+                  <img src="/Compress/maskot.webp" alt="" />
                 </div>
-              )}
+                <div className="band-step-title">
+                  <p>Bagian Pertama</p>
+                  <h3>Informasi Umum</h3>
+                </div>
+              </div>
+
+              <div className="band-field-group">
+                <label className="band-label">Nama Band <span className="req">*</span></label>
+                <input className="band-input" type="text" placeholder="Masukkan nama band Anda..." value={namaBand} onChange={e => setNamaBand(e.target.value)} required />
+              </div>
+
+              <div className="band-field-group">
+                <label className="band-label">Logo Band <span>(Opsional)</span></label>
+                <div className="band-hint">
+                  Format Penamaan File: NamaTim<br />
+                  <strong style={{ color: 'var(--gold)' }}>Maks 15 MB, 1 file saja (Image)</strong>
+                </div>
+                <div className="band-dropzone">
+                  <input type="file" accept={FILE_ACCEPT} onChange={e => {
+                    const file = e.target.files?.[0]; if (!file) return;
+                    const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setBandLogo(null); return; }
+                    setErrorMsg(''); setBandLogo(file);
+                  }} />
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-drop-icon-img" />
+                  <div className="band-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
+                  {bandLogo && <div className="band-file-name"><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-file-icon" /> {bandLogo.name}</div>}
+                </div>
+              </div>
+
+              <div className="band-field-group">
+                <label className="band-label">Kategori Peserta <span className="req">*</span></label>
+                <div className="band-radio-grid">
+                  {['SMP', 'SMA', 'Other'].map(cat => (
+                    <label key={cat} className="band-radio-card">
+                      <input type="radio" name="kategori" value={cat} checked={kategori === cat} onChange={e => setKategori(e.target.value)} required />
+                      <div className="band-radio-label">{cat === 'Other' ? 'Lainnya' : cat}</div>
+                    </label>
+                  ))}
+                </div>
+                {kategori === 'Other' && (
+                  <div className="band-other-input">
+                    <input type="text" className="band-input" placeholder="Sebutkan kategori..." value={kategoriOther} onChange={e => setKategoriOther(e.target.value)} required />
+                  </div>
+                )}
+              </div>
+
+              <div className="band-field-group" style={{ marginBottom: 0 }}>
+                <label className="band-label">Asal Instansi Sekolah <span className="req">*</span></label>
+                <input className="band-input" type="text" placeholder="Asal sekolah..." value={asalInstansi} onChange={e => setAsalInstansi(e.target.value)} required />
+              </div>
             </div>
 
-            <div className="band-field">
-              <div className="band-field-label">Asal Instansi <span className="req">*</span></div>
-              <input
-                className="band-text-input"
-                type="text"
-                placeholder="Asal sekolah..."
-                required
-                value={asalInstansi}
-                onChange={(e) => setAsalInstansi(e.target.value)}
-              />
-            </div>
+            {/* Step 2: Personel */}
+            <div className="band-form-step">
+              <div className="band-step-header">
+                <div className="band-step-icon" aria-hidden="true">
+                  <img src="/Compress/maskot.webp" alt="" />
+                </div>
+                <div className="band-step-title">
+                  <p>Bagian Kedua</p>
+                  <h3>Data Personel</h3>
+                </div>
+              </div>
 
-            {/* Anggota Band */}
-            <div className="band-field-label" style={{ marginBottom: '16px', marginTop: '32px' }}>
-              Data Personel Band
-              <span className="band-badge">4 wajib, 4 opsional</span>
-            </div>
-
-            <div className="band-members-container">
               {members.map((m, index) => {
                 const isRequired = index < MIN_MEMBERS;
                 return (
-                  <div key={m.id} className={`band-member-card ${!isRequired ? 'optional' : ''}`}>
+                  <div key={m.id} className={`band-member-box ${!isRequired ? 'optional' : ''}`}>
                     <div className="band-member-header">
-                      <div className="band-member-badge">
-                        <span style={{ color: 'var(--red-bright)', fontSize: '14px', marginRight: '4px' }}>{SUITS_ARR[(index + 1) % 5]}</span>
-                        Peserta {index + 1}
-                        {!isRequired && <span className="band-member-optional-tag">· Opsional</span>}
+                      <div className="band-member-title">
+                        <span style={{ color: 'var(--red)' }}>{SUITS_ARR[(index + 1) % 5]}</span> Peserta {index + 1}
+                        {!isRequired && <span className="band-member-badge">Opsional</span>}
                       </div>
                       {!isRequired && (
-                        <button type="button" className="band-member-remove" onClick={() => removeMember(m.id)}>✕ Hapus</button>
+                        <button type="button" className="band-btn-remove" onClick={() => removeMember(m.id)}>
+                          <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-remove-icon" /> Hapus
+                        </button>
                       )}
                     </div>
 
-                    <div className="band-field" style={{ marginBottom: '14px' }}>
-                      <div className="band-member-field-label">Nama Peserta {isRequired && <span className="req">*</span>}</div>
-                      <input
-                        className="band-text-input"
-                        type="text"
-                        required={isRequired}
-                        placeholder={`Nama peserta ${index + 1}...`}
-                        value={m.nama}
-                        onChange={(e) => updateMember(m.id, 'nama', e.target.value)}
-                      />
+                    <div className="band-field-group">
+                      <label className="band-label">Nama Lengkap {isRequired && <span className="req">*</span>}</label>
+                      <input className="band-input" type="text" placeholder={`Nama peserta ${index + 1}...`} value={m.nama} onChange={e => updateMember(m.id, 'nama', e.target.value)} required={isRequired} />
                     </div>
 
-                    <div className="band-field" style={{ marginBottom: '14px' }}>
-                      <div className="band-member-field-label">Peran atau Posisi Peserta {isRequired && <span className="req">*</span>}</div>
-                      <div className="band-choice-group two-col">
+                    <div className="band-field-group">
+                      <label className="band-label">Posisi / Peran {isRequired && <span className="req">*</span>}</label>
+                      <div className="band-radio-grid">
                         {['Vocalist', 'Gitaris', 'Bassist', 'Keyboardist', 'Drummer', 'Other'].map(role => (
-                          <label key={role} className="band-choice-item">
+                          <label key={role} className="band-radio-card">
                             <input type="radio" name={`peran_${m.id}`} value={role} checked={m.peran === role} onChange={e => updateMember(m.id, 'peran', e.target.value)} required={isRequired} />
-                            <div className="band-choice-label" style={{ fontSize: '12px', padding: '8px 12px' }}>{role === 'Other' ? 'Lainnya' : role}</div>
+                            <div className="band-radio-label" style={{ padding: '12px', fontSize: '13px' }}>{role === 'Other' ? 'Lainnya' : role}</div>
                           </label>
                         ))}
                       </div>
                       {m.peran === 'Other' && (
-                        <div className="band-other-expand show" style={{ marginTop: '8px' }}>
-                          <input type="text" className="band-text-input" placeholder="Sebutkan posisi..." value={m.peranOther} onChange={e => updateMember(m.id, 'peranOther', e.target.value)} required={isRequired} />
+                        <div className="band-other-input">
+                          <input type="text" className="band-input" placeholder="Sebutkan posisi..." value={m.peranOther} onChange={e => updateMember(m.id, 'peranOther', e.target.value)} required={isRequired} />
                         </div>
                       )}
                     </div>
 
-                    <div className="band-field" style={{ marginBottom: '0' }}>
-                      <div className="band-member-field-label">No. WhatsApp Peserta {isRequired && <span className="req">*</span>}</div>
-                      <input
-                        className="band-text-input"
-                        type="tel"
-                        required={isRequired}
-                        placeholder="Contoh: 08xxxxxxxxx"
-                        value={m.wa}
-                        onChange={(e) => updateMember(m.id, 'wa', e.target.value)}
-                      />
+                    <div className="band-field-group" style={{ marginBottom: 0 }}>
+                      <label className="band-label">No. WhatsApp {isRequired && <span className="req">*</span>}</label>
+                      <input className="band-input" type="tel" placeholder="Contoh: 081234567890" value={m.wa} onChange={e => updateMember(m.id, 'wa', e.target.value)} required={isRequired} />
                     </div>
                   </div>
                 );
               })}
-            </div>
 
-            {members.length < MAX_MEMBERS && (
-              <button
-                type="button"
-                className="band-add-btn"
-                onClick={addMember}
-              >
-                <span>♣</span> Tambah Peserta {members.length + 1} (Opsional)
-              </button>
-            )}
+              {members.length < MAX_MEMBERS && (
+                <button type="button" className="band-btn-add" onClick={addMember}>
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-add-icon" /> Tambah Peserta {members.length + 1}
+                </button>
+              )}
 
-            {/* Official */}
-            <div className="band-member-card" style={{ marginTop: '24px', borderStyle: 'solid', borderColor: 'var(--border)' }}>
-              <div className="band-member-header">
-                <div className="band-member-badge">
-                  <span style={{ color: 'var(--red-bright)', fontSize: '14px', marginRight: '4px' }}>🃏</span>
-                  Official (Pendamping)
-                  <span className="band-member-optional-tag">· Opsional</span>
+              {/* Official */}
+              <div className="band-member-box optional" style={{ marginTop: '32px', borderColor: 'var(--purple)' }}>
+                <div className="band-member-header">
+                  <div className="band-member-title">
+                    <span style={{ color: 'var(--gold)' }}>🃏</span> Official (Pendamping)
+                    <span className="band-member-badge">Opsional</span>
+                  </div>
                 </div>
-              </div>
-              <p className="band-field-hint" style={{ marginBottom: '14px' }}>
-                Keterangan: Official (Pendamping) bersifat opsional dan bisa disusulkan nanti. Namun, wajib dikonfirmasi kepada panitia saat pendaftaran ulang.
-              </p>
-              <div className="band-field" style={{ marginBottom: '14px' }}>
-                <div className="band-member-field-label">Nama Official</div>
-                <input
-                  className="band-text-input"
-                  type="text"
-                  placeholder="Nama pendamping (opsional)..."
-                  value={officialNama}
-                  onChange={(e) => setOfficialNama(e.target.value)}
-                />
-              </div>
-              <div className="band-field" style={{ marginBottom: '0' }}>
-                <div className="band-member-field-label">No. WhatsApp Official</div>
-                <input
-                  className="band-text-input"
-                  type="tel"
-                  placeholder="No WA pendamping (opsional)..."
-                  value={officialWa}
-                  onChange={(e) => setOfficialWa(e.target.value)}
-                />
-              </div>
-            </div>
-
-          </div>
-
-          <div className="band-form-section">
-            <div className="band-section-header">
-              <div className="band-section-icon">📑</div>
-              <div className="band-section-title-group">
-                <span className="band-section-number">Bagian II</span>
-                <div className="band-section-title">KELENGKAPAN ADMINISTRASI</div>
-              </div>
-            </div>
-
-            <div className="band-field">
-              <div className="band-field-label">Lagu Wajib yang dipilih <span className="req">*</span></div>
-              <div className="band-choice-group full">
-                {[
-                  'Terlukis Indah - Rizky Febian and Ziva Magnolya', 
-                  'Sialan - Adrian Khalif & Juicy Luicy', 
-                  'Telenovia - Reality Club', 
-                  'Mengejar Matahari - Keisya Levronka, Andi Rianto', 
-                  'Tarot - .Feast'
-                ].map(lagu => (
-                  <label key={lagu} className="band-choice-item">
-                    <input type="radio" name="laguWajib" value={lagu} checked={laguWajib === lagu} onChange={e => setLaguWajib(e.target.value)} required />
-                    <div className="band-choice-label" style={{ fontSize: '13px' }}>{lagu}</div>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="band-field">
-              <div className="band-field-label">Lagu bebas yang akan ditampilkan <span className="req">*</span></div>
-              <input
-                className="band-text-input"
-                type="text"
-                placeholder="contoh: Akad - Payung Teduh"
-                required
-                value={laguBebas}
-                onChange={(e) => setLaguBebas(e.target.value)}
-              />
-            </div>
-
-            <div className="band-field" style={{ marginTop: '24px' }}>
-              <div className="band-field-label">Unggah Dokumen Identitas <span className="req">*</span></div>
-              <div className="band-field-hint">Keterangan: <strong style={{ color: 'var(--gold-dim)' }}>Format Penamaan File: ID-NamaTim</strong>. Seluruh dokumen identitas peserta wajib digabungkan menjadi satu file tunggal.</div>
-              <div className="band-file-drop">
-                <input
-                  type="file"
-                  accept={FILE_ACCEPT}
-                  required
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const err = validateFile(file);
-                    if (err) { setErrorMsg(err); e.target.value = ''; setDokIdentitas(null); return; }
-                    setErrorMsg(''); setDokIdentitas(file);
-                  }}
-                />
-                <span className="band-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="band-file-drop-text">Seret & lepas dokumen (PDF/Image) di sini, atau <span>klik untuk memilih</span></div>
-                {dokIdentitas && <div className="band-file-name-display" style={{ display: 'block' }}>📎 {dokIdentitas.name}</div>}
-              </div>
-            </div>
-
-            <div className="band-field" style={{ marginTop: '24px' }}>
-              <div className="band-field-label">Bukti Pembayaran <span className="req">*</span></div>
-              <div className="band-field-hint">
-                Keterangan Format Penamaan File: <strong style={{ color: 'var(--gold-dim)' }}>TRANSFER-BD-NamaTim</strong><br />
-                BCA 0210999396 a.n. Yayasan Multi Data Palembang
-              </div>
-              <div className="band-file-drop">
-                <input
-                  type="file"
-                  accept={FILE_ACCEPT}
-                  required
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const err = validateFile(file);
-                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
-                    setErrorMsg(''); setBuktiBayar(file);
-                  }}
-                />
-                <span className="band-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="band-file-drop-text">Seret & lepas gambar bukti transfer di sini, atau <span>klik untuk memilih</span></div>
-                {buktiBayar && <div className="band-file-name-display" style={{ display: 'block' }}>📎 {buktiBayar.name}</div>}
-              </div>
-            </div>
-          </div>
-
-          <div className="band-form-section">
-            <div className="band-section-header">
-              <div className="band-section-icon">📜</div>
-              <div className="band-section-title-group">
-                <span className="band-section-number">Bagian III</span>
-                <div className="band-section-title">PERNYATAAN</div>
-              </div>
-            </div>
-
-            <div className="band-declaration-note">
-              Mohon pastikan seluruh data sudah benar sebelum memilih <strong>'Setuju'</strong>. Anda masih dapat melakukan perbaikan data sebelum formulir dikirimkan.
-            </div>
-
-            {[
-              {
-                text: "Saya menyatakan bahwa semua data yang saya isi dalam formulir pendaftaran sudah benar dan sesuai dengan dokumen resmi yang dimiliki. Jika di kemudian hari terdapat kesalahan atau ketidaksesuaian data, saya menerima segala konsekuensi yang berlaku.",
-                val: decl1, set: setDecl1
-              },
-              {
-                text: "Saya berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam Band Competition I-Fest 6.0 2026.",
-                val: decl2, set: setDecl2
-              },
-              {
-                text: "Saya berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam Band Competition I-Fest 6.0 2026.",
-                val: decl3, set: setDecl3
-              }
-            ].map((decl, i) => (
-              <div className="band-decl-item" key={i}>
-                <div className="band-decl-text">{decl.text}</div>
-                <div className="band-decl-choices">
-                  <div className="band-decl-choice agree">
-                    <input type="radio" name={`decl${i}`} id={`decl${i}y`} value="Setuju" required onChange={e => decl.set(e.target.value)} />
-                    <label className="band-decl-choice-label" htmlFor={`decl${i}y`}>✓ Setuju</label>
+                <div className="band-hint" style={{ marginBottom: '20px' }}>Official bersifat opsional dan bisa disusulkan nanti saat pendaftaran ulang (Technical Meeting).</div>
+                <div className="band-grid-2">
+                  <div className="band-field-group" style={{ marginBottom: 0 }}>
+                    <label className="band-label">Nama Official</label>
+                    <input className="band-input" type="text" placeholder="Nama pendamping..." value={officialNama} onChange={e => setOfficialNama(e.target.value)} />
+                  </div>
+                  <div className="band-field-group" style={{ marginBottom: 0 }}>
+                    <label className="band-label">No. WhatsApp</label>
+                    <input className="band-input" type="tel" placeholder="No WA pendamping..." value={officialWa} onChange={e => setOfficialWa(e.target.value)} />
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
 
-          <div className="band-submit-section">
-            {errorMsg && <div className="band-alert error show" style={{ display: 'block' }}>{errorMsg}</div>}
-            <div className="band-submit-divider">✦ Siap Mengguncang Panggung ✦</div>
-            <button type="submit" className="band-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <img
-                      src="/Compress/maskot.webp"
-                      alt=""
-                      aria-hidden="true"
-                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                    />
-                    Kirim Pendaftaran
-                  </span> : <div className="band-loader-ring" style={{ display: 'block' }}></div>}
-            </button>
-            {isSubmitting && submitStatus && (
-              <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>
-                {submitStatus}
-              </p>
-            )}
-            <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-              Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
-            </p>
+            {/* Step 3: Administrasi */}
+            <div className="band-form-step">
+              <div className="band-step-header">
+                <div className="band-step-icon" aria-hidden="true">
+                  <img src="/Compress/maskot.webp" alt="" />
+                </div>
+                <div className="band-step-title">
+                  <p>Bagian Ketiga</p>
+                  <h3>Administrasi & Penampilan</h3>
+                </div>
+              </div>
+
+              <div className="band-field-group">
+                <label className="band-label">Lagu Wajib yang dipilih <span className="req">*</span></label>
+                <div className="band-radio-grid full">
+                  {[
+                    'Terlukis Indah - Rizky Febian and Ziva Magnolya',
+                    'Sialan - Adrian Khalif & Juicy Luicy',
+                    'Telenovia - Reality Club',
+                    'Mengejar Matahari - Keisya Levronka, Andi Rianto',
+                    'Tarot - .Feast'
+                  ].map(lagu => (
+                    <label key={lagu} className="band-radio-card full">
+                      <input type="radio" name="laguWajib" value={lagu} checked={laguWajib === lagu} onChange={e => setLaguWajib(e.target.value)} required />
+                      <div className="band-radio-label">{lagu}</div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="band-field-group">
+                <label className="band-label">Lagu Bebas <span className="req">*</span></label>
+                <input className="band-input" type="text" placeholder="Contoh: Akad - Payung Teduh" value={laguBebas} onChange={e => setLaguBebas(e.target.value)} required />
+              </div>
+
+              <div className="band-field-group">
+                <label className="band-label">Dokumen Identitas <span className="req">*</span></label>
+                <div className="band-hint">
+                  Format: <strong style={{ color: 'var(--gold)' }}>ID-NamaTim</strong>. (Kartu Pelajar / Surat Keterangan Aktif & Surat Rekomendasi digabung 1 file).<br />
+                  <strong style={{ color: 'var(--gold)' }}>Maks 15 MB, 1 file saja (PDF/Image)</strong>
+                </div>
+                <div className="band-dropzone">
+                  <input type="file" accept={FILE_ACCEPT} required onChange={e => {
+                    const file = e.target.files?.[0]; if (!file) return;
+                    const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setDokIdentitas(null); return; }
+                    setErrorMsg(''); setDokIdentitas(file);
+                  }} />
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-drop-icon-img" />
+                  <div className="band-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
+                  {dokIdentitas && <div className="band-file-name"><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-file-icon" /> {dokIdentitas.name}</div>}
+                </div>
+              </div>
+
+              <div className="band-field-group" style={{ marginBottom: 0 }}>
+                <label className="band-label">Bukti Pembayaran <span className="req">*</span></label>
+                <div className="band-hint">
+                  Format: <strong style={{ color: 'var(--gold)' }}>TRANSFER-BD-NamaTim</strong>.<br />
+                  <strong style={{ color: 'var(--gold)' }}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
+                </div>
+                <div className="band-dropzone">
+                  <input type="file" accept={FILE_ACCEPT} required onChange={e => {
+                    const file = e.target.files?.[0]; if (!file) return;
+                    const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                    setErrorMsg(''); setBuktiBayar(file);
+                  }} />
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-drop-icon-img" />
+                  <div className="band-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
+                  {buktiBayar && <div className="band-file-name"><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-file-icon" /> {buktiBayar.name}</div>}
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4: Pernyataan */}
+            <div className="band-form-step" style={{ marginBottom: '24px' }}>
+              <div className="band-step-header">
+                <div className="band-step-icon" aria-hidden="true">
+                  <img src="/Compress/maskot.webp" alt="" />
+                </div>
+                <div className="band-step-title">
+                  <p>Bagian Terakhir</p>
+                  <h3>Pernyataan</h3>
+                </div>
+              </div>
+
+              {[
+                { text: "Saya menyatakan bahwa semua data yang saya isi dalam formulir pendaftaran sudah benar dan sesuai dengan dokumen resmi yang dimiliki. Jika di kemudian hari terdapat kesalahan atau ketidaksesuaian data, saya menerima segala konsekuensi yang berlaku.", val: decl1, set: setDecl1 },
+                { text: "Saya berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam Band Competition I-Fest 6.0 2026.", val: decl2, set: setDecl2 },
+                { text: "Jika saya melakukan pelanggaran terhadap peraturan yang berlaku, saya siap menerima sanksi yang diberikan, termasuk kemungkinan diskualifikasi dari kompetisi.", val: decl3, set: setDecl3 }
+              ].map((decl, i) => (
+                <div className="band-decl-item" key={i}>
+                  <div className="band-decl-text">{decl.text}</div>
+                  <div className="band-decl-choices">
+                    <div className="band-decl-choice agree">
+                      <input type="checkbox" id={`decl${i}y`} checked={decl.val} onChange={e => decl.set(e.target.checked)} required />
+                      <label className="band-decl-choice-label" htmlFor={`decl${i}y`}>✓ Setuju</label>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="band-submit-area">
+              <button type="submit" className="band-btn-submit" disabled={isSubmitting}>
+                {!isSubmitting ? (
+                  <><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-submit-icon" /> Kirim Pendaftaran</>
+                ) : (
+                  <div className="band-loader"></div>
+                )}
+              </button>
+              {isSubmitting && submitStatus && (
+                <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--gold)', fontStyle: 'italic' }}>
+                  {submitStatus}
+                </p>
+              )}
+            </div>
+
           </div>
         </form>
       </div>

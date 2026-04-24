@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, Upload } from 'lucide-react';
-import { compressAndEncode, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
+import { compressAndEncode } from '../utils/fileUtils';
 import './KPOPPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTxpkL4Vp1Yz8a_M_SVwAK8NbEYGTifMzym9tdMC_heMDlEu7Kx_fj27yfX1n9tsJB/exec';
@@ -248,7 +248,7 @@ export default function KPopPopup({ onClose }) {
           {/* SECTION 1 */}
           <div className="kp-form-section">
             <div className="kp-section-header">
-              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="cp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src="/Compress/maskot.webp"
                   alt=""
@@ -414,21 +414,15 @@ export default function KPopPopup({ onClose }) {
               <div className="kp-file-drop">
                 <input
                   type="file"
-                  accept={FILE_ACCEPT}
+                  accept="image/*"
                   required
-                  onChange={e => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const err = validateFile(file);
-                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
-                    setErrorMsg(''); setBuktiBayar(file);
-                  }}
+                  onChange={e => { if (e.target.files?.[0]) setBuktiBayar(e.target.files[0]); }}
                 />
                 <span className="kp-file-drop-icon">
                   <Upload size={28} style={{ margin: '0 auto', display: 'block' }} />
                 </span>
                 <div className="kp-file-drop-text">
-                  Seret &amp; lepas bukti transfer di sini, atau <span>klik untuk memilih</span>
+                  Seret atau lepas kartu di sini, <span>klik untuk memilih</span>
                 </div>
                 {buktiBayar && <div className="kp-file-name-display">📎 {buktiBayar.name}</div>}
               </div>
@@ -438,7 +432,7 @@ export default function KPopPopup({ onClose }) {
           {/* SECTION 2 */}
           <div className="kp-form-section">
             <div className="kp-section-header">
-              <div className="ml-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+             <div className="kp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src="/Compress/maskot.webp"
                   alt=""
@@ -497,14 +491,14 @@ export default function KPopPopup({ onClose }) {
             <button type="submit" className="kp-submit-btn" disabled={isSubmitting}>
               {!isSubmitting
                 ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                  <img
-                    src="/Compress/maskot.webp"
-                    alt=""
-                    aria-hidden="true"
-                    style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                  />
-                  Kirim Pendaftaran
-                </span>
+                    <img
+                      src="/Compress/maskot.webp"
+                      alt=""
+                      aria-hidden="true"
+                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                    />
+                    Kirim Pendaftaran
+                  </span>
                 : <div className="kp-loader-ring"></div>}
             </button>
             {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>{submitStatus}</p>}
