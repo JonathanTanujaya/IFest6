@@ -12,14 +12,14 @@ import MachinePopup from './components/MachinePopup'
 
 // Map of valid ?form= values to their menu item objects
 const FORM_MAP = {
-  about:   { id: 'about',   title: 'About I-Fest' },
-  uiux:    { id: 'uiux',    title: 'UI/UX Design' },
-  poster:  { id: 'poster',  title: 'Poster Digital' },
-  ml:      { id: 'ml',      title: 'Mobile Legends' },
-  kpop:    { id: 'kpop',    title: 'K-Pop Dance Cover' },
-  band:    { id: 'band',    title: 'Band Competition' },
+  about: { id: 'about', title: 'About I-Fest' },
+  uiux: { id: 'uiux', title: 'UI/UX Design' },
+  poster: { id: 'poster', title: 'Poster Digital' },
+  ml: { id: 'ml', title: 'Mobile Legends' },
+  kpop: { id: 'kpop', title: 'K-Pop Dance Cover' },
+  band: { id: 'band', title: 'Band Competition' },
   machine: { id: 'machine', title: 'Machine Learning Competition' },
-  compe:   { id: 'compe',   title: 'Competitive Programming' },
+  compe: { id: 'compe', title: 'Competitive Programming' },
 };
 
 function App() {
@@ -118,7 +118,7 @@ function App() {
 
         {/* Bottom edge text */}
         <div className="frame-label frame-bottom">
-          <span className="frame-hint">✧ Geser layar untuk mengeksplorasi 360° ✧ Klik orbit untuk info kompetisi ✧</span>
+          <span className="frame-hint">✧ Geser layar untuk mengeksplorasi 360° ✧</span>
         </div>
 
         {/* Left edge text */}
