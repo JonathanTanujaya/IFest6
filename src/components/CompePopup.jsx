@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { X, FileText, CreditCard } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './CompePopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJoksmkBsqkmFCN03IAg-QEoRLO76LWy7s7DrFW1orb-tNL8u71YEPi4aWh7sYdIPEKA/exec';
@@ -482,12 +482,14 @@ export default function CompePopup({ onClose }) {
                       <div className="cp-file-drop">
                         <input
                           type="file"
-                          accept="image/*,.pdf"
+                          accept={FILE_ACCEPT}
                           required={isRequired}
                           onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              handleMemberFile(m.id, e.target.files[0]);
-                            }
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            const err = validateFile(file);
+                            if (err) { setErrorMsg(err); e.target.value = ''; handleMemberFile(m.id, null); return; }
+                            setErrorMsg(''); handleMemberFile(m.id, file);
                           }}
                         />
                         <span className="cp-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
@@ -515,12 +517,14 @@ export default function CompePopup({ onClose }) {
               <div className="cp-file-drop">
                 <input
                   type="file"
-                  accept="image/*,.pdf"
+                  accept={FILE_ACCEPT}
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setBuktiBayar(e.target.files[0]);
-                    }
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                    setErrorMsg(''); setBuktiBayar(file);
                   }}
                 />
                 <span className="cp-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>

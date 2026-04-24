@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, FileText, CreditCard, Image as ImageIcon } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './BandPopup.css';
 
 // User provided a Google Sheets link, but this variable needs to be a Web App URL to accept POST requests.
@@ -364,11 +364,13 @@ export default function BandPopup({ onClose }) {
               <div className="band-file-drop" style={{ padding: '15px' }}>
                 <input
                   type="file"
-                  accept="image/*"
+                  accept={FILE_ACCEPT}
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setBandLogo(e.target.files[0]);
-                    }
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setBandLogo(null); return; }
+                    setErrorMsg(''); setBandLogo(file);
                   }}
                 />
                 <span className="band-file-drop-icon"><ImageIcon size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
@@ -564,12 +566,14 @@ export default function BandPopup({ onClose }) {
               <div className="band-file-drop">
                 <input
                   type="file"
-                  accept=".pdf,image/*,.doc,.docx"
+                  accept={FILE_ACCEPT}
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setDokIdentitas(e.target.files[0]);
-                    }
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setDokIdentitas(null); return; }
+                    setErrorMsg(''); setDokIdentitas(file);
                   }}
                 />
                 <span className="band-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
@@ -587,12 +591,14 @@ export default function BandPopup({ onClose }) {
               <div className="band-file-drop">
                 <input
                   type="file"
-                  accept="image/*"
+                  accept={FILE_ACCEPT}
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setBuktiBayar(e.target.files[0]);
-                    }
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                    setErrorMsg(''); setBuktiBayar(file);
                   }}
                 />
                 <span className="band-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>

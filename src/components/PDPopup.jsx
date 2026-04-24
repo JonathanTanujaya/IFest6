@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { X, CreditCard } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './PDPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0ZPdlC_HX1fQiCOGuZW4DwW3269kIGJKhEkvwQGyDGqUKcfavpFtsWXpS4hc6VgKC/exec'; // Replace with real script URL
@@ -350,12 +350,14 @@ export default function PDPopup({ onClose }) {
               <div className="pd-file-drop">
                 <input
                   type="file"
-                  accept=".pdf"
+                  accept={FILE_ACCEPT}
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setBuktiBayar(e.target.files[0]);
-                    }
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                    setErrorMsg(''); setBuktiBayar(file);
                   }}
                 />
                 <span className="pd-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>

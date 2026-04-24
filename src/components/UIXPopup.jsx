@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, CreditCard, FileText } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './UIXPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxj5cmvTuTvhboPXuphqKRP7Js73TnwNzjrNAZPlB4U6u-0CV49GfLgZDPrjL5AOvww-Q/exec';
@@ -58,15 +58,19 @@ export default function UIXPopup({ onClose }) {
     setMembers(members.map(m => (m.id === id ? { ...m, [field]: value } : m)));
 
   const handleFileChange = (e, setter) => {
-    if (e.target.files && e.target.files[0]) {
-      setter(e.target.files[0]);
-    }
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const err = validateFile(file);
+    if (err) { setErrorMsg(err); e.target.value = ''; setter(null); return; }
+    setErrorMsg(''); setter(file);
   };
 
   const handleMemberFile = (id, e) => {
-    if (e.target.files && e.target.files[0]) {
-      updateMember(id, 'kartuIdentitas', e.target.files[0]);
-    }
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const err = validateFile(file);
+    if (err) { setErrorMsg(err); e.target.value = ''; updateMember(id, 'kartuIdentitas', null); return; }
+    setErrorMsg(''); updateMember(id, 'kartuIdentitas', file);
   };
 
   const [submitStatus, setSubmitStatus] = useState('');
@@ -410,7 +414,7 @@ export default function UIXPopup({ onClose }) {
                       <div className="uix-file-drop small">
                         <input
                           type="file"
-                          accept="image/*,.pdf"
+                          accept={FILE_ACCEPT}
                           required={isRequired}
                           onChange={e => handleMemberFile(m.id, e)}
                         />
@@ -438,9 +442,15 @@ export default function UIXPopup({ onClose }) {
               <div className="uix-file-drop">
                 <input
                   type="file"
-                  accept="image/*,.pdf"
+                  accept={FILE_ACCEPT}
                   required
-                  onChange={e => { if (e.target.files?.[0]) setBuktiBayar(e.target.files[0]); }}
+                  onChange={e => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                    setErrorMsg(''); setBuktiBayar(file);
+                  }}
                 />
                 <span className="uix-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
                 <div className="uix-file-drop-text">Seret &amp; lepas bukti transfer di sini, atau <span>klik untuk memilih</span></div>

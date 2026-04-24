@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, Upload } from 'lucide-react';
-import { compressAndEncode } from '../utils/fileUtils';
+import { compressAndEncode, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './KPOPPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTxpkL4Vp1Yz8a_M_SVwAK8NbEYGTifMzym9tdMC_heMDlEu7Kx_fj27yfX1n9tsJB/exec';
@@ -414,9 +414,15 @@ export default function KPopPopup({ onClose }) {
               <div className="kp-file-drop">
                 <input
                   type="file"
-                  accept="image/*"
+                  accept={FILE_ACCEPT}
                   required
-                  onChange={e => { if (e.target.files?.[0]) setBuktiBayar(e.target.files[0]); }}
+                  onChange={e => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                    setErrorMsg(''); setBuktiBayar(file);
+                  }}
                 />
                 <span className="kp-file-drop-icon">
                   <Upload size={28} style={{ margin: '0 auto', display: 'block' }} />

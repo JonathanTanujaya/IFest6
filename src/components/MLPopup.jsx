@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, CreditCard } from 'lucide-react';
-import { compressAndEncode } from '../utils/fileUtils';
+import { compressAndEncode, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './MLPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeFFD1Uw06gFk14VwAlp6DUSd46MEdGAcEdBvuyejjIXiphoo1_JdnXOyhGy3Lauk-/exec';
@@ -353,7 +353,13 @@ export default function MLPopup({ onClose }) {
                 BCA 0210999396 a.n. Yayasan Multi Data Palembang
               </div>
               <div className="ml-file-drop">
-                <input type="file" accept="image/*" required onChange={e => { if (e.target.files?.[0]) setBuktiBayar(e.target.files[0]); }} />
+                <input type="file" accept={FILE_ACCEPT} required onChange={e => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const err = validateFile(file);
+                  if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                  setErrorMsg(''); setBuktiBayar(file);
+                }} />
                 <span className="ml-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
                 <div className="ml-file-drop-text">Seret &amp; lepas bukti transfer di sini, atau <span>klik untuk memilih</span></div>
                 {buktiBayar && <div className="ml-file-name-display">📎 {buktiBayar.name}</div>}

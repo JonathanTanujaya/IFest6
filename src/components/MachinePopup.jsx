@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, FileText, CreditCard } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './MachinePopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzK0xgM7Buw69VPle1gkus6uAwq2MnecIaZN1wZkIdttei7bEw5CIpw0GlUL1yQ-OC6/exec';
@@ -330,12 +330,14 @@ export default function MachinePopup({ onClose }) {
                   <div className="machine-file-drop" style={{ padding: '15px' }}>
                     <input
                       type="file"
-                      accept="image/*,.pdf"
+                      accept={FILE_ACCEPT}
                       required
                       onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          setKpKetua(e.target.files[0]);
-                        }
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const err = validateFile(file);
+                        if (err) { setErrorMsg(err); e.target.value = ''; setKpKetua(null); return; }
+                        setErrorMsg(''); setKpKetua(file);
                       }}
                     />
                     <span className="machine-file-drop-icon"><FileText size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
@@ -385,12 +387,14 @@ export default function MachinePopup({ onClose }) {
                         <div className="machine-file-drop" style={{ padding: '15px' }}>
                           <input
                             type="file"
-                            accept="image/*,.pdf"
+                            accept={FILE_ACCEPT}
                             required={isRequired}
                             onChange={(e) => {
-                              if (e.target.files && e.target.files[0]) {
-                                updateMember(m.id, 'kp', e.target.files[0]);
-                              }
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+                              const err = validateFile(file);
+                              if (err) { setErrorMsg(err); e.target.value = ''; updateMember(m.id, 'kp', null); return; }
+                              setErrorMsg(''); updateMember(m.id, 'kp', file);
                             }}
                           />
                           <span className="machine-file-drop-icon"><FileText size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
@@ -420,12 +424,14 @@ export default function MachinePopup({ onClose }) {
               <div className="machine-file-drop">
                 <input
                   type="file"
-                  accept=".pdf"
+                  accept={FILE_ACCEPT}
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setSuratPernyataan(e.target.files[0]);
-                    }
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setSuratPernyataan(null); return; }
+                    setErrorMsg(''); setSuratPernyataan(file);
                   }}
                 />
                 <span className="machine-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
@@ -443,12 +449,14 @@ export default function MachinePopup({ onClose }) {
               <div className="machine-file-drop">
                 <input
                   type="file"
-                  accept="image/*,.pdf"
+                  accept={FILE_ACCEPT}
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setBuktiBayar(e.target.files[0]);
-                    }
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const err = validateFile(file);
+                    if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                    setErrorMsg(''); setBuktiBayar(file);
                   }}
                 />
                 <span className="machine-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>

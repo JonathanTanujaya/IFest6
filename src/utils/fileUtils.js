@@ -7,6 +7,55 @@
  * 3. Providing a progress-aware API
  */
 
+// ── File Validation ──────────────────────────────────────────
+const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB in bytes
+const ALLOWED_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/gif',
+  'image/bmp',
+  'image/webp',
+  'image/svg+xml',
+  'application/pdf',
+];
+const ALLOWED_EXTENSIONS = [
+  '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.pdf',
+];
+
+// Accept string for <input type="file"> elements
+export const FILE_ACCEPT = 'image/jpeg,image/png,image/gif,image/bmp,image/webp,image/svg+xml,.jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,application/pdf,.pdf';
+
+/**
+ * Validate a file against size and type constraints.
+ * @param {File} file - The file to validate
+ * @returns {string|null} Error message, or null if the file is valid.
+ */
+export function validateFile(file) {
+  if (!file) return null;
+
+  // Check file size (15 MB)
+  if (file.size > MAX_FILE_SIZE) {
+    const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+    return `Ukuran file "${file.name}" terlalu besar (${sizeMB} MB). Maksimal 15 MB.`;
+  }
+
+  // Check file type by MIME type
+  const mimeOk = ALLOWED_TYPES.includes(file.type);
+
+  // Fallback: check by extension (some browsers might not report MIME correctly)
+  const ext = '.' + file.name.split('.').pop().toLowerCase();
+  const extOk = ALLOWED_EXTENSIONS.includes(ext);
+
+  if (!mimeOk && !extOk) {
+    return `Tipe file "${file.name}" tidak didukung. Hanya gambar (JPG, PNG, GIF, BMP, WebP, SVG) dan PDF yang diperbolehkan.`;
+  }
+
+  return null;
+}
+
+// ── Image Compression ────────────────────────────────────────
+
 // Maximum dimensions for compressed images
 const MAX_WIDTH = 1200;
 const MAX_HEIGHT = 1200;
