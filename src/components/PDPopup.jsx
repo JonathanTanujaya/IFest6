@@ -217,13 +217,6 @@ export default function PDPopup({ onClose }) {
 
         <form onSubmit={validateAndSubmit}>
           <div className="pd-form-wrapper">
-            {errorMsg && (
-              <div className="pd-alert error">
-                <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="pd-inline-icon" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
-
             <div className="pd-form-step">
               <div className="pd-step-header">
                 <div className="pd-step-icon" aria-hidden="true">
@@ -366,7 +359,14 @@ export default function PDPopup({ onClose }) {
               ))}
             </div>
 
-            <div className="pd-submit-area">
+            <div className="pd-submit-section">
+              {errorMsg && (
+                <div className="pd-alert error">
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="pd-inline-icon" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+              <div className="pd-submit-divider">✨ Siap Berkarya ✨</div>
               <button type="submit" className="pd-btn-submit" disabled={isSubmitting}>
                 {!isSubmitting ? (
                   <><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="pd-submit-icon" /> Kirim Pendaftaran</>
@@ -375,10 +375,13 @@ export default function PDPopup({ onClose }) {
                 )}
               </button>
               {isSubmitting && submitStatus && (
-                <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--gold)', fontStyle: 'italic' }}>
+                <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-dim)', fontStyle: 'italic' }}>
                   {submitStatus}
                 </p>
               )}
+              <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
+              </p>
             </div>
           </div>
         </form>

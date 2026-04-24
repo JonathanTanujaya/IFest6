@@ -93,7 +93,7 @@
 
 /* Header */
 .band-header {
-  padding: 60px 40px 50px;
+  padding: 44px 28px 28px;
   text-align: center;
   position: relative;
   border-bottom: 1px solid var(--border);
@@ -140,7 +140,7 @@
 
 /* Description Section */
 .band-desc-section {
-  padding: 40px;
+  padding: 22px;
   background: linear-gradient(180deg, rgba(26, 19, 51, 0) 0%, rgba(26, 19, 51, 0.5) 100%);
   border-bottom: 1px solid var(--border);
   z-index: 1; position: relative;
@@ -187,9 +187,9 @@
 .band-guide-btn:hover { background: var(--gold); color: #000; }
 
 /* Form Layout */
-.band-form-wrapper { padding: 40px; position: relative; z-index: 1; }
+.band-form-wrapper { padding: 22px 22px 0; position: relative; z-index: 1; }
 .band-form-step {
-  margin-bottom: 48px; background: rgba(0,0,0,0.25); border-radius: 24px; padding: 36px;
+  margin-bottom: 48px; background: rgba(0,0,0,0.25); border-radius: 24px; padding: 22px;
   border: 1px solid rgba(255,255,255,0.04);
 }
 .band-step-header {
@@ -376,38 +376,79 @@
 }
 
 /* Submit Area */
-.band-submit-area { text-align: center; padding: 20px 0 20px; }
+.band-submit-section {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 0 0 28px 28px;
+  padding: 24px 18px;
+  margin: 0 -22px;
+  text-align: center;
+}
+
+.band-submit-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  color: var(--gold-dim);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  justify-content: center;
+}
+
+.band-submit-divider::before,
+.band-submit-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim));
+}
+
+.band-submit-divider::after {
+  background: linear-gradient(90deg, var(--gold-dim), transparent);
+}
+
 .band-btn-submit {
-  background: linear-gradient(135deg, var(--red-dim), var(--red));
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 100px;
-  padding: 22px 50px;
+  background: linear-gradient(135deg, var(--red-dim) 0%, var(--red) 50%, var(--red-dim) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 18px 48px;
   color: #fff;
-  font-family: 'Cinzel', serif; font-size: 18px; font-weight: bold; letter-spacing: 2px;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 15px 35px var(--red-glow);
+  transition: all 0.3s cubic-bezier(.34, 1.56, .64, 1);
+  box-shadow: 0 0 30px rgba(201, 24, 52, 0.3), 0 4px 20px rgba(0, 0, 0, 0.4);
   position: relative; overflow: hidden;
-  width: 100%; max-width: 440px; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; max-width: 380px; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
 }
 .band-submit-icon {
   width: 22px;
   height: 22px;
   object-fit: contain;
 }
-.band-btn-submit::after {
-  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 60%);
-  opacity: 0; transition: opacity 0.3s;
+.band-btn-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  transition: left 0.5s;
 }
 .band-btn-submit:hover {
-  transform: translateY(-5px) scale(1.02); box-shadow: 0 25px 45px rgba(201, 24, 52, 0.4); border-color: rgba(255,255,255,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 0 50px rgba(201, 24, 52, 0.5), 0 8px 30px rgba(0, 0, 0, 0.5);
 }
-.band-btn-submit:hover::after { opacity: 1; }
-.band-btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; border-color: transparent; }
+.band-btn-submit:hover::before { left: 100%; }
+.band-btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 0 0 10px rgba(201, 24, 52, 0.15); }
 
-.band-alert { padding: 18px 24px; border-radius: 14px; margin-bottom: 28px; font-size: 15px; text-align: left; animation: slideDown 0.3s ease; display: flex; align-items: center; gap: 12px; }
-.band-alert.error { background: rgba(201, 24, 52, 0.1); border: 1px solid rgba(201, 24, 52, 0.3); color: #ffb3be; }
+.band-alert { padding: 14px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; text-align: left; animation: slideDown 0.3s ease; display: flex; align-items: center; gap: 10px; line-height: 1.5; border: 1px solid; }
+.band-alert.error { background: rgba(201, 24, 52, 0.14); border-color: rgba(201, 24, 52, 0.35); color: #ffc0ca; }
 
 .band-loader {
   width: 26px; height: 26px; border: 3px solid rgba(255,255,255,0.2); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;
@@ -429,17 +470,23 @@
   .band-grid-2 { grid-template-columns: 1fr; }
   .band-desc-grid { grid-template-columns: 1fr; }
   .band-popup-overlay { padding: 16px 12px; }
-  .band-header, .band-desc-section, .band-form-wrapper, .band-success-wrap { padding: 32px 20px; }
-  .band-form-step { padding: 28px 20px; }
+  .band-header { padding: 34px 20px 22px; }
+  .band-desc-section { padding: 18px; }
+  .band-form-wrapper { padding: 18px 18px 0; }
+  .band-form-step { padding: 18px; }
+  .band-submit-section { padding: 20px 16px; margin-left: -18px; margin-right: -18px; }
+  .band-success-wrap { padding: 32px 20px; }
   .band-title { font-size: 28px; }
   .band-step-header { margin-bottom: 28px; gap: 16px; }
-  .band-btn-submit { padding: 18px 32px; font-size: 16px; }
+  .band-btn-submit { padding: 16px 20px; font-size: 15px; letter-spacing: 1px; }
   .band-popup-container { border-radius: 20px; }
 }
 @media(max-width: 480px) {
-  .band-header { padding: 40px 16px 30px; }
-  .band-desc-section, .band-form-wrapper { padding: 24px 16px; }
-  .band-form-step { padding: 24px 16px; border-radius: 16px; margin-bottom: 32px; }
+  .band-header { padding: 30px 14px 18px; }
+  .band-desc-section { padding: 14px; }
+  .band-form-wrapper { padding: 14px 14px 0; }
+  .band-form-step { padding: 14px; border-radius: 16px; margin-bottom: 24px; }
+  .band-submit-section { padding: 16px 12px; margin-left: -14px; margin-right: -14px; }
   .band-radio-grid { grid-template-columns: 1fr 1fr; }
   .band-step-num { width: 44px; height: 44px; font-size: 18px; }
   .band-step-icon { width: 44px; height: 44px; border-radius: 10px; }

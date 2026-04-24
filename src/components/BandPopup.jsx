@@ -265,13 +265,6 @@ export default function BandPopup({ onClose }) {
 
         <form onSubmit={handleSubmit}>
           <div className="band-form-wrapper">
-            {errorMsg && (
-              <div className="band-alert error">
-                <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-inline-icon" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
-
             {/* Step 1: Info */}
             <div className="band-form-step">
               <div className="band-step-header">
@@ -517,7 +510,14 @@ export default function BandPopup({ onClose }) {
               ))}
             </div>
 
-            <div className="band-submit-area">
+            <div className="band-submit-section">
+              {errorMsg && (
+                <div className="band-alert error">
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-inline-icon" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+              <div className="band-submit-divider">✨ Siap Berkarya ✨</div>
               <button type="submit" className="band-btn-submit" disabled={isSubmitting}>
                 {!isSubmitting ? (
                   <><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="band-submit-icon" /> Kirim Pendaftaran</>
@@ -526,10 +526,13 @@ export default function BandPopup({ onClose }) {
                 )}
               </button>
               {isSubmitting && submitStatus && (
-                <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--gold)', fontStyle: 'italic' }}>
+                <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-dim)', fontStyle: 'italic' }}>
                   {submitStatus}
                 </p>
               )}
+              <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
+              </p>
             </div>
 
           </div>
