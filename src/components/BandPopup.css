@@ -36,7 +36,7 @@
   font-family: 'Lora', serif;
   color: var(--text);
   width: 100%;
-  max-width: 100%!important; /* FIX: Override any external max-width constraints */
+  max-width: 760px;
   min-width: 0; /* FIX: Prevent flex children overflow on mobile */
   position: relative;
   background-color: var(--bg);
