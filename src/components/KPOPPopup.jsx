@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { X, Upload } from 'lucide-react';
-import { compressAndEncode } from '../utils/fileUtils';
+import { X } from 'lucide-react';
+import { compressAndEncode, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './KPOPPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTxpkL4Vp1Yz8a_M_SVwAK8NbEYGTifMzym9tdMC_heMDlEu7Kx_fj27yfX1n9tsJB/exec';
@@ -15,6 +15,7 @@ export default function KPopPopup({ onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [submitStatus, setSubmitStatus] = useState('');
 
   // Team info
   const [namaTim, setNamaTim] = useState('');
@@ -29,9 +30,9 @@ export default function KPopPopup({ onClose }) {
   const [buktiBayar, setBuktiBayar] = useState(null);
 
   // Declarations
-  const [decl1, setDecl1] = useState('');
-  const [decl2, setDecl2] = useState('');
-  const [decl3, setDecl3] = useState('');
+  const [decl1, setDecl1] = useState(false);
+  const [decl2, setDecl2] = useState(false);
+  const [decl3, setDecl3] = useState(false);
 
   const popupRef = useRef(null);
 
@@ -39,9 +40,9 @@ export default function KPopPopup({ onClose }) {
     Array.from({ length: 16 }).map((_, i) => ({
       symbol: NOTES[i % NOTES.length],
       left: Math.random() * 100,
-      bottom: Math.random() * -200,
       duration: 18 + Math.random() * 22,
       delay: Math.random() * 18,
+      color: i % 2 === 0 ? '#e2b953' : '#c91834',
     })), []);
 
   const updatePlayer = (id, field, value) =>
@@ -56,8 +57,6 @@ export default function KPopPopup({ onClose }) {
   const removePlayer = (id) => {
     setPlayers(players.filter(p => p.id !== id));
   };
-
-  const [submitStatus, setSubmitStatus] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,7 +78,7 @@ export default function KPopPopup({ onClose }) {
     });
 
     if (!buktiBayar) { errors.push('Bukti Pembayaran'); valid = false; }
-    if (!decl1 || !decl2 || !decl3) { errors.push('Pernyataan'); valid = false; }
+    if (!decl1 || !decl2 || !decl3) { errors.push('Seluruh Pernyataan wajib disetujui'); valid = false; }
 
     if (!valid) {
       setErrorMsg('Mohon lengkapi: ' + errors.join(', ') + '.');
@@ -100,7 +99,9 @@ export default function KPopPopup({ onClose }) {
         formType: 'KPOP_DC',
         namaTim: namaTim.trim(),
         asalInstansi: asalInstansi.trim(),
-        decl1, decl2, decl3,
+        decl1: decl1 ? 'Setuju' : '',
+        decl2: decl2 ? 'Setuju' : '',
+        decl3: decl3 ? 'Setuju' : '',
         bayarName: buktiBayar.name,
         bayarB64,
       };
@@ -135,28 +136,23 @@ export default function KPopPopup({ onClose }) {
   if (isSuccess) {
     return (
       <div className="kp-popup-overlay" onClick={onClose}>
-        <div className="kp-popup-container kp-success-container" onClick={e => e.stopPropagation()}>
-          <button className="kp-close-btn" onClick={onClose}><X size={20} /></button>
+        <div className="kp-popup-container" style={{ maxWidth: '600px' }} onClick={e => e.stopPropagation()}>
+          <button className="kp-close-btn" onClick={onClose}><X size={24} /></button>
           <div className="kp-notes-bg">
             {notesData.map((n, i) => (
-              <div key={i} className="kp-note" style={{
-                left: `${n.left}%`, bottom: `${n.bottom}px`,
-                animationDuration: `${n.duration}s`, animationDelay: `${n.delay}s`,
-              }}>{n.symbol}</div>
+              <div key={i} className="kp-note" style={{ left: `${n.left}%`, animationDuration: `${n.duration}s`, animationDelay: `${n.delay}s`, color: n.color }}>{n.symbol}</div>
             ))}
           </div>
-          <div className="kp-success-screen">
-            <span className="kp-success-emoji">🏆</span>
+          <div className="kp-success-wrap">
+            <img src="/Compress/maskot.webp" alt="Maskot" className="kp-success-icon" />
             <h2 className="kp-success-title">Pendaftaran Berhasil!</h2>
-            <p className="kp-success-sub">
-              Terima kasih telah mendaftarkan tim Anda untuk K-Pop Dance Cover I-Fest 6.0 2026.<br />
+            <p className="kp-success-text">
+              Terima kasih telah mendaftarkan tim Anda untuk K-Pop Dance Cover I-Fest 6.0 2026.
               Data Anda telah tercatat. Panitia akan menghubungi Anda segera.
             </p>
-            <div className="kp-divider-ornament">🎵 💃 🎶 ✨</div>
-            <p className="kp-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
-            <div style={{ marginTop: '28px', display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="https://chat.whatsapp.com/ESQRkHH5MNtGfN9QsofJLX" target="_blank" rel="noreferrer" className="kp-contact-btn" style={{ alignItems: 'center', gap: '8px' }}>💬 Join Grup WhatsApp</a>
-            </div>
+            <a href="https://chat.whatsapp.com/ESQRkHH5MNtGfN9QsofJLX" target="_blank" rel="noreferrer" className="kp-wa-btn">
+              💬 Join Grup WhatsApp
+            </a>
           </div>
         </div>
       </div>
@@ -171,158 +167,130 @@ export default function KPopPopup({ onClose }) {
         {/* Floating Notes Background */}
         <div className="kp-notes-bg">
           {notesData.map((n, i) => (
-            <div key={i} className="kp-note" style={{
-              left: `${n.left}%`, bottom: `${n.bottom}px`,
-              animationDuration: `${n.duration}s`, animationDelay: `${n.delay}s`,
-            }}>{n.symbol}</div>
+            <div key={i} className="kp-note" style={{ left: `${n.left}%`, animationDuration: `${n.duration}s`, animationDelay: `${n.delay}s`, color: n.color }}>{n.symbol}</div>
           ))}
         </div>
 
-        <button className="kp-close-btn" onClick={onClose}><X size={20} /></button>
+        <button className="kp-close-btn" onClick={onClose}><X size={24} /></button>
 
         {/* HEADER */}
         <div className="kp-header">
-          <div className="kp-header-corner tl">🎵</div>
-          <div className="kp-header-corner tr">✨</div>
-          <div className="kp-header-corner bl">💃</div>
-          <div className="kp-header-corner br">🎶</div>
-          <p className="kp-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
-          <h1>K-Pop Dance Cover<br />Competition</h1>
-          <h2>Formulir Pendaftaran I-Fest 6.0 — 2026</h2>
-          <div className="kp-divider-ornament">🎵 💃 🎶 ✨</div>
+          <div className="kp-maskot-wrap">
+            <img src="/Compress/maskot.webp" alt="Maskot" />
+          </div>
+          <h1 className="kp-title">K-Pop Dance Cover<br />Competition</h1>
+          <h2 className="kp-subtitle">I-Fest 6.0 • HIMIF UMDP 2026</h2>
+          <div className="kp-ornament"></div>
         </div>
 
         {/* DESCRIPTION */}
-        <div className="kp-description-card">
-          <p className="kp-desc-text">
-            Selamat datang di <strong style={{ color: 'var(--kp-text)' }}>K-Pop Dance Cover Competition I-Fest 6.0 2026!</strong> 💃🎶<br />
-            Kompetisi ini diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang dan terbuka untuk umum. Kegiatan ini bertujuan untuk menyalurkan kreativitas serta bakat peserta dalam bidang seni tari, khususnya K-Pop Dance Cover.
-          </p>
-
-          <div className="kp-requirements-box">
-            <div className="kp-req-title">📌 Persyaratan Peserta</div>
-            <ul className="kp-req-list">
-              <li>Peserta merupakan Warga Negara Indonesia (WNI).</li>
-              <li>Lomba diikuti dalam bentuk tim, bukan individu.</li>
-              <li>Setiap tim terdiri dari minimal 3 orang dan maksimal 6 orang.</li>
-              <li>Setiap peserta hanya diperbolehkan tergabung dalam satu tim.</li>
-              <li>Apabila lolos sebagai finalis, peserta dari luar kota wajib hadir dan tampil secara langsung (offline) di Palembang sesuai jadwal yang ditentukan panitia.</li>
-              <li>Seluruh biaya transportasi, akomodasi, dan kebutuhan selama di Palembang menjadi tanggung jawab masing-masing peserta.</li>
-              <li>Peserta wajib membawakan dance cover sesuai dengan gender asli dari grup yang dibawakan (dilarang keras cross-gender cover).</li>
-              <li>Peserta wajib mengikuti akun Instagram resmi I-Fest 6.0 HIMIF UMDP (<strong style={{ color: 'var(--kp-lavender)' }}>@himif.umdp</strong>).</li>
-            </ul>
+        <div className="kp-desc-section">
+          <div className="kp-glass-card full" style={{ marginBottom: '24px' }}>
+            <div className="kp-card-title">🎩 Exploring Digital Wonderland</div>
+            <p className="kp-card-text">
+              Selamat datang di <strong style={{ color: 'var(--gold)' }}>K-Pop Dance Cover Competition I-Fest 6.0 2026!</strong> 💃🎶<br />
+              Kompetisi ini diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang dan terbuka untuk umum. Kegiatan ini bertujuan untuk menyalurkan kreativitas serta bakat peserta dalam bidang seni tari, khususnya K-Pop Dance Cover.
+            </p>
           </div>
 
-          <div className="kp-info-grid">
-            <div className="kp-info-card">
-              <span className="kp-ic-label">💰 HTM</span>
-              <div className="kp-ic-value">
-                Rp80.000,-<br />
-                <small style={{ color: 'var(--kp-text-muted)' }}>BCA 0210999396<br />a.n. Yayasan Multi Data Palembang</small>
-              </div>
+          <div className="kp-desc-grid">
+            <div className="kp-glass-card">
+              <div className="kp-card-title">💰 Biaya & Pembayaran</div>
+              <p className="kp-card-text">
+                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp80.000,-</strong>
+                Transfer ke:<br />
+                <strong style={{ color: 'var(--gold)' }}>BCA 0210999396</strong><br />
+                a.n. Yayasan Multi Data Palembang
+              </p>
             </div>
-            <div className="kp-info-card">
-              <span className="kp-ic-label">📑 Panduan</span>
-              <div className="kp-ic-value">
-                <a href="https://drive.google.com/file/d/1vYkt3xO0yBsxkQRVGh_GukCCfE_YY-XU/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="kp-guidebook-btn">
-                  📖 Guidebook I-Fest 6.0 2026 ↗
-                </a>
-              </div>
+
+            <div className="kp-glass-card">
+              <div className="kp-card-title">📌 Persyaratan Utama</div>
+              <ul className="kp-list">
+                <li>Terbuka untuk Umum (WNI)</li>
+                <li>Tim terdiri dari 3–6 orang</li>
+                <li>Wajib hadir offline jika lolos finalis</li>
+              </ul>
+              <a href="https://drive.google.com/file/d/1vYkt3xO0yBsxkQRVGh_GukCCfE_YY-XU/view?usp=drive_link" target="_blank" rel="noreferrer" className="kp-guide-btn">
+                📖 Baca Guidebook Lengkap
+              </a>
             </div>
-          </div>
-
-          <p className="kp-desc-text" style={{ textAlign: 'center', margin: '16px 0 14px' }}>
-            🔥 Siapkan Tim Terbaikmu dan <strong style={{ color: 'var(--kp-pink)' }}>Tunjukkan Performa Terbaikmu!</strong> 🏆
-          </p>
-
-          <div className="kp-contact-row">
-            <a href="https://wa.me/6289530602592" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Wewen (WA)</a>
-            <a href="https://wa.me/6282281371274" target="_blank" rel="noreferrer" className="kp-contact-btn">📞 Dea (WA)</a>
           </div>
         </div>
 
         {/* MAIN FORM */}
         <form onSubmit={handleSubmit}>
+          <div className="kp-form-wrapper">
 
-          {/* SECTION 1 */}
-          <div className="kp-form-section">
-            <div className="kp-section-header">
-              <div className="cp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+            {/* SECTION 1 */}
+            <div className="kp-form-step">
+              <div className="kp-step-header">
+                <div className="kp-step-icon" aria-hidden="true">
+                  <img src="/Compress/maskot.webp" alt="" />
+                </div>
+                <div className="kp-step-title">
+                  <p>Bagian Pertama</p>
+                  <h3>Informasi Tim & Peserta</h3>
+                </div>
+              </div>
+
+              {/* Nama Tim */}
+              <div className="kp-field-group">
+                <label className="kp-label">Nama Tim <span className="req">*</span></label>
+                <input
+                  className="kp-input"
+                  type="text"
+                  placeholder="Nama tim Anda…"
+                  required
+                  value={namaTim}
+                  onChange={e => setNamaTim(e.target.value)}
                 />
               </div>
-              <div className="kp-section-title-group">
-                <span className="kp-section-number">Bagian I</span>
-                <div className="kp-section-title">Informasi Tim &amp; Peserta</div>
+
+              {/* Asal Instansi */}
+              <div className="kp-field-group">
+                <label className="kp-label">Asal Instansi <span className="req">*</span></label>
+                <input
+                  className="kp-input"
+                  type="text"
+                  placeholder="Universitas / Sekolah / Komunitas…"
+                  required
+                  value={asalInstansi}
+                  onChange={e => setAsalInstansi(e.target.value)}
+                />
               </div>
-            </div>
 
-            {/* Nama Tim */}
-            <div className="kp-field">
-              <div className="kp-field-label">Nama Tim <span className="req">*</span></div>
-              <input
-                className="kp-text-input"
-                type="text"
-                placeholder="Nama tim Anda…"
-                required
-                value={namaTim}
-                onChange={e => setNamaTim(e.target.value)}
-              />
-            </div>
+              {/* PLAYERS */}
+              <div className="kp-label" style={{ marginBottom: '16px', marginTop: '24px' }}>
+                Anggota Tim <span className="req">*</span>
+                <span className="kp-member-badge" style={{ marginLeft: '8px' }}>Maks. {MAX_PLAYERS} peserta</span>
+              </div>
 
-            {/* Asal Instansi */}
-            <div className="kp-field">
-              <div className="kp-field-label">Asal Instansi <span className="req">*</span></div>
-              <input
-                className="kp-text-input"
-                type="text"
-                placeholder="Universitas / Sekolah / Komunitas…"
-                required
-                value={asalInstansi}
-                onChange={e => setAsalInstansi(e.target.value)}
-              />
-            </div>
-
-            {/* PLAYERS */}
-            <div className="kp-field-label" style={{ marginBottom: '16px', marginTop: '8px' }}>
-              Anggota Tim <span className="req">*</span>
-              <span className="kp-badge" style={{ marginLeft: '8px' }}>Maks. {MAX_PLAYERS} peserta</span>
-            </div>
-
-            <div className="kp-members-container">
               {players.map((p, index) => {
                 const isRequired = index < REQ_PLAYERS;
                 const displayNum = index + 1;
                 return (
-                  <div key={p.id} className={`kp-member-card${index === 0 ? ' kapten' : ''}${!isRequired ? ' optional' : ''}`}>
+                  <div key={p.id} className={`kp-member-box ${!isRequired ? 'optional' : ''}`}>
                     <div className="kp-member-header">
-                      <div className="kp-member-badge">
-                        <span style={{ color: index === 0 ? 'var(--kp-pink)' : 'var(--kp-text-muted)', marginRight: '4px' }}>
+                      <div className="kp-member-title">
+                        <span style={{ color: index === 0 ? 'var(--kp-pink)' : 'var(--text-dim)' }}>
                           {index === 0 ? '♛' : ['🎵', '🎶', '💃', '✨', '🌸'][index % 5]}
                         </span>
                         {index === 0 ? `Peserta 1 (Ketua Tim)` : `Peserta ${displayNum}`}
-                        {!isRequired && (
-                          <span className="kp-badge" style={{ marginLeft: '8px' }}>· Opsional</span>
-                        )}
+                        {!isRequired && <span className="kp-member-badge">Opsional</span>}
                       </div>
                       {!isRequired && (
-                        <button type="button" className="kp-member-remove" onClick={() => removePlayer(p.id)}>✕ Hapus</button>
+                        <button type="button" className="kp-btn-remove" onClick={() => removePlayer(p.id)}>
+                          <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="kp-remove-icon" /> Hapus
+                        </button>
                       )}
                     </div>
 
-                    {/* Row 1: Nama + Gender */}
-                    <div className="kp-member-grid" style={{ marginBottom: '12px' }}>
-                      <div>
-                        <div className="kp-member-field-label">
-                          Nama Peserta {displayNum} {isRequired && <span className="req">*</span>}
-                        </div>
+                    <div className="kp-grid-2">
+                      <div className="kp-field-group" style={{ marginBottom: 0 }}>
+                        <label className="kp-label">Nama Peserta {isRequired && <span className="req">*</span>}</label>
                         <input
-                          className="kp-text-input"
+                          className="kp-input"
                           type="text"
                           placeholder={`Nama lengkap peserta ${displayNum}…`}
                           required={isRequired}
@@ -330,50 +298,39 @@ export default function KPopPopup({ onClose }) {
                           onChange={e => updatePlayer(p.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
                         />
                       </div>
-                      <div>
-                        <div className="kp-member-field-label">
-                          Gender Peserta {displayNum} {isRequired && <span className="req">*</span>}
-                        </div>
-                        <div className="kp-choice-group" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                          <div className="kp-choice-item">
+                      <div className="kp-field-group" style={{ marginBottom: 0 }}>
+                        <label className="kp-label">Gender Peserta {isRequired && <span className="req">*</span>}</label>
+                        <div className="kp-radio-grid">
+                          <label className="kp-radio-card">
                             <input
                               type="radio"
                               name={`gender_p${p.id}`}
-                              id={`gender_p${p.id}_l`}
                               value="Laki-Laki"
                               required={isRequired}
                               checked={p.gender === 'Laki-Laki'}
                               onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
                             />
-                            <label className="kp-choice-label" htmlFor={`gender_p${p.id}_l`}>
-                              👦 Laki-Laki
-                            </label>
-                          </div>
-                          <div className="kp-choice-item">
+                            <div className="kp-radio-label">👦 Laki-Laki</div>
+                          </label>
+                          <label className="kp-radio-card">
                             <input
                               type="radio"
                               name={`gender_p${p.id}`}
-                              id={`gender_p${p.id}_p`}
                               value="Perempuan"
                               checked={p.gender === 'Perempuan'}
                               onChange={e => updatePlayer(p.id, 'gender', e.target.value)}
                             />
-                            <label className="kp-choice-label" htmlFor={`gender_p${p.id}_p`}>
-                              👧 Perempuan
-                            </label>
-                          </div>
+                            <div className="kp-radio-label">👧 Perempuan</div>
+                          </label>
                         </div>
                       </div>
                     </div>
 
-                    {/* Row 2: WA + Email */}
-                    <div className="kp-member-grid">
-                      <div>
-                        <div className="kp-member-field-label">
-                          No. WhatsApp Peserta {displayNum} {isRequired && <span className="req">*</span>}
-                        </div>
+                    <div className="kp-grid-2" style={{ marginTop: '24px' }}>
+                      <div className="kp-field-group" style={{ marginBottom: 0 }}>
+                        <label className="kp-label">No. WhatsApp {isRequired && <span className="req">*</span>}</label>
                         <input
-                          className="kp-text-input"
+                          className="kp-input"
                           type="tel"
                           placeholder="08xxxxxxxxxx"
                           required={isRequired}
@@ -381,12 +338,10 @@ export default function KPopPopup({ onClose }) {
                           onChange={e => updatePlayer(p.id, 'wa', e.target.value.replace(/[^0-9]/g, ''))}
                         />
                       </div>
-                      <div>
-                        <div className="kp-member-field-label">
-                          Email Peserta {displayNum} {isRequired && <span className="req">*</span>}
-                        </div>
+                      <div className="kp-field-group" style={{ marginBottom: 0 }}>
+                        <label className="kp-label">Email {isRequired && <span className="req">*</span>}</label>
                         <input
-                          className="kp-text-input"
+                          className="kp-input"
                           type="email"
                           placeholder="email@contoh.com"
                           required={isRequired}
@@ -398,115 +353,106 @@ export default function KPopPopup({ onClose }) {
                   </div>
                 );
               })}
+
+              {players.length < MAX_PLAYERS && (
+                <button type="button" className="kp-btn-add" onClick={addPlayer}>
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="kp-add-icon" /> Tambah Anggota {players.length + 1}
+                </button>
+              )}
             </div>
 
-            <button type="button" className="kp-add-btn" onClick={addPlayer} disabled={players.length >= MAX_PLAYERS}>
-              <span>🎵</span> {players.length >= MAX_PLAYERS ? `Maks. ${MAX_PLAYERS} Anggota Tercapai` : `Tambah Anggota (${players.length}/${MAX_PLAYERS})`}
-            </button>
-
-            {/* BUKTI BAYAR */}
-            <div className="kp-field" style={{ marginTop: '24px' }}>
-              <div className="kp-field-label">Bukti Pembayaran <span className="req">*</span></div>
-              <div className="kp-field-hint">
-                Format Penamaan File: <strong style={{ color: 'var(--kp-gold-dim)' }}>TRANSFER-DC-NamaTim</strong><br />
-                BCA 0210999396 a.n. Yayasan Multi Data Palembang
-              </div>
-              <div className="kp-file-drop">
-                <input
-                  type="file"
-                  accept="image/*"
-                  required
-                  onChange={e => { if (e.target.files?.[0]) setBuktiBayar(e.target.files[0]); }}
-                />
-                <span className="kp-file-drop-icon">
-                  <Upload size={28} style={{ margin: '0 auto', display: 'block' }} />
-                </span>
-                <div className="kp-file-drop-text">
-                  Seret atau lepas kartu di sini, <span>klik untuk memilih</span>
+            {/* Step 3: Pembayaran */}
+            <div className="kp-form-step">
+              <div className="kp-step-header">
+                <div className="kp-step-icon" aria-hidden="true">
+                  <img src="/Compress/maskot.webp" alt="" />
                 </div>
-                {buktiBayar && <div className="kp-file-name-display">📎 {buktiBayar.name}</div>}
+                <div className="kp-step-title">
+                  <p>Bagian Kedua</p>
+                  <h3>Pembayaran</h3>
+                </div>
+              </div>
+
+              <div className="kp-field-group" style={{ marginBottom: 0 }}>
+                <label className="kp-label">Bukti Pembayaran <span className="req">*</span></label>
+                <div className="kp-hint">
+                  Format Penamaan File: <strong style={{ color: 'var(--gold)' }}>TRANSFER-DC-NamaTim</strong><br />
+                  BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
+                  <strong style={{color:'var(--gold)'}}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
+                </div>
+                <div className="kp-dropzone">
+                  <input
+                    type="file"
+                    accept={FILE_ACCEPT}
+                    required
+                    onChange={e => {
+                      const file = e.target.files?.[0]; if (!file) return;
+                      const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                      setErrorMsg(''); setBuktiBayar(file);
+                    }}
+                  />
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="kp-drop-icon-img" />
+                  <div className="kp-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
+                  {buktiBayar && <div className="kp-file-name"><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="kp-file-icon" /> {buktiBayar.name}</div>}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* SECTION 2 */}
-          <div className="kp-form-section">
-            <div className="kp-section-header">
-             <div className="kp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                />
+            {/* Step 4: Pernyataan */}
+            <div className="kp-form-step" style={{ marginBottom: '24px' }}>
+              <div className="kp-step-header">
+                <div className="kp-step-icon" aria-hidden="true">
+                  <img src="/Compress/maskot.webp" alt="" />
+                </div>
+                <div className="kp-step-title">
+                  <p>Bagian Terakhir</p>
+                  <h3>Pernyataan</h3>
+                </div>
               </div>
-              <div className="kp-section-title-group">
-                <span className="kp-section-number">Bagian II</span>
-                <div className="kp-section-title">Pernyataan</div>
-              </div>
-            </div>
 
-            <div className="kp-declaration-note">
-              ⚠️ Mohon pastikan seluruh data sudah benar sebelum memilih <strong>'Setuju'</strong>. Anda masih dapat melakukan perbaikan data sebelum formulir dikirimkan.
-            </div>
-
-            {[
-              {
-                text: 'Saya menyatakan bahwa semua data yang saya isi dalam formulir pendaftaran sudah benar dan sesuai dengan dokumen resmi yang dimiliki. Jika di kemudian hari terdapat kesalahan atau ketidaksesuaian data, saya menerima segala konsekuensi yang berlaku.',
-                val: decl1, set: setDecl1,
-              },
-              {
-                text: 'Saya dan tim berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam K-Pop Dance Cover I-Fest 6.0 2026.',
-                val: decl2, set: setDecl2,
-              },
-              {
-                text: 'Jika saya atau tim saya melakukan pelanggaran terhadap peraturan yang berlaku, kami siap menerima sanksi yang diberikan, termasuk kemungkinan diskualifikasi dari kompetisi.',
-                val: decl3, set: setDecl3,
-              },
-            ].map((decl, i) => (
-              <div className="kp-decl-item" key={i}>
-                <div className="kp-decl-text">{decl.text}</div>
-                <div className="kp-decl-choices">
-                  <div className="kp-decl-choice agree">
-                    <input
-                      type="radio"
-                      name={`kpdecl${i}`}
-                      id={`kpdecl${i}y`}
-                      value="Setuju"
-                      required
-                      onChange={e => decl.set(e.target.value)}
-                    />
-                    <label className="kp-decl-choice-label" htmlFor={`kpdecl${i}y`}>✓ Setuju</label>
+              {[
+                { text: "Saya menyatakan bahwa semua data yang saya isi dalam formulir pendaftaran sudah benar dan sesuai dengan dokumen resmi yang dimiliki. Jika di kemudian hari terdapat kesalahan atau ketidaksesuaian data, saya menerima segala konsekuensi yang berlaku.", val: decl1, set: setDecl1 },
+                { text: "Saya dan tim berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam K-Pop Dance Cover I-Fest 6.0 2026.", val: decl2, set: setDecl2 },
+                { text: "Jika saya atau tim saya melakukan pelanggaran terhadap peraturan yang berlaku, kami siap menerima sanksi yang diberikan, termasuk kemungkinan diskualifikasi dari kompetisi.", val: decl3, set: setDecl3 }
+              ].map((decl, i) => (
+                <div className="kp-decl-item" key={i}>
+                  <div className="kp-decl-text">{decl.text}</div>
+                  <div className="kp-decl-choices">
+                    <div className="kp-decl-choice agree">
+                      <input type="checkbox" id={`decl${i}y`} checked={decl.val} onChange={e => decl.set(e.target.checked)} required />
+                      <label className="kp-decl-choice-label" htmlFor={`decl${i}y`}>✓ Setuju</label>
+                    </div>
                   </div>
-
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* SUBMIT */}
-          <div className="kp-submit-section">
-            {errorMsg && <div className="kp-alert error">{errorMsg}</div>}
-            <div className="kp-submit-divider">✨ Siap Tampil ✨</div>
-            <button type="submit" className="kp-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting
-                ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <img
-                      src="/Compress/maskot.webp"
-                      alt=""
-                      aria-hidden="true"
-                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                    />
-                    Kirim Pendaftaran
-                  </span>
-                : <div className="kp-loader-ring"></div>}
-            </button>
-            {isSubmitting && submitStatus && <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>{submitStatus}</p>}
-            <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--kp-text-muted)', fontStyle: 'italic' }}>
-              Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
-            </p>
+            {/* SUBMIT */}
+            <div className="kp-submit-section">
+              {errorMsg && (
+                <div className="kp-alert error">
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="kp-inline-icon" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+              <div className="kp-submit-divider">✨ Siap Tampil ✨</div>
+              <button type="submit" className="kp-btn-submit" disabled={isSubmitting}>
+                {!isSubmitting ? (
+                  <><img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="kp-submit-icon" /> Kirim Pendaftaran</>
+                ) : (
+                  <div className="kp-loader"></div>
+                )}
+              </button>
+              {isSubmitting && submitStatus && (
+                <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                  {submitStatus}
+                </p>
+              )}
+              <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
+              </p>
+            </div>
           </div>
-
         </form>
       </div>
     </div>
