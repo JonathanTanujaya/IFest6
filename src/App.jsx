@@ -44,7 +44,17 @@ function App() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const formKey = params.get('form')?.toLowerCase();
-    if (formKey && FORM_MAP[formKey]) {
+    if (!formKey) {
+      return;
+    }
+
+    if (!FORM_MAP[formKey]) {
+      // Unknown/typo form key: clean query and stay on homepage.
+      window.history.replaceState({}, '', window.location.pathname);
+      return;
+    }
+
+    if (FORM_MAP[formKey]) {
       // Wait for loading screen to fade, then open the popup
       const timer = setTimeout(() => {
         setActiveMenu(FORM_MAP[formKey]);
