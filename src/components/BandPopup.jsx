@@ -242,7 +242,7 @@ export default function BandPopup({ onClose }) {
             <div className="band-glass-card">
               <div className="band-card-title">💰 Biaya & Pembayaran</div>
               <p className="band-card-text">
-                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp200.000,-</strong>
+                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp150.000,-</strong>
                 Transfer ke:<br />
                 <strong style={{ color: 'var(--gold)' }}>BCA 0210999396</strong><br />
                 a.n. Yayasan Multi Data Palembang
