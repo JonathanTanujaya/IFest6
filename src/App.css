@@ -208,6 +208,8 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
   /* width / height set via inline style from cardSize constant */
 }
 
@@ -224,6 +226,9 @@
   object-position: center top; /* show top of image (subject area) */
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .orbit-menu-copy {

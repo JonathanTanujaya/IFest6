@@ -86,6 +86,7 @@ function MenuItem({ item, onMenuClick, visible }) {
           <div
             className="orbit-menu-image-shell"
             onClick={() => onMenuClick(item)}
+            onDragStart={(e) => e.preventDefault()}
             style={{
               width: `${shellW}px`,
               height: `${shellH}px`,
@@ -100,7 +101,14 @@ function MenuItem({ item, onMenuClick, visible }) {
               cursor: 'pointer',
             }}
           >
-            <img className="orbit-menu-image" src={item.image} alt={item.title} loading="lazy" />
+            <img
+              className="orbit-menu-image"
+              src={item.image}
+              alt={item.title}
+              loading="lazy"
+              draggable={false}
+              onDragStart={(e) => e.preventDefault()}
+            />
           </div>
         </div>
       </Html>
