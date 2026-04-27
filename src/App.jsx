@@ -1,5 +1,6 @@
 import { useState, Suspense, useEffect } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import Scene from './components/Scene'
 import Popup from './components/Popup'
 import AboutPopup from './components/AboutPopup'
