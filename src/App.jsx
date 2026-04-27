@@ -169,6 +169,8 @@ function App() {
 
       {/* Vercel Web Analytics */}
       <Analytics />
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </>
   )
 }
