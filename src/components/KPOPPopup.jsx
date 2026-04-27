@@ -208,7 +208,7 @@ export default function KPopPopup({ onClose }) {
               <div className="kp-card-title">📌 Persyaratan Utama</div>
               <ul className="kp-list">
                 <li>Terbuka untuk Umum (WNI)</li>
-                <li>Tim terdiri dari 3–6 orang</li>
+                <li>Tim terdiri dari 3-10 orang</li>
                 <li>Wajib hadir offline jika lolos finalis</li>
               </ul>
               <a href="https://drive.google.com/file/d/1vYkt3xO0yBsxkQRVGh_GukCCfE_YY-XU/view?usp=drive_link" target="_blank" rel="noreferrer" className="kp-guide-btn">
@@ -378,7 +378,7 @@ export default function KPopPopup({ onClose }) {
                 <div className="kp-hint">
                   Format Penamaan File: <strong style={{ color: 'var(--gold)' }}>TRANSFER-DC-NamaTim</strong><br />
                   BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
-                  <strong style={{color:'var(--gold)'}}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
+                  <strong style={{color:'var(--gold)'}}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
                 </div>
                 <div className="kp-dropzone">
                   <input
