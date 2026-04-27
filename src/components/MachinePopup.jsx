@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './MachinePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzK0xgM7Buw69VPle1gkus6uAwq2MnecIaZN1wZkIdttei7bEw5CIpw0GlUL1yQ-OC6/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwbU9uhvJ3_RnYTaqD47LYNaKQgkl4Uxj8NPb8Onf08lPisohVaMFvbnm-rHByZRsZ/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 2; // 2 anggota opsional (selain ketua), total tim 1-3 orang
 
@@ -142,7 +142,7 @@ export default function MachinePopup({ onClose }) {
 
       await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
         mode: 'no-cors',
       }).catch((e) => console.log('Mock request success'));

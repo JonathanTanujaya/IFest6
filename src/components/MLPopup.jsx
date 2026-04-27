@@ -3,7 +3,7 @@ import { X, CreditCard } from 'lucide-react';
 import { compressAndEncode, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './MLPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeFFD1Uw06gFk14VwAlp6DUSd46MEdGAcEdBvuyejjIXiphoo1_JdnXOyhGy3Lauk-/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwLMdeCXFFnY5j8q_QbmoINHhgZEzIWjxTK5us5daaR8-sXnG1fbAjIysoyxlftyP-V/exec';
 
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 
@@ -130,7 +130,7 @@ export default function MLPopup({ onClose }) {
 
       await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
         mode: 'no-cors',
       });
@@ -350,8 +350,8 @@ export default function MLPopup({ onClose }) {
               <div className="ml-field-label">Bukti Pembayaran <span className="req">*</span></div>
               <div className="ml-field-hint">
                 Format Penamaan File: <strong style={{ color: 'var(--ml-gold-dim)' }}>TRANSFER-MLBB-NamaTim</strong><br />
-                BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
-                <strong style={{color:'var(--ml-gold-dim)'}}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
+                BCA 0210999396 a.n. Yayasan Multi Data Palembang<br />
+                <strong style={{ color: 'var(--ml-gold-dim)' }}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
               </div>
               <div className="ml-file-drop">
                 <input type="file" accept={FILE_ACCEPT} required onChange={e => {

@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './CompePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-nE1tt0EeJsNIi23GmNV-bgF4HZvIP8gP6ZLxkdpoMXOxmQDaEtBAV6pAwDyAkhoqCQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuFj8ZFDQdcA0K1uZuvs4Vs24-w7g6FukGdNTqb_6htrCUIkNKwIlZ4JHTFJd71SuKWg/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 3;
 const REQ_MEMBERS = 2;
@@ -175,7 +175,7 @@ export default function CompePopup({ onClose }) {
 
       await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
         mode: 'no-cors',
       });
