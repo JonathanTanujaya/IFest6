@@ -1,4 +1,5 @@
 import { useState, Suspense, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import Scene from './components/Scene'
 import Popup from './components/Popup'
 import AboutPopup from './components/AboutPopup'
@@ -164,6 +165,9 @@ function App() {
           )}
         </div>
       )}
+
+      {/* Vercel Web Analytics */}
+      <Analytics />
     </>
   )
 }
