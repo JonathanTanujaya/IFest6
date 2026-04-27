@@ -38,7 +38,7 @@
   box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
   animation: uixSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   color: var(--text);
-  font-family: 'Lora', serif;
+  font-family: 'Georgia', serif;
   overflow: hidden;
   margin: 0 auto;
 }
@@ -111,7 +111,7 @@
 .uix-maskot-wrap img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 10px 25px var(--gold-glow)); }
 
 .uix-title {
-  font-family: 'Cinzel', serif;
+  font-family: 'Georgia', serif;
   font-size: clamp(26px, 5vw, 42px);
   color: var(--gold);
   font-weight: 700;
@@ -120,7 +120,7 @@
   line-height: 1.2;
 }
 .uix-subtitle {
-  font-family: 'Lora', serif;
+  font-family: 'Georgia', serif;
   font-size: 13px;
   letter-spacing: 5px;
   color: var(--red);
@@ -165,7 +165,7 @@
 .uix-glass-card.full { grid-column: 1 / -1; }
 
 .uix-card-title {
-  font-family: 'Cinzel', serif; color: var(--gold); font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; font-weight: 600;
+  font-family: 'Georgia', serif; color: var(--gold); font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; font-weight: 600;
 }
 .uix-card-text {
   font-size: 14.5px; line-height: 1.7; color: var(--text-dim);
@@ -218,7 +218,7 @@
   height: 30px;
   object-fit: contain;
 }
-.uix-step-title h3 { font-family: 'Cinzel', serif; font-size: 22px; color: var(--gold); margin: 0 0 6px; }
+.uix-step-title h3 { font-family: 'Georgia', serif; font-size: 22px; color: var(--gold); margin: 0 0 6px; }
 .uix-step-title p { font-size: 13px; color: var(--text-dim); margin: 0; text-transform: uppercase; letter-spacing: 1.5px; }
 
 /* Fields */
@@ -278,7 +278,7 @@
 .uix-member-box.optional { border-style: dashed; border-color: rgba(255,255,255,0.15); }
 .uix-member-box:hover { border-color: rgba(226, 185, 83, 0.3); background: rgba(255,255,255,0.04); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
 .uix-member-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 16px; margin-bottom: 20px; }
-.uix-member-title { display: flex; align-items: center; gap: 12px; font-family: 'Cinzel', serif; font-size: 17px; color: var(--gold); font-weight: 600; }
+.uix-member-title { display: flex; align-items: center; gap: 12px; font-family: 'Georgia', serif; font-size: 17px; color: var(--gold); font-weight: 600; }
 .uix-member-badge { font-size: 11px; padding: 4px 10px; background: rgba(255,255,255,0.08); border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
 .uix-btn-remove { background: transparent; border: 1px solid rgba(201, 24, 52, 0.4); color: #ff8a9a; border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: pointer; transition: all 0.3s; font-weight: 500; }
 .uix-remove-icon {
@@ -393,7 +393,7 @@
   gap: 14px;
   margin-bottom: 24px;
   color: var(--gold-dim);
-  font-family: 'Cinzel', serif;
+  font-family: 'Georgia', serif;
   font-size: 11px;
   letter-spacing: 3px;
   justify-content: center;
@@ -417,7 +417,7 @@
   border-radius: 14px;
   padding: 18px 48px;
   color: #fff;
-  font-family: 'Cinzel Decorative', serif;
+  font-family: 'Georgia', serif;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -460,7 +460,7 @@
 /* Success Screen */
 .uix-success-wrap { padding: 80px 40px; text-align: center; }
 .uix-success-icon { width: 100px; height: 100px; margin: 0 auto 30px; animation: floatUpDown 4s infinite; }
-.uix-success-title { font-family: 'Cinzel', serif; font-size: clamp(30px, 5vw, 42px); color: var(--gold); margin-bottom: 20px; text-shadow: 0 0 25px var(--gold-glow); font-weight: 700; }
+.uix-success-title { font-family: 'Georgia', serif; font-size: clamp(30px, 5vw, 42px); color: var(--gold); margin-bottom: 20px; text-shadow: 0 0 25px var(--gold-glow); font-weight: 700; }
 .uix-success-text { font-size: 16px; color: var(--text-dim); line-height: 1.7; margin-bottom: 48px; max-width: 500px; margin-left: auto; margin-right: auto; }
 .uix-wa-btn {
   display: inline-flex; align-items: center; gap: 12px; background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; color: #25D366; padding: 18px 36px; border-radius: 100px; font-weight: 600; text-decoration: none; transition: all 0.3s; font-size: 16px; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.15);
