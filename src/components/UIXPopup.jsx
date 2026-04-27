@@ -328,7 +328,7 @@ export default function UIXPopup({ onClose }) {
                       <label className="uix-label">Kartu Identitas {isRequired && <span className="req">*</span>}</label>
                       <div className="uix-hint">
                         Format: <strong style={{ color: 'var(--gold)' }}>KIP-NamaPeserta{displayNum}</strong><br/>
-                        <strong style={{color:'var(--gold)'}}>Maks 15 MB, 1 file saja (PDF/Image)</strong>
+                        <strong style={{color:'var(--gold)'}}>Maks 1 MB, 1 file saja (PDF/Image)</strong>
                       </div>
                       <div className="uix-dropzone">
                         <input type="file" accept={FILE_ACCEPT} required={isRequired} onChange={e => handleMemberFile(m.id, e)} />
@@ -365,7 +365,7 @@ export default function UIXPopup({ onClose }) {
                 <div className="uix-hint">
                   Format Penamaan File: <strong style={{ color: 'var(--gold)' }}>TRANSFER-UIX-NamaTim</strong><br />
                   BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
-                  <strong style={{color:'var(--gold)'}}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
+                  <strong style={{color:'var(--gold)'}}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
                 </div>
                 <div className="uix-dropzone">
                   <input type="file" accept={FILE_ACCEPT} required onChange={e => {

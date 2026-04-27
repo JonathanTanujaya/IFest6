@@ -351,7 +351,7 @@ export default function MLPopup({ onClose }) {
               <div className="ml-field-hint">
                 Format Penamaan File: <strong style={{ color: 'var(--ml-gold-dim)' }}>TRANSFER-MLBB-NamaTim</strong><br />
                 BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
-                <strong style={{color:'var(--ml-gold-dim)'}}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
+                <strong style={{color:'var(--ml-gold-dim)'}}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
               </div>
               <div className="ml-file-drop">
                 <input type="file" accept={FILE_ACCEPT} required onChange={e => {

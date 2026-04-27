@@ -286,7 +286,7 @@ export default function BandPopup({ onClose }) {
                 <label className="band-label">Logo Band <span>(Opsional)</span></label>
                 <div className="band-hint">
                   Format Penamaan File: NamaTim<br />
-                  <strong style={{ color: 'var(--gold)' }}>Maks 15 MB, 1 file saja (Image)</strong>
+                  <strong style={{ color: 'var(--gold)' }}>Maks 1 MB, 1 file saja (Image)</strong>
                 </div>
                 <div className="band-dropzone">
                   <input type="file" accept={FILE_ACCEPT} onChange={e => {
@@ -448,7 +448,7 @@ export default function BandPopup({ onClose }) {
                 <label className="band-label">Dokumen Identitas <span className="req">*</span></label>
                 <div className="band-hint">
                   Format: <strong style={{ color: 'var(--gold)' }}>ID-NamaTim</strong>. (Kartu Pelajar / Surat Keterangan Aktif & Surat Rekomendasi digabung 1 file).<br />
-                  <strong style={{ color: 'var(--gold)' }}>Maks 15 MB, 1 file saja (PDF/Image)</strong>
+                  <strong style={{ color: 'var(--gold)' }}>Maks 1 MB, 1 file saja (PDF/Image)</strong>
                 </div>
                 <div className="band-dropzone">
                   <input type="file" accept={FILE_ACCEPT} required onChange={e => {
@@ -466,7 +466,7 @@ export default function BandPopup({ onClose }) {
                 <label className="band-label">Bukti Pembayaran <span className="req">*</span></label>
                 <div className="band-hint">
                   Format: <strong style={{ color: 'var(--gold)' }}>TRANSFER-BD-NamaTim</strong>.<br />
-                  <strong style={{ color: 'var(--gold)' }}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
+                  <strong style={{ color: 'var(--gold)' }}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
                 </div>
                 <div className="band-dropzone">
                   <input type="file" accept={FILE_ACCEPT} required onChange={e => {

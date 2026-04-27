@@ -310,7 +310,7 @@ export default function PDPopup({ onClose }) {
                 <label className="pd-label">Bukti Pembayaran <span className="req">*</span></label>
                 <div className="pd-hint">
                   Format: <strong style={{ color: 'var(--gold)' }}>TRANSFER-PD-NamaPeserta</strong>.<br/>
-                  <strong style={{color:'var(--gold)'}}>Maks 15 MB, 1 file saja (Image/PDF)</strong>
+                  <strong style={{color:'var(--gold)'}}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
                 </div>
                 <div className="pd-dropzone">
                   <input
