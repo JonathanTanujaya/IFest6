@@ -295,7 +295,6 @@ export default function PDPopup({ onClose }) {
 
                 <div className="pd-field-group">
                   <label className="pd-label">No. WhatsApp <span className="req">*</span></label>
-                  <div className="pd-hint">Hanya angka (tanpa teks)</div>
                   <input
                     className="pd-input"
                     type="tel"

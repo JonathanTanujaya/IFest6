@@ -6,7 +6,7 @@ import './KPOPPopup.css';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTxpkL4Vp1Yz8a_M_SVwAK8NbEYGTifMzym9tdMC_heMDlEu7Kx_fj27yfX1n9tsJB/exec';
 
 const NOTES = ['🎵', '🎶', '💃', '🎤', '✨', '🌸', '⭐', '💫', '🎧', '🌟'];
-const MAX_PLAYERS = 6;
+const MAX_PLAYERS = 10;
 const REQ_PLAYERS = 3;
 
 const EMPTY_PLAYER = (id) => ({ id, nama: '', gender: '', wa: '', email: '' });
@@ -21,7 +21,7 @@ export default function KPopPopup({ onClose }) {
   const [namaTim, setNamaTim] = useState('');
   const [asalInstansi, setAsalInstansi] = useState('');
 
-  // Players: 1–3 required, 4–6 added by user on demand
+  // Players: 1–3 required, 4–10 added by user on demand
   const [players, setPlayers] = useState(
     Array.from({ length: REQ_PLAYERS }, (_, i) => EMPTY_PLAYER(i + 1))
   );
