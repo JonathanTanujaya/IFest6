@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './BandPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/REPLACE_WITH_BAND_SCRIPT_ID/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvJmkk9JaR2fRazamIY6Z3j--6yT8tvUCxvLbv0fQI_Tv3UxGYum1OY5LWNZozTak2Gw/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣', '🃏'];
 const MAX_MEMBERS = 8;
 const MIN_MEMBERS = 4;

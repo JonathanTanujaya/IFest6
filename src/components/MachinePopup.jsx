@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './MachinePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/REPLACE_WITH_MACHINE_SCRIPT_ID/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzK0xgM7Buw69VPle1gkus6uAwq2MnecIaZN1wZkIdttei7bEw5CIpw0GlUL1yQ-OC6/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 2; // 2 anggota opsional (selain ketua), total tim 1-3 orang
 
@@ -16,7 +16,7 @@ export default function MachinePopup({ onClose }) {
   const [namaTim, setNamaTim] = useState('');
   const [asalKota, setAsalKota] = useState('');
   const [asalInstansi, setAsalInstansi] = useState('');
-  
+
   const [ketuaTim, setKetuaTim] = useState('');
   const [kpKetua, setKpKetua] = useState(null);
 
@@ -238,11 +238,11 @@ export default function MachinePopup({ onClose }) {
             Selamat datang di kompetisi I-Fest 6.0 2026! Isi form pendaftaran di bawah ini dengan menyertakan Surat Pernyataan:
           </p>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <a 
-              href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="machine-guidebook-btn" 
+            <a
+              href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="machine-guidebook-btn"
               style={{ display: "inline-flex" }}
             >
               📄 Download Surat Pernyataan
@@ -467,7 +467,7 @@ export default function MachinePopup({ onClose }) {
 
           <div className="machine-form-section">
             <div className="machine-section-header">
-             <div className="machine-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="machine-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src="/Compress/maskot.webp"
                   alt=""
@@ -516,14 +516,14 @@ export default function MachinePopup({ onClose }) {
             <div className="machine-submit-divider">✦ Siap Bertanding ✦</div>
             <button type="submit" className="machine-submit-btn" disabled={isSubmitting}>
               {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                    <img
-                      src="/Compress/maskot.webp"
-                      alt=""
-                      aria-hidden="true"
-                      style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                    />
-                    Kirim Pendaftaran
-                  </span> : <div className="machine-loader-ring" style={{ display: 'block' }}></div>}
+                <img
+                  src="/Compress/maskot.webp"
+                  alt=""
+                  aria-hidden="true"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
+                />
+                Kirim Pendaftaran
+              </span> : <div className="machine-loader-ring" style={{ display: 'block' }}></div>}
             </button>
             {isSubmitting && submitStatus && (
               <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>
