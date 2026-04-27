@@ -211,7 +211,7 @@ export default function KPopPopup({ onClose }) {
                 <li>Tim terdiri dari 3-10 orang</li>
                 <li>Wajib hadir offline jika lolos finalis</li>
               </ul>
-              <a href="https://drive.google.com/file/d/1vYkt3xO0yBsxkQRVGh_GukCCfE_YY-XU/view?usp=drive_link" target="_blank" rel="noreferrer" className="kp-guide-btn">
+              <a href="https://drive.google.com/file/d/1-0AQ9LUSPp4oUTYVQaX1tdOrBzqbiqkF/view?usp=drive_link" target="_blank" rel="noreferrer" className="kp-guide-btn">
                 📖 Baca Guidebook Lengkap
               </a>
             </div>
