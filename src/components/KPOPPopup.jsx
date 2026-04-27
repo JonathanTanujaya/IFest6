@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { compressAndEncode, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './KPOPPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwazjAZYkqeGrQtdaRhGdtca7w_B66YN97n-fgaLLUwh7LfRYOCxwrlnuUw8MqZqrUBiA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwAjMpwZYQBaCMKY_VqAE8iQRt9okImQyzLY0Q1ZoWBaQ-nYnMRgy9KETLc_f-JDczn/exec';
 
 const NOTES = ['🎵', '🎶', '💃', '🎤', '✨', '🌸', '⭐', '💫', '🎧', '🌟'];
 const MAX_PLAYERS = 10;
@@ -116,7 +116,7 @@ export default function KPopPopup({ onClose }) {
 
       await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
         mode: 'no-cors',
       });

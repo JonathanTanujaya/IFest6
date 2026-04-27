@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './CompePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJoksmkBsqkmFCN03IAg-QEoRLO76LWy7s7DrFW1orb-tNL8u71YEPi4aWh7sYdIPEKA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysQpYc6tR0gpmZGfYbK5qjGFeSWqROFB0jOYN3d0lfBVzcN_JV5wLpJmv40xbdy6Pn/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 3;
 const REQ_MEMBERS = 2;
@@ -535,7 +535,7 @@ export default function CompePopup({ onClose }) {
 
           <div className="cp-form-section">
             <div className="cp-section-header">
-             <div className="cp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="cp-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   src="/Compress/maskot.webp"
                   alt=""
