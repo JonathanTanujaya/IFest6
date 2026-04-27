@@ -8,7 +8,7 @@
  */
 
 // ── File Validation ──────────────────────────────────────────
-const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15 MB in bytes
+const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1 MB in bytes
 const ALLOWED_TYPES = [
   'image/jpeg',
   'image/jpg',
@@ -34,10 +34,10 @@ export const FILE_ACCEPT = 'image/jpeg,image/png,image/gif,image/bmp,image/webp,
 export function validateFile(file) {
   if (!file) return null;
 
-  // Check file size (15 MB)
+  // Check file size (1 MB)
   if (file.size > MAX_FILE_SIZE) {
     const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
-    return `Ukuran file "${file.name}" terlalu besar (${sizeMB} MB). Maksimal 15 MB.`;
+    return `Ukuran file "${file.name}" terlalu besar (${sizeMB} MB). Maksimal 1 MB.`;
   }
 
   // Check file type by MIME type
