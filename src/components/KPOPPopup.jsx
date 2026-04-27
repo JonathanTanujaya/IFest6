@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { compressAndEncode, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './KPOPPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTxpkL4Vp1Yz8a_M_SVwAK8NbEYGTifMzym9tdMC_heMDlEu7Kx_fj27yfX1n9tsJB/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwazjAZYkqeGrQtdaRhGdtca7w_B66YN97n-fgaLLUwh7LfRYOCxwrlnuUw8MqZqrUBiA/exec';
 
 const NOTES = ['🎵', '🎶', '💃', '🎤', '✨', '🌸', '⭐', '💫', '🎧', '🌟'];
 const MAX_PLAYERS = 10;
@@ -377,8 +377,8 @@ export default function KPopPopup({ onClose }) {
                 <label className="kp-label">Bukti Pembayaran <span className="req">*</span></label>
                 <div className="kp-hint">
                   Format Penamaan File: <strong style={{ color: 'var(--gold)' }}>TRANSFER-DC-NamaTim</strong><br />
-                  BCA 0210999396 a.n. Yayasan Multi Data Palembang<br/>
-                  <strong style={{color:'var(--gold)'}}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
+                  BCA 0210999396 a.n. Yayasan Multi Data Palembang<br />
+                  <strong style={{ color: 'var(--gold)' }}>Maks 1 MB, 1 file saja (Image/PDF)</strong>
                 </div>
                 <div className="kp-dropzone">
                   <input
