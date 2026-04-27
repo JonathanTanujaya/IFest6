@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './CompePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysQpYc6tR0gpmZGfYbK5qjGFeSWqROFB0jOYN3d0lfBVzcN_JV5wLpJmv40xbdy6Pn/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-nE1tt0EeJsNIi23GmNV-bgF4HZvIP8gP6ZLxkdpoMXOxmQDaEtBAV6pAwDyAkhoqCQ/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 3;
 const REQ_MEMBERS = 2;

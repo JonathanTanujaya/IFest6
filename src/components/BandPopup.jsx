@@ -375,7 +375,7 @@ export default function BandPopup({ onClose }) {
 
                     <div className="band-field-group" style={{ marginBottom: 0 }}>
                       <label className="band-label">No. WhatsApp {isRequired && <span className="req">*</span>}</label>
-                      <input className="band-input" type="tel" placeholder="Contoh: 081234567890" value={m.wa} onChange={e => updateMember(m.id, 'wa', e.target.value)} required={isRequired} />
+                      <input className="band-input" type="tel" placeholder="Contoh: 081234567890" value={m.wa} onChange={e => updateMember(m.id, 'wa', e.target.value.replace(/[^0-9]/g, ''))} required={isRequired} />
                     </div>
                   </div>
                 );
@@ -403,7 +403,7 @@ export default function BandPopup({ onClose }) {
                   </div>
                   <div className="band-field-group" style={{ marginBottom: 0 }}>
                     <label className="band-label">No. WhatsApp</label>
-                    <input className="band-input" type="tel" placeholder="No WA pendamping..." value={officialWa} onChange={e => setOfficialWa(e.target.value)} />
+                    <input className="band-input" type="tel" placeholder="No WA pendamping..." value={officialWa} onChange={e => setOfficialWa(e.target.value.replace(/[^0-9]/g, ''))} />
                   </div>
                 </div>
               </div>
