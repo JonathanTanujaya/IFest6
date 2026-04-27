@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './BandPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwvJmkk9JaR2fRazamIY6Z3j--6yT8tvUCxvLbv0fQI_Tv3UxGYum1OY5LWNZozTak2Gw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxa7OwArU61iiKzkPg27B5FmF5oC_kNs1pbR5zBY5aslXVJ0fe88DflVwn4xW_orBRDZw/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣', '🃏'];
 const MAX_MEMBERS = 8;
 const MIN_MEMBERS = 4;
@@ -167,7 +167,7 @@ export default function BandPopup({ onClose }) {
 
       await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
         mode: 'no-cors',
       }).catch((e) => console.log('Mock request success'));
