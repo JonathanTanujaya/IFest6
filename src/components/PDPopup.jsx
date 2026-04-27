@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { X } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './PDPopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0ZPdlC_HX1fQiCOGuZW4DwW3269kIGJKhEkvwQGyDGqUKcfavpFtsWXpS4hc6VgKC/exec'; // Replace with real script URL
@@ -318,8 +318,10 @@ export default function PDPopup({ onClose }) {
                     accept=".pdf"
                     required
                     onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        setBuktiBayar(e.target.files[0]);
+                      const file = e.target.files && e.target.files[0];
+                      if (file) {
+                        const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                        setErrorMsg(''); setBuktiBayar(file);
                       }
                     }}
                   />

@@ -7,6 +7,65 @@
  * 3. Providing a progress-aware API
  */
 
+// ── File Error Toast ────────────────────────────────────────
+/**
+ * Show a fixed toast notification at the top of the screen.
+ * Auto-dismisses after 4 seconds.
+ */
+function showFileError(message) {
+  const TOAST_ID = '__fileValidationToast';
+  const existing = document.getElementById(TOAST_ID);
+  if (existing) {
+    clearTimeout(existing._dismissTimer);
+    existing.remove();
+  }
+
+  const toast = document.createElement('div');
+  toast.id = TOAST_ID;
+  toast.textContent = '⚠️  ' + message;
+
+  Object.assign(toast.style, {
+    position:        'fixed',
+    top:             '24px',
+    left:            '50%',
+    transform:       'translateX(-50%) translateY(-16px)',
+    background:      'linear-gradient(135deg, #7a0e1a 0%, #a81528 100%)',
+    color:           '#fff',
+    padding:         '14px 28px',
+    borderRadius:    '12px',
+    fontSize:        '13.5px',
+    fontWeight:      '600',
+    fontFamily:      "'Inter', 'Segoe UI', sans-serif",
+    zIndex:          '2147483647',
+    boxShadow:       '0 8px 32px rgba(168,21,40,0.55), 0 2px 12px rgba(0,0,0,0.35)',
+    border:          '1px solid rgba(255,120,120,0.35)',
+    maxWidth:        '480px',
+    width:           '90vw',
+    textAlign:       'center',
+    opacity:         '0',
+    transition:      'opacity 0.25s ease, transform 0.25s ease',
+    pointerEvents:   'none',
+    lineHeight:      '1.5',
+  });
+
+  document.body.appendChild(toast);
+
+  // Animate in
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      toast.style.opacity   = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+    })
+  );
+
+  // Auto-dismiss
+  toast._dismissTimer = setTimeout(() => {
+    toast.style.opacity   = '0';
+    toast.style.transform = 'translateX(-50%) translateY(-16px)';
+    setTimeout(() => toast.remove(), 280);
+  }, 4000);
+}
+
 // ── File Validation ──────────────────────────────────────────
 const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1 MB in bytes
 const ALLOWED_TYPES = [
@@ -37,7 +96,9 @@ export function validateFile(file) {
   // Check file size (1 MB)
   if (file.size > MAX_FILE_SIZE) {
     const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
-    return `Ukuran file "${file.name}" terlalu besar (${sizeMB} MB). Maksimal 1 MB.`;
+    const msg = `Ukuran file "${file.name}" terlalu besar (${sizeMB} MB). Maksimal 1 MB.`;
+    showFileError(msg);
+    return msg;
   }
 
   // Check file type by MIME type
@@ -48,7 +109,9 @@ export function validateFile(file) {
   const extOk = ALLOWED_EXTENSIONS.includes(ext);
 
   if (!mimeOk && !extOk) {
-    return `Tipe file "${file.name}" tidak didukung. Hanya gambar (JPG, PNG, GIF, BMP, WebP, SVG) dan PDF yang diperbolehkan.`;
+    const msg = `Tipe file "${file.name}" tidak didukung. Hanya gambar (JPG, PNG, GIF, BMP, WebP, SVG) dan PDF yang diperbolehkan.`;
+    showFileError(msg);
+    return msg;
   }
 
   return null;

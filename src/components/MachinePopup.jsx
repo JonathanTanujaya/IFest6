@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { X, FileText, CreditCard } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './MachinePopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/REPLACE_WITH_MACHINE_SCRIPT_ID/exec';
@@ -336,8 +336,10 @@ export default function MachinePopup({ onClose }) {
                       accept="image/*,.pdf"
                       required
                       onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          setKpKetua(e.target.files[0]);
+                        const file = e.target.files && e.target.files[0];
+                        if (file) {
+                          const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setKpKetua(null); return; }
+                          setKpKetua(file);
                         }
                       }}
                     />
@@ -386,8 +388,10 @@ export default function MachinePopup({ onClose }) {
                           type="file"
                           accept="image/*,.pdf"
                           onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              updateMember(m.id, 'kp', e.target.files[0]);
+                            const file = e.target.files && e.target.files[0];
+                            if (file) {
+                              const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; updateMember(m.id, 'kp', null); return; }
+                              updateMember(m.id, 'kp', file);
                             }
                           }}
                         />
@@ -422,8 +426,10 @@ export default function MachinePopup({ onClose }) {
                   accept=".pdf"
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setSuratPernyataan(e.target.files[0]);
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                      const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setSuratPernyataan(null); return; }
+                      setSuratPernyataan(file);
                     }
                   }}
                 />
@@ -445,8 +451,10 @@ export default function MachinePopup({ onClose }) {
                   accept="image/*,.pdf"
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setBuktiBayar(e.target.files[0]);
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                      const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                      setBuktiBayar(file);
                     }
                   }}
                 />

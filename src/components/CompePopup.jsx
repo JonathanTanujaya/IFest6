@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { X, FileText, CreditCard } from 'lucide-react';
-import { processFilesParallel } from '../utils/fileUtils';
+import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './CompePopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJoksmkBsqkmFCN03IAg-QEoRLO76LWy7s7DrFW1orb-tNL8u71YEPi4aWh7sYdIPEKA/exec';
@@ -65,8 +65,10 @@ export default function CompePopup({ onClose }) {
     setMembers(members.map((m) => (m.id === id ? { ...m, [field]: value } : m)));
   };
 
-  const handleMemberFile = (id, file) => {
-    updateMember(id, 'kartuPelajar', file);
+  const handleMemberFile = (id, file, inputEl) => {
+    const err = validateFile(file);
+    if (err) { setErrorMsg(err); if (inputEl) inputEl.value = ''; updateMember(id, 'kartuPelajar', null); return; }
+    setErrorMsg(''); updateMember(id, 'kartuPelajar', file);
   };
 
   const validateAndSubmit = async (e) => {
@@ -485,9 +487,8 @@ export default function CompePopup({ onClose }) {
                           accept="image/*,.pdf"
                           required={isRequired}
                           onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              handleMemberFile(m.id, e.target.files[0]);
-                            }
+                            const file = e.target.files && e.target.files[0];
+                            if (file) handleMemberFile(m.id, file, e.target);
                           }}
                         />
                         <span className="cp-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
@@ -518,8 +519,10 @@ export default function CompePopup({ onClose }) {
                   accept="image/*,.pdf"
                   required
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setBuktiBayar(e.target.files[0]);
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                      const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                      setErrorMsg(''); setBuktiBayar(file);
                     }
                   }}
                 />
