@@ -165,7 +165,7 @@ const aboutFeatures = [
   },
   {
     icon: 'cards',
-    title: '6 Kompetisi',
+    title: '7 Kompetisi',
     desc: 'Dari UI/UX hingga Band, pilih kartumu dan tunjukkan keahlianmu di arena yang kamu kuasai.',
   },
   {
