@@ -20,7 +20,7 @@ const WonderlandIcons = {
         <animate attributeName="cy" values="38;32;38" dur="2.5s" repeatCount="indefinite" />
       </circle>
       <text x="28" y="26" fontSize="8" fill="white" fontFamily="serif">🏷️</text>
-      <text x="24" y="20" fontSize="6" fill="white" fontStyle="italic" fontFamily="serif">drink me</text>
+      <text x="24" y="20" fontSize="6" fill="white" fontStyle="georgia" fontFamily="serif">drink me</text>
     </svg>
   ),
   clock: (

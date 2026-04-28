@@ -230,7 +230,7 @@
 .uix-hint { font-size: 12.5px; color: var(--text-dim); margin-bottom: 12px; font-style: italic; }
 .uix-input {
   width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
-  padding: 16px 20px; color: var(--text); font-family: 'Lora', serif; font-size: 15px; transition: all 0.3s;
+  padding: 16px 20px; color: var(--text); font-family: 'Georgia', serif; font-size: 15px; transition: all 0.3s;
 }
 
 .uix-inline-icon {
@@ -291,7 +291,7 @@
 .uix-btn-remove:hover { background: var(--red); color: #fff; border-color: var(--red); }
 
 .uix-btn-add {
-  width: 100%; padding: 20px; background: rgba(255,255,255,0.02); border: 2px dashed rgba(226, 185, 83, 0.3); border-radius: 16px; color: var(--gold); font-family: 'Lora', serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; padding: 20px; background: rgba(255,255,255,0.02); border: 2px dashed rgba(226, 185, 83, 0.3); border-radius: 16px; color: var(--gold); font-family: 'Georgia', serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px; display: flex; align-items: center; justify-content: center; gap: 12px;
 }
 .uix-add-icon {
   width: 18px;
