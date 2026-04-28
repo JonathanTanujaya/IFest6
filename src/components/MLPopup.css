@@ -183,7 +183,7 @@
   text-transform: uppercase;
   color: var(--ml-gold-dim);
   margin: 0 0 14px;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
 }
 
 .ml-hat-icon {
@@ -195,7 +195,7 @@
 }
 
 .ml-header h1 {
-  font-family: 'Georgia', serif;
+  font-family: inherit;
   font-size: clamp(22px, 5vw, 32px);
   font-weight: 700;
   color: var(--ml-text);
@@ -211,7 +211,7 @@
   color: var(--ml-gold);
   font-weight: 400;
   margin: 0;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
   position: relative;
 }
 
@@ -240,6 +240,7 @@
   line-height: 1.75;
   color: var(--ml-text-dim);
   margin: 0 0 16px;
+  
 }
 
 /* ── Info Grid ──────────────────────────── */
@@ -264,7 +265,7 @@
   text-transform: uppercase;
   color: var(--ml-gold-dim);
   margin-bottom: 6px;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
 }
 
 .ml-ic-value {
@@ -366,14 +367,14 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ml-gold);
-  font-family: 'Georgia', serif;
+  font-family: inherit;
 }
 
 .ml-section-title {
   font-size: 16px;
   font-weight: 700;
   color: var(--ml-text);
-  font-family: 'Georgia', serif;
+  font-family: inherit;
 }
 
 /* ── Fields ─────────────────────────────── */
@@ -459,7 +460,7 @@
   font-weight: 600;
   color: var(--ml-text);
   letter-spacing: 0.04em;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
   text-transform: uppercase;
 }
 
@@ -504,7 +505,7 @@
   padding: 5px 10px;
   font-size: 12px;
   transition: all 0.2s;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
 }
 
 .ml-member-remove:hover {
@@ -520,7 +521,7 @@
   padding: 16px;
   color: var(--ml-gold-dim);
   cursor: pointer;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
   font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -697,7 +698,7 @@
   text-transform: uppercase;
   color: var(--ml-gold-dim);
   margin-bottom: 16px;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
 }
 
 .ml-submit-btn {
@@ -710,7 +711,7 @@
   color: #fff;
   font-size: 15px;
   font-weight: 700;
-  font-family: 'Georgia', serif;
+  font-family: inherit;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -786,7 +787,7 @@
 }
 
 .ml-success-title {
-  font-family: 'Georgia', serif;
+  font-family: inherit;
   font-size: clamp(22px, 5vw, 30px);
   font-weight: 700;
   color: var(--ml-gold);
@@ -805,7 +806,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ml-text-muted);
-  font-family: 'Georgia', serif;
+  font-family: inherit;
   margin: 0;
 }
 
