@@ -256,7 +256,7 @@ export default function BandPopup({ onClose }) {
                 <li>Melampirkan Surat Keterangan Aktif & Rekomendasi Kepala Sekolah</li>
                 <li>Wajib memfollow IG <strong>@himif.umdp</strong></li>
               </ul>
-              <a href="https://drive.google.com/file/d/1Gr0UwklNy1LcxyzupGwmqwsyFRXziMiX/view?usp=drive_link" target="_blank" rel="noreferrer" className="band-guide-btn">
+              <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link" target="_blank" rel="noreferrer" className="band-guide-btn">
                 📖 Baca Guidebook Lengkap
               </a>
             </div>

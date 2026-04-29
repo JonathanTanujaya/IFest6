@@ -233,7 +233,7 @@ export default function UIXPopup({ onClose }) {
                 <li>Individu atau Tim (2-3 orang)</li>
                 <li>Mewakili institusi / sekolah / universitas yang sama</li>
               </ul>
-              <a href="https://drive.google.com/file/d/1RrfMFTB35t8Vhm4Dq2shydYO_WthBb2i/view?usp=drive_link" target="_blank" rel="noreferrer" className="uix-guide-btn">
+              <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link" target="_blank" rel="noreferrer" className="uix-guide-btn">
                 📖 Baca Guidebook Lengkap
               </a>
             </div>

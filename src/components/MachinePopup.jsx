@@ -239,7 +239,7 @@ export default function MachinePopup({ onClose }) {
           </p>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <a
-              href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing"
+              href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
               target="_blank"
               rel="noreferrer"
               className="machine-guidebook-btn"

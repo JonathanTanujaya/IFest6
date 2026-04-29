@@ -208,7 +208,7 @@ export default function PDPopup({ onClose }) {
                 <li>Peserta wajib mematuhi seluruh ketentuan kompetisi</li>
                 <li>Akun Instagram yang dipakai submit harus sama dengan data pendaftaran</li>
               </ul>
-              <a href="https://drive.google.com/file/d/1xm6N51-FH2iVkxBpM3Ajn6yCDYTfIB3L/view?usp=sharing" target="_blank" rel="noreferrer" className="pd-guide-btn">
+              <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link" target="_blank" rel="noreferrer" className="pd-guide-btn">
                 📖 Baca Guidebook Lengkap
               </a>
             </div>

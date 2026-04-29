@@ -228,7 +228,7 @@ export default function MLPopup({ onClose }) {
             <div className="ml-info-card">
               <span className="ml-ic-label">📑 Panduan</span>
               <div className="ml-ic-value">
-                <a href="https://drive.google.com/file/d/1Gr0UwklNy1LcxyzupGwmqwsyFRXziMiX/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="ml-guidebook-btn">
+                <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link" target="_blank" rel="noopener noreferrer" className="ml-guidebook-btn">
                   📖 Guidebook I-Fest 6.0 2026 ↗
                 </a>
               </div>
