@@ -295,12 +295,15 @@ export default function CompePopup({ onClose }) {
             <div className="cp-info-card">
               <span className="cp-ic-label">📑 Panduan</span>
               <div className="cp-ic-value">
-                <span
+                <a
+                  href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
+                  target="_blank"
+                  rel="noreferrer"
                   className="cp-guidebook-btn"
                   style={{ display: 'inline-flex', marginTop: '4px', fontSize: '12px' }}
                 >
                   📖 Guidebook EDC IFEST 6.0 2026
-                </span>
+                </a>
               </div>
             </div>
           </div>
