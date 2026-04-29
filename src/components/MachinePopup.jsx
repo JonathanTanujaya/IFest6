@@ -1,11 +1,11 @@
 import React, { useState, useRef, useMemo } from 'react';
-import { X, FileText, CreditCard } from 'lucide-react';
+import { X } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './MachinePopup.css';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwbU9uhvJ3_RnYTaqD47LYNaKQgkl4Uxj8NPb8Onf08lPisohVaMFvbnm-rHByZRsZ/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
-const MAX_MEMBERS = 2; // 2 anggota opsional (selain ketua), total tim 1-3 orang
+const MAX_MEMBERS = 2;
 
 export default function MachinePopup({ onClose }) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -16,81 +16,63 @@ export default function MachinePopup({ onClose }) {
   const [namaTim, setNamaTim] = useState('');
   const [asalKota, setAsalKota] = useState('');
   const [asalInstansi, setAsalInstansi] = useState('');
-
   const [ketuaTim, setKetuaTim] = useState('');
   const [kpKetua, setKpKetua] = useState(null);
-
-  // Semua anggota opsional, dimulai dari kosong
   const [members, setMembers] = useState([]);
-
   const [suratPernyataan, setSuratPernyataan] = useState(null);
   const [buktiBayar, setBuktiBayar] = useState(null);
-
   const [decl1, setDecl1] = useState('');
   const [decl2, setDecl2] = useState('');
   const [decl3, setDecl3] = useState('');
 
   const popupRef = useRef(null);
 
-  const suitsData = useMemo(() => {
-    return Array.from({ length: 14 }).map((_, i) => ({
+  const suitsData = useMemo(() =>
+    Array.from({ length: 14 }).map((_, i) => ({
       suit: ['♠', '♥', '♦', '♣', '🃏'][i % 5],
       left: Math.random() * 100,
-      bottom: Math.random() * -200,
       duration: 18 + Math.random() * 20,
       delay: Math.random() * 15,
-      color: i % 2 === 0 ? '#d4a93f' : '#a81528',
-    }));
-  }, []);
+      color: i % 2 === 0 ? '#e2b953' : '#c91834',
+    })), []);
 
   const addMember = () => {
-    if (members.length < MAX_MEMBERS) {
-      setMembers([...members, { id: members.length + 1, nama: '', kp: null }]);
-    }
+    if (members.length < MAX_MEMBERS)
+      setMembers([...members, { id: Date.now(), nama: '', kp: null }]);
   };
 
-  const removeMember = (id) => {
-    // Setelah hapus, re-assign id agar tetap urut
-    const updated = members
-      .filter((m) => m.id !== id)
-      .map((m, idx) => ({ ...m, id: idx + 1 }));
-    setMembers(updated);
-  };
+  const removeMember = (id) =>
+    setMembers(members.filter(m => m.id !== id));
 
-  const updateMember = (id, field, value) => {
-    setMembers(members.map((m) => (m.id === id ? { ...m, [field]: value } : m)));
-  };
+  const updateMember = (id, field, value) =>
+    setMembers(members.map(m => (m.id === id ? { ...m, [field]: value } : m)));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-
     const errors = [];
     let valid = true;
 
-    if (!namaTim.trim()) { errors.push('Nama Tim'); valid = false; }
-    if (!asalKota.trim()) { errors.push('Asal Kota'); valid = false; }
+    if (!namaTim.trim())      { errors.push('Nama Tim'); valid = false; }
+    if (!asalKota.trim())     { errors.push('Asal Kota'); valid = false; }
     if (!asalInstansi.trim()) { errors.push('Asal Institusi'); valid = false; }
-    if (!ketuaTim.trim()) { errors.push('Ketua Tim'); valid = false; }
-    if (!kpKetua) { errors.push('Kartu Pelajar Ketua Tim'); valid = false; }
+    if (!ketuaTim.trim())     { errors.push('Ketua Tim'); valid = false; }
+    if (!kpKetua)             { errors.push('Kartu Pelajar Ketua Tim'); valid = false; }
 
-    // Semua anggota opsional — validasi hanya jika sudah ditambahkan
     members.forEach((m, idx) => {
       if (!m.nama.trim()) { errors.push(`Nama Anggota ${idx + 1}`); valid = false; }
-      if (!m.kp) { errors.push(`Kartu Pelajar Anggota ${idx + 1}`); valid = false; }
+      if (!m.kp)          { errors.push(`Kartu Pelajar Anggota ${idx + 1}`); valid = false; }
     });
 
     if (!suratPernyataan) { errors.push('Surat Pernyataan'); valid = false; }
-    if (!buktiBayar) { errors.push('Bukti Pembayaran'); valid = false; }
-
+    if (!buktiBayar)      { errors.push('Bukti Pembayaran'); valid = false; }
     if (decl1 !== 'Setuju' || decl2 !== 'Setuju' || decl3 !== 'Setuju') {
-      errors.push('Seluruh Pernyataan');
-      valid = false;
+      errors.push('Seluruh Pernyataan'); valid = false;
     }
 
     if (!valid) {
       setErrorMsg(`Mohon lengkapi: ${errors.join(', ')}.`);
-      if (popupRef.current) popupRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      popupRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -103,15 +85,11 @@ export default function MachinePopup({ onClose }) {
         { key: 'spB64', file: suratPernyataan },
         { key: 'buktiBayarB64', file: buktiBayar },
       ];
-
       members.forEach((m, idx) => {
-        if (m.kp) {
-          filesToProcess.push({ key: `kpAnggota${idx + 1}B64`, file: m.kp });
-        }
+        if (m.kp) filesToProcess.push({ key: `kpAnggota${idx + 1}B64`, file: m.kp });
       });
 
       const fileResults = await processFilesParallel(filesToProcess);
-
       setSubmitStatus('Mengirim data...');
 
       const payload = {
@@ -127,11 +105,8 @@ export default function MachinePopup({ onClose }) {
         spB64: fileResults.spB64,
         buktiBayarName: buktiBayar.name,
         buktiBayarB64: fileResults.buktiBayarB64,
-        decl1,
-        decl2,
-        decl3,
+        decl1, decl2, decl3,
       };
-
       members.forEach((m, idx) => {
         if (m.nama.trim()) {
           payload[`anggota${idx + 1}`] = m.nama.trim();
@@ -145,410 +120,375 @@ export default function MachinePopup({ onClose }) {
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
         mode: 'no-cors',
-      }).catch((e) => console.log('Mock request success'));
+      }).catch(() => {});
 
       setIsSuccess(true);
-      if (popupRef.current) popupRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      popupRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error(err);
       setErrorMsg(`Terjadi kesalahan: ${err.message}. Silakan coba lagi atau hubungi panitia.`);
       setIsSubmitting(false);
       setSubmitStatus('');
-      if (popupRef.current) popupRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      popupRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
+  /* ── Floating suits helper ── */
+  const FloatingSuits = () => (
+    <div className="machine-suits-bg">
+      {suitsData.map((s, i) => (
+        <div key={i} className="machine-suit"
+          style={{ left: `${s.left}%`, animationDuration: `${s.duration}s`, animationDelay: `${s.delay}s`, color: s.color }}>
+          {s.suit}
+        </div>
+      ))}
+    </div>
+  );
+
+  /* ── Success Screen ── */
   if (isSuccess) {
     return (
       <div className="machine-popup-overlay" onClick={onClose}>
-        <div className="machine-popup-container machine-success-container" onClick={(e) => e.stopPropagation()}>
+        <div className="machine-popup-container" style={{ maxWidth: '600px' }} onClick={e => e.stopPropagation()}>
           <button className="machine-close-btn" onClick={onClose}><X size={20} /></button>
-
-          <div className="machine-suits-bg">
-            {suitsData.map((s, i) => (
-              <div
-                key={i}
-                className="machine-suit"
-                style={{
-                  left: `${s.left}%`,
-                  bottom: `${s.bottom}px`,
-                  animationDuration: `${s.duration}s`,
-                  animationDelay: `${s.delay}s`,
-                  color: s.color,
-                }}
-              >
-                {s.suit}
-              </div>
-            ))}
-          </div>
-
-          <div className="machine-success-screen" style={{ display: 'block' }}>
-            <span className="machine-success-emoji">🏆</span>
+          <FloatingSuits />
+          <div className="machine-success-wrap">
+            <img src="/Compress/maskot.webp" alt="Maskot" className="machine-success-icon" />
             <h2 className="machine-success-title">Pendaftaran Berhasil!</h2>
             <p className="machine-success-sub">
-              Terima kasih telah mendaftarkan tim Anda.
-              <br />
+              Terima kasih telah mendaftarkan tim Anda untuk Machine Learning Competition I-Fest 6.0 2026.<br />
               Data Anda telah tercatat. Panitia akan menghubungi Anda segera.
             </p>
-            <div className="machine-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
             <p className="machine-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
-            <div style={{ marginTop: '18px' }}>
-              <a href="https://chat.whatsapp.com/KVHugt5HAIK3WajEVGAul7" target="_blank" rel="noreferrer" className="machine-contact-btn">
-                💬 Join Grup WhatsApp Peserta
-              </a>
-            </div>
+            <a href="https://chat.whatsapp.com/KVHugt5HAIK3WajEVGAul7" target="_blank" rel="noreferrer" className="machine-contact-btn">
+              💬 Join Grup WhatsApp Peserta
+            </a>
           </div>
         </div>
       </div>
     );
   }
 
+  /* ── Main Form ── */
   return (
     <div className="machine-popup-overlay" onClick={onClose}>
-      <div className="machine-popup-container" onClick={(e) => e.stopPropagation()} ref={popupRef}>
-        <div className="machine-suits-bg">
-          {suitsData.map((s, i) => (
-            <div
-              key={i}
-              className="machine-suit"
-              style={{
-                left: `${s.left}%`,
-                bottom: `${s.bottom}px`,
-                animationDuration: `${s.duration}s`,
-                animationDelay: `${s.delay}s`,
-                color: s.color,
-              }}
-            >
-              {s.suit}
-            </div>
-          ))}
-        </div>
-
+      <div className="machine-popup-container" onClick={e => e.stopPropagation()} ref={popupRef}>
+        <FloatingSuits />
         <button className="machine-close-btn" onClick={onClose}><X size={20} /></button>
 
+        {/* ── HEADER ── */}
         <div className="machine-header">
           <div className="machine-header-corner tl">♠</div>
           <div className="machine-header-corner tr">♥</div>
           <div className="machine-header-corner bl">♣</div>
           <div className="machine-header-corner br">♦</div>
+          <div className="machine-maskot-wrap">
+            <img src="/Compress/maskot.webp" alt="Maskot" />
+          </div>
           <p className="machine-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
-          <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
-          <h1>Machine Learning Competition <br />I-Fest 6.0</h1>
-          <h2>Formulir Pendaftaran I-Fest 6.0 2026</h2>
-          <div className="machine-divider-ornament">♠ ♥ ♦ ♣</div>
+          <h1>Machine Learning<br />Competition</h1>
+          <h2>I-Fest 6.0 • HIMIF UMDP 2026</h2>
+          <div className="machine-ornament">♠ ♥ ♦ ♣</div>
         </div>
 
-        <div className="machine-description-card">
-          <p className="machine-desc-text">
-            Selamat datang di kompetisi I-Fest 6.0 2026! Isi form pendaftaran di bawah ini dengan menyertakan Surat Pernyataan:
-          </p>
-          <div style={{ textAlign: 'center', margin: '20px 0' }}>
-            <div style={{ display: 'inline-flex', gap: '12px', alignItems: 'center' }}>
-              <a
-                href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
-                target="_blank"
-                rel="noreferrer"
-                className="machine-guidebook-btn"
-                style={{ display: 'inline-flex' }}
-              >
-                📄 Surat Pernyataan
-              </a>
-              <a
-                href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
-                target="_blank"
-                rel="noreferrer"
-                className="machine-guidebook-btn"
-                style={{ display: 'inline-flex' }}
-              >
-                📖 Guidebook I-Fest 6.0 2026 ↗
-              </a>
+        {/* ── DESCRIPTION ── */}
+        <div className="machine-desc-section">
+          <div className="machine-glass-card full" style={{ marginBottom: '24px' }}>
+            <div className="machine-card-title">🤖 Exploring Digital Wonderland</div>
+            <p className="machine-card-text">
+              Selamat datang di <strong>Machine Learning Competition I-Fest 6.0 2026!</strong> 🧠⚡<br />
+              Kompetisi ini diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang
+              dan terbuka untuk umum. Isi form pendaftaran di bawah ini dengan menyertakan Surat Pernyataan.
+            </p>
+          </div>
+
+          <div className="machine-desc-grid">
+            <div className="machine-glass-card">
+              <div className="machine-card-title">💰 Biaya &amp; Pembayaran</div>
+              <p className="machine-card-text">
+                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp60.000,-</strong>
+                Transfer ke:<br />
+                <strong style={{ color: 'var(--gold)' }}>BCA 0210999396</strong><br />
+                a.n. Yayasan Multi Data Palembang
+              </p>
+            </div>
+            <div className="machine-glass-card">
+              <div className="machine-card-title">📌 Persyaratan Utama</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {['Terbuka untuk Umum (WNI)', 'Tim 1–3 orang (min. 1 ketua)', 'Wajib unggah Surat Pernyataan'].map((item, i) => (
+                  <li key={i} style={{ position: 'relative', paddingLeft: '24px', marginBottom: '10px', fontSize: '14px', color: 'var(--text-dim)', lineHeight: '1.5' }}>
+                    <span style={{ position: 'absolute', left: 0, color: 'var(--gold-dim)' }}>✦</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '14px' }}>
+                <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
+                  target="_blank" rel="noreferrer" className="machine-guidebook-btn">
+                  📄 Surat Pernyataan
+                </a>
+                <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
+                  target="_blank" rel="noreferrer" className="machine-guidebook-btn">
+                  📖 Guidebook ↗
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* ── FORM ── */}
         <form onSubmit={handleSubmit}>
-          <div className="machine-form-section">
-            <div className="machine-section-header">
-              <div className="machine-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                />
-              </div>
-              <div className="machine-section-title-group">
-                <span className="machine-section-number">Bagian I</span>
-                <div className="machine-section-title">Informasi Tim</div>
-              </div>
-            </div>
+          <div className="machine-form-wrapper">
 
-            <div className="machine-field">
-              <div className="machine-field-label">Nama Tim <span className="req">*</span></div>
-              <input
-                className="machine-text-input"
-                type="text"
-                placeholder="Nama tim..."
-                required
-                value={namaTim}
-                onChange={(e) => setNamaTim(e.target.value)}
-              />
-            </div>
-
-            <div className="machine-field">
-              <div className="machine-field-label">Asal Kota <span className="req">*</span></div>
-              <div className="machine-field-hint">Hanya kata (tanpa angka)</div>
-              <input
-                className="machine-text-input"
-                type="text"
-                placeholder="Kota asal..."
-                required
-                value={asalKota}
-                onChange={(e) => setAsalKota(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-              />
-            </div>
-
-            <div className="machine-field">
-              <div className="machine-field-label">Asal Institusi <span className="req">*</span></div>
-              <input
-                className="machine-text-input"
-                type="text"
-                placeholder="Nama institusi..."
-                required
-                value={asalInstansi}
-                onChange={(e) => setAsalInstansi(e.target.value)}
-              />
-            </div>
-
-            {/* Ketua Tim */}
-            <div className="machine-field-label" style={{ marginBottom: '16px', marginTop: '24px' }}>
-              Ketua Tim <span className="req">*</span>
-            </div>
-            <div className="machine-member-card">
-              <div className="machine-member-header">
-                <div className="machine-member-badge">
-                  <span style={{ color: 'var(--red-bright)', fontSize: '14px', marginRight: '4px' }}>♛</span>
-                  Data Ketua Tim
+            {/* STEP 1 — Informasi Tim */}
+            <div className="machine-form-step">
+              <div className="machine-step-header">
+                <div className="machine-step-icon">
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" />
+                </div>
+                <div className="machine-step-title">
+                  <p>Bagian Pertama</p>
+                  <h3>Informasi Tim</h3>
                 </div>
               </div>
-              <div className="machine-member-grid">
-                <div>
-                  <div className="machine-member-field-label">Nama Ketua Tim <span className="req">*</span></div>
-                  <input
-                    className="machine-text-input"
-                    type="text"
-                    required
-                    placeholder="Nama lengkap ketua..."
-                    value={ketuaTim}
-                    onChange={(e) => setKetuaTim(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-                  />
+
+              <div className="machine-field">
+                <div className="machine-field-label">Nama Tim <span className="req">*</span></div>
+                <input className="machine-text-input" type="text" placeholder="Nama tim Anda…"
+                  required value={namaTim} onChange={e => setNamaTim(e.target.value)} />
+              </div>
+
+              <div className="machine-field">
+                <div className="machine-field-label">Asal Kota <span className="req">*</span></div>
+                <div className="machine-field-hint">Hanya huruf (tanpa angka)</div>
+                <input className="machine-text-input" type="text" placeholder="Kota asal…"
+                  required value={asalKota}
+                  onChange={e => setAsalKota(e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
+              </div>
+
+              <div className="machine-field">
+                <div className="machine-field-label">Asal Institusi <span className="req">*</span></div>
+                <input className="machine-text-input" type="text" placeholder="Universitas / Sekolah…"
+                  required value={asalInstansi} onChange={e => setAsalInstansi(e.target.value)} />
+              </div>
+
+              {/* Ketua Tim */}
+              <div className="machine-field-label" style={{ marginBottom: '16px', marginTop: '8px' }}>
+                Ketua Tim <span className="req">*</span>
+              </div>
+              <div className="machine-member-card">
+                <div className="machine-member-header">
+                  <div className="machine-member-badge">
+                    <span style={{ color: 'var(--red)' }}>♛</span> Data Ketua Tim
+                  </div>
                 </div>
-                <div className="machine-field" style={{ marginBottom: 0 }}>
-                  <div className="machine-member-field-label">Kartu Pelajar Ketua Tim <span className="req">*</span></div>
-                  <div className="machine-field-hint">Keterangan: Unggah kartu pelajar/identitas (Image/PDF, 1 file)</div>
-                  <div className="machine-file-drop" style={{ padding: '15px' }}>
-                    <input
-                      type="file"
-                      accept="image/*,.pdf"
-                      required
-                      onChange={(e) => {
-                        const file = e.target.files && e.target.files[0];
-                        if (file) {
-                          const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setKpKetua(null); return; }
+                <div className="machine-member-grid">
+                  <div>
+                    <div className="machine-member-field-label">Nama Ketua Tim <span className="req">*</span></div>
+                    <input className="machine-text-input" type="text" required
+                      placeholder="Nama lengkap ketua…"
+                      value={ketuaTim}
+                      onChange={e => setKetuaTim(e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
+                  </div>
+                  <div>
+                    <div className="machine-member-field-label">Kartu Pelajar Ketua <span className="req">*</span></div>
+                    <div className="machine-field-hint">Image / PDF, maks 1 MB</div>
+                    <div className="machine-file-drop">
+                      <input type="file" accept="image/*,.pdf" required
+                        onChange={e => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const err = validateFile(file);
+                          if (err) { setErrorMsg(err); e.target.value = ''; setKpKetua(null); return; }
                           setKpKetua(file);
-                        }
-                      }}
-                    />
-                    <span className="machine-file-drop-icon"><FileText size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
-                    <div className="machine-file-drop-text" style={{ fontSize: '11px' }}>Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
-                    {kpKetua && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {kpKetua.name}</div>}
+                        }} />
+                      <div className="machine-file-drop-icon">
+                        <img src="/Compress/maskot.webp" alt="" aria-hidden="true" />
+                      </div>
+                      <div className="machine-file-drop-text">Seret atau lepas di sini, <span>klik untuk memilih</span></div>
+                      {kpKetua && <div className="machine-file-name-display">📎 {kpKetua.name}</div>}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Anggota Tim — semua opsional, muncul setelah tombol diklik */}
-            <div className="machine-field-label" style={{ marginBottom: '16px', marginTop: '24px' }}>
-              Anggota Tim
-              <span className="machine-badge">Opsional · maks. 2 anggota</span>
-            </div>
+              {/* Anggota Opsional */}
+              <div className="machine-field-label" style={{ marginBottom: '16px', marginTop: '28px' }}>
+                Anggota Tim
+                <span className="machine-badge">Opsional · maks. 2 anggota</span>
+              </div>
 
-            <div className="machine-members-container">
               {members.map((m, index) => (
                 <div key={m.id} className="machine-member-card optional">
                   <div className="machine-member-header">
                     <div className="machine-member-badge">
-                      <span style={{ color: 'var(--red-bright)', fontSize: '14px', marginRight: '4px' }}>{SUITS_ARR[(index + 1) % 4]}</span>
+                      <span style={{ color: 'var(--red)' }}>{SUITS_ARR[(index + 1) % 4]}</span>
                       Anggota {index + 1}
-                      <span className="machine-member-optional-tag">· Opsional</span>
+                      <span className="machine-member-optional-tag">Opsional</span>
                     </div>
-                    <button type="button" className="machine-member-remove" onClick={() => removeMember(m.id)}>✕ Hapus</button>
+                    <button type="button" className="machine-member-remove" onClick={() => removeMember(m.id)}>
+                      ✕ Hapus
+                    </button>
                   </div>
-
                   <div className="machine-member-grid">
                     <div>
                       <div className="machine-member-field-label">Nama Anggota {index + 1}</div>
-                      <input
-                        className="machine-text-input"
-                        type="text"
-                        placeholder={`Nama anggota ${index + 1}...`}
+                      <input className="machine-text-input" type="text"
+                        placeholder={`Nama anggota ${index + 1}…`}
                         value={m.nama}
-                        onChange={(e) => updateMember(m.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
-                      />
+                        onChange={e => updateMember(m.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
                     </div>
-                    <div className="machine-field" style={{ marginBottom: 0 }}>
+                    <div>
                       <div className="machine-member-field-label">Kartu Pelajar Anggota {index + 1}</div>
-                      <div className="machine-field-hint">Keterangan: Unggah kartu pelajar/identitas (Image/PDF, 1 file)</div>
-                      <div className="machine-file-drop" style={{ padding: '15px' }}>
-                        <input
-                          type="file"
-                          accept="image/*,.pdf"
-                          onChange={(e) => {
-                            const file = e.target.files && e.target.files[0];
-                            if (file) {
-                              const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; updateMember(m.id, 'kp', null); return; }
-                              updateMember(m.id, 'kp', file);
-                            }
-                          }}
-                        />
-                        <span className="machine-file-drop-icon"><FileText size={20} style={{ margin: '0 auto', display: 'block' }} /></span>
-                        <div className="machine-file-drop-text" style={{ fontSize: '11px' }}>Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
-                        {m.kp && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {m.kp.name}</div>}
+                      <div className="machine-field-hint">Image / PDF, maks 1 MB</div>
+                      <div className="machine-file-drop">
+                        <input type="file" accept="image/*,.pdf"
+                          onChange={e => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            const err = validateFile(file);
+                            if (err) { setErrorMsg(err); e.target.value = ''; updateMember(m.id, 'kp', null); return; }
+                            updateMember(m.id, 'kp', file);
+                          }} />
+                        <div className="machine-file-drop-icon">
+                          <img src="/Compress/maskot.webp" alt="" aria-hidden="true" />
+                        </div>
+                        <div className="machine-file-drop-text">Seret atau lepas di sini, <span>klik untuk memilih</span></div>
+                        {m.kp && <div className="machine-file-name-display">📎 {m.kp.name}</div>}
                       </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {members.length < MAX_MEMBERS && (
+                <button type="button" className="machine-add-btn" onClick={addMember}>
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" style={{ width: '18px', height: '18px', objectFit: 'contain' }} />
+                  Tambah Anggota {members.length + 1} (Opsional)
+                </button>
+              )}
+            </div>
+
+            {/* STEP 2 — Administrasi */}
+            <div className="machine-form-step">
+              <div className="machine-step-header">
+                <div className="machine-step-icon">
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" />
+                </div>
+                <div className="machine-step-title">
+                  <p>Bagian Kedua</p>
+                  <h3>Administrasi</h3>
+                </div>
+              </div>
+
+              <div className="machine-field">
+                <div className="machine-field-label">Surat Pernyataan <span className="req">*</span></div>
+                <div className="machine-field-hint">Format nama file: <strong style={{ color: 'var(--gold)' }}>SP-NamaTim</strong> · PDF only · maks 1 MB</div>
+                <div className="machine-file-drop">
+                  <input type="file" accept=".pdf" required
+                    onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const err = validateFile(file);
+                      if (err) { setErrorMsg(err); e.target.value = ''; setSuratPernyataan(null); return; }
+                      setSuratPernyataan(file);
+                    }} />
+                  <div className="machine-file-drop-icon">
+                    <img src="/Compress/maskot.webp" alt="" aria-hidden="true" />
+                  </div>
+                  <div className="machine-file-drop-text">Seret atau lepas di sini, <span>klik untuk memilih</span></div>
+                  {suratPernyataan && <div className="machine-file-name-display">📎 {suratPernyataan.name}</div>}
+                </div>
+              </div>
+
+              <div className="machine-field">
+                <div className="machine-field-label">Bukti Pembayaran <span className="req">*</span></div>
+                <div className="machine-field-hint">
+                  Format nama file: <strong style={{ color: 'var(--gold)' }}>TRANSFER-MachineLearning-NamaTim</strong><br />
+                  BCA 0210999396 a.n. Yayasan Multi Data Palembang · Image/PDF · maks 1 MB
+                </div>
+                <div className="machine-file-drop">
+                  <input type="file" accept="image/*,.pdf" required
+                    onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const err = validateFile(file);
+                      if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
+                      setBuktiBayar(file);
+                    }} />
+                  <div className="machine-file-drop-icon">
+                    <img src="/Compress/maskot.webp" alt="" aria-hidden="true" />
+                  </div>
+                  <div className="machine-file-drop-text">Seret atau lepas di sini, <span>klik untuk memilih</span></div>
+                  {buktiBayar && <div className="machine-file-name-display">📎 {buktiBayar.name}</div>}
+                </div>
+              </div>
+            </div>
+
+            {/* STEP 3 — Pernyataan */}
+            <div className="machine-form-step" style={{ marginBottom: '24px' }}>
+              <div className="machine-step-header">
+                <div className="machine-step-icon">
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" />
+                </div>
+                <div className="machine-step-title">
+                  <p>Bagian Terakhir</p>
+                  <h3>Pernyataan</h3>
+                </div>
+              </div>
+
+              <div className="machine-declaration-note">
+                Mohon pastikan seluruh data sudah benar sebelum memilih <strong>'Setuju'</strong>.
+                Anda masih dapat melakukan perbaikan data sebelum formulir dikirimkan.
+              </div>
+
+              {[
+                { text: "Saya menyatakan bahwa semua data yang saya isi dalam formulir pendaftaran sudah benar dan sesuai dengan dokumen resmi yang dimiliki. Jika di kemudian hari terdapat kesalahan atau ketidaksesuaian data, saya menerima segala konsekuensi yang berlaku.", val: decl1, set: setDecl1 },
+                { text: "Saya berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam Machine Learning Competition I-Fest 6.0 2026.", val: decl2, set: setDecl2 },
+                { text: "Saya bersedia untuk hadir tepat waktu pada seluruh rangkaian kegiatan Machine Learning Competition I-Fest 6.0 2026 sesuai jadwal yang telah ditentukan oleh panitia.", val: decl3, set: setDecl3 },
+              ].map((decl, i) => (
+                <div className="machine-decl-item" key={i}>
+                  <div className="machine-decl-text">{decl.text}</div>
+                  <div className="machine-decl-choices">
+                    <div className="machine-decl-choice agree">
+                      <input type="radio" name={`decl${i}`} id={`decl${i}y`} value="Setuju"
+                        required onChange={e => decl.set(e.target.value)} />
+                      <label className="machine-decl-choice-label" htmlFor={`decl${i}y`}>✓ Setuju</label>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Tombol tambah anggota — disembunyikan jika sudah maksimal */}
-            {members.length < MAX_MEMBERS && (
-              <button
-                type="button"
-                className="machine-add-btn"
-                onClick={addMember}
-              >
-                <span>♣</span> Tambah Anggota {members.length + 1} (Opsional)
-              </button>
-            )}
-
-            {/* Administrasi */}
-            <div className="machine-field" style={{ marginTop: '24px' }}>
-              <div className="machine-field-label">Surat Pernyataan <span className="req">*</span></div>
-              <div className="machine-field-hint">Keterangan: <strong style={{ color: 'var(--gold-dim)' }}>SP-NamaTim</strong></div>
-              <div className="machine-file-drop">
-                <input
-                  type="file"
-                  accept=".pdf"
-                  required
-                  onChange={(e) => {
-                    const file = e.target.files && e.target.files[0];
-                    if (file) {
-                      const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setSuratPernyataan(null); return; }
-                      setSuratPernyataan(file);
-                    }
-                  }}
-                />
-                <span className="machine-file-drop-icon"><FileText size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="machine-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
-                {suratPernyataan && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {suratPernyataan.name}</div>}
-              </div>
-            </div>
-
-            <div className="machine-field" style={{ marginTop: '24px' }}>
-              <div className="machine-field-label">Bukti Pembayaran <span className="req">*</span></div>
-              <div className="machine-field-hint">
-                Format Penamaan File: <strong style={{ color: 'var(--gold-dim)' }}>TRANSFER-MachineLearning-NamaTim</strong><br />
-                BCA 0210999396 a.n. Yayasan Multi Data Palembang
-              </div>
-              <div className="machine-file-drop">
-                <input
-                  type="file"
-                  accept="image/*,.pdf"
-                  required
-                  onChange={(e) => {
-                    const file = e.target.files && e.target.files[0];
-                    if (file) {
-                      const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setBuktiBayar(null); return; }
-                      setBuktiBayar(file);
-                    }
-                  }}
-                />
-                <span className="machine-file-drop-icon"><CreditCard size={28} style={{ margin: '0 auto', display: 'block' }} /></span>
-                <div className="machine-file-drop-text">Seret atau lepas kartu di sini, <span>klik untuk memilih</span></div>
-                {buktiBayar && <div className="machine-file-name-display" style={{ display: 'block' }}>📎 {buktiBayar.name}</div>}
-              </div>
-            </div>
-          </div>
-
-          <div className="machine-form-section">
-            <div className="machine-section-header">
-              <div className="machine-section-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                />
-              </div>
-              <div className="machine-section-title-group">
-                <span className="machine-section-number">Bagian II</span>
-                <div className="machine-section-title">PERNYATAAN</div>
-              </div>
-            </div>
-
-            <div className="machine-declaration-note">
-              Mohon pastikan seluruh data sudah benar sebelum memilih <strong>'Setuju'</strong>. Anda masih dapat melakukan perbaikan data sebelum formulir dikirimkan.
-            </div>
-
-            {[
-              {
-                text: "Saya menyatakan bahwa semua data yang saya isi dalam formulir pendaftaran sudah benar dan sesuai dengan dokumen resmi yang dimiliki. Jika di kemudian hari terdapat kesalahan atau ketidaksesuaian data, saya menerima segala konsekuensi yang berlaku.",
-                val: decl1, set: setDecl1
-              },
-              {
-                text: "Saya berkomitmen untuk mematuhi seluruh persyaratan dan peraturan yang berlaku dalam Machine Learning Competition I-Fest 6.0 2026.",
-                val: decl2, set: setDecl2
-              },
-              {
-                text: "Saya bersedia untuk hadir tepat waktu pada seluruh rangkaian kegiatan Machine Learning Competition I-Fest 6.0 2026 sesuai jadwal yang telah ditentukan oleh panitia.",
-                val: decl3, set: setDecl3
-              }
-            ].map((decl, i) => (
-              <div className="machine-decl-item" key={i}>
-                <div className="machine-decl-text">{decl.text}</div>
-                <div className="machine-decl-choices">
-                  <div className="machine-decl-choice agree">
-                    <input type="radio" name={`decl${i}`} id={`decl${i}y`} value="Setuju" required onChange={e => decl.set(e.target.value)} />
-                    <label className="machine-decl-choice-label" htmlFor={`decl${i}y`}>✓ Setuju</label>
-                  </div>
+            {/* SUBMIT */}
+            <div className="machine-submit-section">
+              {errorMsg && (
+                <div className="machine-alert error">
+                  <img src="/Compress/maskot.webp" alt="" aria-hidden="true" style={{ width: '22px', height: '22px', objectFit: 'contain', flexShrink: 0 }} />
+                  <span>{errorMsg}</span>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="machine-submit-section">
-            {errorMsg && <div className="machine-alert error show" style={{ display: 'block' }}>{errorMsg}</div>}
-            <div className="machine-submit-divider">✦ Siap Bertanding ✦</div>
-            <button type="submit" className="machine-submit-btn" disabled={isSubmitting}>
-              {!isSubmitting ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                <img
-                  src="/Compress/maskot.webp"
-                  alt=""
-                  aria-hidden="true"
-                  style={{ width: '32px', height: '32px', objectFit: 'contain', display: 'block' }}
-                />
-                Kirim Pendaftaran
-              </span> : <div className="machine-loader-ring" style={{ display: 'block' }}></div>}
-            </button>
-            {isSubmitting && submitStatus && (
-              <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>
-                {submitStatus}
+              )}
+              <div className="machine-submit-divider">✦ Siap Bertanding ✦</div>
+              <button type="submit" className="machine-submit-btn" disabled={isSubmitting}>
+                {!isSubmitting ? (
+                  <>
+                    <img src="/Compress/maskot.webp" alt="" aria-hidden="true" className="machine-submit-icon" />
+                    Kirim Pendaftaran
+                  </>
+                ) : (
+                  <div className="machine-loader-ring" />
+                )}
+              </button>
+              {isSubmitting && submitStatus && (
+                <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--gold-dim)', fontStyle: 'italic' }}>
+                  {submitStatus}
+                </p>
+              )}
+              <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--text-dim)', fontStyle: 'italic' }}>
+                Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
               </p>
-            )}
-            <p style={{ marginTop: '16px', fontSize: '11.5px', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-              Dengan mengirimkan formulir ini, Anda menyetujui seluruh ketentuan yang berlaku.
-            </p>
+            </div>
+
           </div>
         </form>
       </div>
