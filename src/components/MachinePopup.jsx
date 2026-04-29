@@ -192,6 +192,11 @@ export default function MachinePopup({ onClose }) {
             </p>
             <div className="machine-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
             <p className="machine-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
+            <div style={{ marginTop: '18px' }}>
+              <a href="https://chat.whatsapp.com/KVHugt5HAIK3WajEVGAul7" target="_blank" rel="noreferrer" className="machine-contact-btn">
+                💬 Join Grup WhatsApp Peserta
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -237,16 +242,27 @@ export default function MachinePopup({ onClose }) {
           <p className="machine-desc-text">
             Selamat datang di kompetisi I-Fest 6.0 2026! Isi form pendaftaran di bawah ini dengan menyertakan Surat Pernyataan:
           </p>
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <a
-              href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
-              target="_blank"
-              rel="noreferrer"
-              className="machine-guidebook-btn"
-              style={{ display: "inline-flex" }}
-            >
-              📄 Download Surat Pernyataan
-            </a>
+          <div style={{ textAlign: 'center', margin: '20px 0' }}>
+            <div style={{ display: 'inline-flex', gap: '12px', alignItems: 'center' }}>
+              <a
+                href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
+                target="_blank"
+                rel="noreferrer"
+                className="machine-guidebook-btn"
+                style={{ display: 'inline-flex' }}
+              >
+                📄 Surat Pernyataan
+              </a>
+              <a
+                href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
+                target="_blank"
+                rel="noreferrer"
+                className="machine-guidebook-btn"
+                style={{ display: 'inline-flex' }}
+              >
+                📖 Guidebook I-Fest 6.0 2026 ↗
+              </a>
+            </div>
           </div>
         </div>
 

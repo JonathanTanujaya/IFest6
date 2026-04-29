@@ -225,6 +225,11 @@ export default function CompePopup({ onClose }) {
             </p>
             <div className="cp-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
             <p className="cp-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
+              <div style={{ marginTop: '18px' }}>
+                <a href="https://chat.whatsapp.com/JFcIQIf6P8w7F4CxgpkPiN" target="_blank" rel="noreferrer" className="cp-contact-btn">
+                  💬 Join Grup WhatsApp Peserta
+                </a>
+              </div>
           </div>
         </div>
       </div>
