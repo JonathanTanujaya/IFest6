@@ -163,7 +163,7 @@
 
 /* ── Description Section ── */
 .machine-desc-section {
-  padding: 22px;
+  padding: 36px;
   background: linear-gradient(180deg, rgba(24,17,48,0) 0%, rgba(24,17,48,0.5) 100%);
   border-bottom: 1px solid var(--border);
   z-index: 1; position: relative;
@@ -171,6 +171,23 @@
 .machine-desc-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
 }
+
+/* Layout: Persyaratan (kiri lebar) | HTM+Guidebook (kanan sempit, bertumpuk) */
+.machine-desc-grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+.machine-req-col {
+  /* card kiri, tinggi ikut konten */
+}
+.machine-htm-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .machine-glass-card {
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.05);
@@ -228,7 +245,7 @@
 
 .machine-resource-grid {
   display: grid;
-  grid-template-columns: 0.72fr 1.28fr;
+  grid-template-columns: 1fr 1fr;
   gap: 18px;
 }
 
@@ -236,21 +253,12 @@
   height: 100%;
 }
 
-.machine-resource-card.dataset-card {
-  padding: 16px;
-}
-
+.machine-resource-card.dataset-card,
 .machine-resource-card.letter-card {
-  padding: 28px;
-}
-
-.machine-resource-card.letter-card .machine-letter-preview {
-  height: 100%;
-  justify-content: space-between;
-}
-
-.machine-resource-card.letter-card .machine-letter-copy {
-  max-width: 48ch;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .machine-letter-preview {
@@ -377,7 +385,7 @@
 }
 
 .machine-guidebook-btn {
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 0;
   padding: 10px 20px; border-radius: 10px;
   background: rgba(226,185,83,0.1);
   color: var(--gold); border: 1px solid var(--gold-dim);
@@ -524,7 +532,14 @@
 }
 .machine-member-remove:hover { background: var(--red); color: #fff; border-color: var(--red); }
 .machine-member-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.machine-member-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 .machine-member-field-label {
   font-size: 12px; font-weight: 600; color: var(--text);
@@ -696,21 +711,21 @@
 
 /* ── Responsive ── */
 @media(max-width: 768px) {
-  .machine-member-grid { grid-template-columns: 1fr; }
-  .machine-desc-grid   { grid-template-columns: 1fr; }
-  .machine-info-grid   { grid-template-columns: 1fr; }
-  .machine-resource-grid { grid-template-columns: 1fr; }
-  .machine-popup-overlay { padding: 16px 12px; }
-  .machine-header { padding: 34px 20px 22px; }
-  .machine-desc-section { padding: 18px; }
-  .machine-form-wrapper { padding: 18px 18px 0; }
-  .machine-form-step { padding: 18px; }
+  .machine-desc-grid      { grid-template-columns: 1fr; }
+  .machine-desc-grid-3col { grid-template-columns: 1fr; }
+  .machine-info-grid      { grid-template-columns: 1fr; }
+  .machine-resource-grid  { grid-template-columns: 1fr; }
+  .machine-popup-overlay  { padding: 16px 12px; }
+  .machine-header         { padding: 34px 20px 22px; }
+  .machine-desc-section   { padding: 18px; }
+  .machine-form-wrapper   { padding: 18px 18px 0; }
+  .machine-form-step      { padding: 18px; }
   .machine-submit-section { padding: 20px 16px; margin-left: -18px; margin-right: -18px; }
-  .machine-success-wrap { padding: 32px 20px; }
-  .machine-step-header { margin-bottom: 28px; gap: 16px; }
-  .machine-submit-btn { padding: 16px 20px; font-size: 15px; letter-spacing: 1px; }
+  .machine-success-wrap   { padding: 32px 20px; }
+  .machine-step-header    { margin-bottom: 28px; gap: 16px; }
+  .machine-submit-btn     { padding: 16px 20px; font-size: 15px; letter-spacing: 1px; }
   .machine-popup-container { border-radius: 20px; }
-  .machine-contact-row { justify-content: center; }
+  .machine-contact-row    { justify-content: center; }
 }
 @media(max-width: 480px) {
   .machine-header { padding: 30px 14px 18px; }

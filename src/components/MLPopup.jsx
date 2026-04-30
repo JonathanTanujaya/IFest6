@@ -239,7 +239,7 @@ export default function MLPopup({ onClose }) {
             💡 Siapkan Tim Terbaikmu dan Jadilah <strong style={{ color: 'var(--ml-gold)' }}>JUARA!</strong> 🏆🍷
           </p>
 
-          <div className="ml-contact-row">
+          <div className="ml-contact-row" style={{ justifyContent: 'center' }}>
             <a href="https://wa.me/6281282003811" target="_blank" rel="noreferrer" className="ml-contact-btn">📞 Klaudius (WA)</a>
             <a href="https://wa.me/6281279968881" target="_blank" rel="noreferrer" className="ml-contact-btn">📞 Reizan (WA)</a>
           </div>
@@ -271,78 +271,152 @@ export default function MLPopup({ onClose }) {
               <input className="ml-text-input" type="text" placeholder="Nama tim Anda…" required value={namaTim} onChange={e => setNamaTim(e.target.value)} />
             </div>
 
-            {/* --- KAPTEN --- */}
+            {/* ─── KAPTEN TIM ─── */}
             <div className="ml-player-card kapten">
               <div className="ml-player-header">
                 <div className="ml-player-badge">
-                  <span style={{ color: 'var(--ml-gold)', marginRight: '4px' }}>♛</span> Kapten Tim
+                  <span style={{ color: 'var(--ml-gold)', marginRight: '6px' }}>♛</span>
+                  Kapten Tim
                 </div>
               </div>
-              <div className="ml-player-grid">
+
+              {/* Baris 1: Nama + WA */}
+              <div className="ml-row-2col" style={{ marginBottom: '12px' }}>
                 <div>
                   <div className="ml-member-field-label">Nama Kapten <span className="req">*</span></div>
-                  <input className="ml-text-input" type="text" placeholder="Nama lengkap kapten…" required value={namaKapten} onChange={e => setNamaKapten(e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
+                  <input
+                    className="ml-text-input"
+                    type="text"
+                    placeholder="Nama lengkap kapten…"
+                    required
+                    value={namaKapten}
+                    onChange={e => setNamaKapten(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                  />
                 </div>
                 <div>
-                  <div className="ml-member-field-label">No. WhatsApp Kapten <span className="req">*</span></div>
-                  <input className="ml-text-input" type="tel" placeholder="08xxxxxxxxxx" required value={waKapten} onChange={e => setWaKapten(e.target.value.replace(/[^0-9]/g, ''))} />
+                  <div className="ml-member-field-label">No. WhatsApp <span className="req">*</span></div>
+                  <input
+                    className="ml-text-input"
+                    type="tel"
+                    placeholder="08xxxxxxxxxx"
+                    required
+                    value={waKapten}
+                    onChange={e => setWaKapten(e.target.value.replace(/[^0-9]/g, ''))}
+                  />
                 </div>
               </div>
-              <div style={{ marginTop: '14px' }}>
-                <div className="ml-member-field-label">Nickname &amp; ID Kapten <span className="req">*</span></div>
-                <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                <input className="ml-text-input" type="text" placeholder="Nickname (ID-nya)…" required value={nickIdKapten} onChange={e => setNickIdKapten(e.target.value)} />
+
+              {/* Baris 2: Nickname & ID (full width) */}
+              <div>
+                <div className="ml-member-field-label">Nickname &amp; ID <span className="req">*</span></div>
+                <div className="ml-field-hint">Contoh: NamaGame (12345678)</div>
+                <input
+                  className="ml-text-input"
+                  type="text"
+                  placeholder="NamaGame (12345678)"
+                  required
+                  value={nickIdKapten}
+                  onChange={e => setNickIdKapten(e.target.value)}
+                />
               </div>
             </div>
 
-            {/* --- PLAYERS 2–5 --- */}
-            {players.map((p, index) => (
-              <div key={p.id} className="ml-player-card">
-                <div className="ml-player-header">
-                  <div className="ml-player-badge">
-                    <span style={{ color: 'var(--ml-red)', fontSize: '14px', marginRight: '4px' }}>{SUITS_ARR[(index + 1) % 4]}</span> Pemain {p.id}
-                  </div>
-                </div>
-                <div className="ml-player-grid">
-                  <div>
-                    <div className="ml-member-field-label">Nama Pemain {p.id} <span className="req">*</span></div>
-                    <input className="ml-text-input" type="text" placeholder={`Nama pemain ${p.id}…`} required value={p.nama} onChange={e => updatePlayer(p.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))} />
-                  </div>
-                  <div>
-                    <div className="ml-member-field-label">Nickname &amp; ID Pemain {p.id} <span className="req">*</span></div>
-                    <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                    <input className="ml-text-input" type="text" placeholder="Nickname (ID-nya)…" required value={p.nickId} onChange={e => updatePlayer(p.id, 'nickId', e.target.value)} />
-                  </div>
-                </div>
-              </div>
-            ))}
+            {/* ─── ANGGOTA TIM (Pemain 2–5) ─── */}
+            <div className="ml-players-table">
+              <div className="ml-players-table-label">Anggota Tim</div>
 
-            {/* --- CADANGAN (optional, via button) --- */}
+              {/* Note khusus mobile — tampil hanya di layar kecil */}
+              <div className="ml-mobile-note">
+                <span className="ml-mobile-note-icon">ℹ️</span>
+                Nickname &amp; ID — Contoh: <em>NamaGame (12345678)</em>
+              </div>
+
+              <div className="ml-players-table-inner">
+                {/* Header — hanya tampil di desktop */}
+                <div className="ml-table-header">
+                  <div className="ml-th-pemain">Pemain</div>
+                  <div className="ml-th-nama">Nama Lengkap <span className="req">*</span></div>
+                  <div className="ml-th-nick">
+                    Nickname &amp; ID <span className="req">*</span>
+                    <span className="ml-th-hint">Contoh: NamaGame (12345678)</span>
+                  </div>
+                </div>
+
+                {/* Data rows */}
+                {players.map((p) => (
+                  <div key={p.id} className="ml-table-row">
+                    {/* Label pemain — desktop: kolom, mobile: atas baris */}
+                    <div className="ml-td-pemain">Pemain {p.id}</div>
+
+                    {/* Desktop: 2 kolom input sejajar | Mobile: stack vertikal */}
+                    <div className="ml-td-input">
+                      <div className="ml-td-mobile-label">Nama Lengkap <span className="req">*</span></div>
+                      <input
+                        className="ml-text-input"
+                        type="text"
+                        placeholder={`Nama pemain ${p.id}…`}
+                        required
+                        value={p.nama}
+                        onChange={e => updatePlayer(p.id, 'nama', e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                      />
+                    </div>
+                    <div className="ml-td-input">
+                      <div className="ml-td-mobile-label">Nickname &amp; ID <span className="req">*</span></div>
+                      <input
+                        className="ml-text-input"
+                        type="text"
+                        placeholder="NamaGame (ID)"
+                        required
+                        value={p.nickId}
+                        onChange={e => updatePlayer(p.id, 'nickId', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ─── CADANGAN (opsional) ─── */}
             {showCadangan && (
               <div className="ml-player-card optional">
                 <div className="ml-player-header">
                   <div className="ml-player-badge">
-                    <span style={{ color: 'var(--ml-text-muted)', fontSize: '14px', marginRight: '4px' }}>✦</span> Pemain Cadangan
-                    <span className="ml-badge" style={{ marginLeft: '8px' }}>· Opsional</span>
+                    <span style={{ color: 'var(--ml-gold-dim)', marginRight: '6px' }}>✦</span>
+                    Pemain Cadangan
+                    <span className="ml-badge" style={{ marginLeft: '10px' }}>Opsional</span>
                   </div>
                   <button type="button" className="ml-member-remove" onClick={removeCadangan}>✕ Hapus</button>
                 </div>
-                <div className="ml-player-grid">
+                <div className="ml-row-2col" style={{ marginBottom: '12px' }}>
                   <div>
-                    <div className="ml-member-field-label">Nama Pemain Cadangan <span className="req">*</span></div>
-                    <input className="ml-text-input" type="text" placeholder="Nama cadangan…" required value={cadangan.nama} onChange={e => setCadangan({ ...cadangan, nama: e.target.value.replace(/[^a-zA-Z\s]/g, '') })} />
+                    <div className="ml-member-field-label">Nama Cadangan <span className="req">*</span></div>
+                    <input
+                      className="ml-text-input"
+                      type="text"
+                      placeholder="Nama lengkap…"
+                      required
+                      value={cadangan.nama}
+                      onChange={e => setCadangan({ ...cadangan, nama: e.target.value.replace(/[^a-zA-Z\s]/g, '') })}
+                    />
                   </div>
                   <div>
-                    <div className="ml-member-field-label">Nickname &amp; ID Pemain Cadangan <span className="req">*</span></div>
-                    <div className="ml-field-hint">Contoh: Pemain1234 (12345678)</div>
-                    <input className="ml-text-input" type="text" placeholder="Nickname (ID-nya)…" required value={cadangan.nickId} onChange={e => setCadangan({ ...cadangan, nickId: e.target.value })} />
+                    <div className="ml-member-field-label">Nickname &amp; ID <span className="req">*</span></div>
+                    <div className="ml-field-hint">Contoh: NamaGame (12345678)</div>
+                    <input
+                      className="ml-text-input"
+                      type="text"
+                      placeholder="NamaGame (12345678)"
+                      required
+                      value={cadangan.nickId}
+                      onChange={e => setCadangan({ ...cadangan, nickId: e.target.value })}
+                    />
                   </div>
                 </div>
               </div>
             )}
 
             <button type="button" className="ml-add-btn" onClick={addCadangan} disabled={showCadangan}>
-              <span>♣</span> {showCadangan ? 'Pemain Cadangan Sudah Ditambahkan' : 'Tambah Pemain Cadangan'}
+              <span>♣</span> {showCadangan ? 'Pemain Cadangan Sudah Ditambahkan' : 'Tambah Pemain Cadangan (Opsional)'}
             </button>
 
             {/* --- BUKTI BAYAR --- */}
