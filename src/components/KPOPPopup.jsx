@@ -249,7 +249,7 @@ export default function KPopPopup({ onClose }) {
 
               {/* Asal Instansi */}
               <div className="kp-field-group">
-                <label className="kp-label">Asal Instansi <span className="req">*</span></label>
+                <label className="kp-label">Asal Institusi <span className="req">*</span></label>
                 <input
                   className="kp-input"
                   type="text"

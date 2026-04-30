@@ -318,7 +318,7 @@ export default function BandPopup({ onClose }) {
               </div>
 
               <div className="band-field-group" style={{ marginBottom: 0 }}>
-                <label className="band-label">Asal Instansi Sekolah <span className="req">*</span></label>
+                <label className="band-label">Asal Institusi Sekolah <span className="req">*</span></label>
                 <input className="band-input" type="text" placeholder="Asal sekolah..." value={asalInstansi} onChange={e => setAsalInstansi(e.target.value)} required />
               </div>
             </div>

@@ -255,7 +255,7 @@ export default function PDPopup({ onClose }) {
                 </div>
 
                 <div className="pd-field-group">
-                  <label className="pd-label">Asal Instansi <span className="req">*</span></label>
+                  <label className="pd-label">Asal Institusi <span className="req">*</span></label>
                   <input
                     className="pd-input"
                     type="text"

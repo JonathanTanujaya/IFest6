@@ -475,7 +475,7 @@ export default function CompePopup({ onClose }) {
                     </div>
 
                     <div style={{ marginTop: '12px' }}>
-                      <div className="cp-member-field-label">Asal Instansi Peserta {index + 1} {isRequired && <span className="req">*</span>}</div>
+                      <div className="cp-member-field-label">Asal Institusi Peserta {index + 1} {isRequired && <span className="req">*</span>}</div>
                       <input
                         className="cp-text-input"
                         type="text"

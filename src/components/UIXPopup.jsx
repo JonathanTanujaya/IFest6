@@ -231,7 +231,7 @@ export default function UIXPopup({ onClose }) {
               <ul className="uix-list">
                 <li>Siswa SMA / Mahasiswa aktif</li>
                 <li>Individu atau Tim (2-3 orang)</li>
-                <li>Mewakili institusi / sekolah / universitas yang sama</li>
+                <li>Mewakili Institusi / sekolah / universitas yang sama</li>
               </ul>
               <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link" target="_blank" rel="noreferrer" className="uix-guide-btn">
                 📖 Baca Guidebook Lengkap
@@ -272,7 +272,7 @@ export default function UIXPopup({ onClose }) {
               </div>
 
               <div className="uix-field-group" style={{ marginBottom: 0 }}>
-                <label className="uix-label">Asal Instansi <span className="req">*</span></label>
+                <label className="uix-label">Asal Institusi <span className="req">*</span></label>
                 <input className="uix-input" type="text" placeholder="Nama sekolah / universitas Anda..." value={asalInstansi} onChange={e => setAsalInstansi(e.target.value)} required />
               </div>
             </div>
