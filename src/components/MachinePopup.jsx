@@ -240,21 +240,46 @@ export default function MachinePopup({ onClose }) {
             Lomba terdiri dari 2 tahap: Tahap Penyisihan (pembuat model machine learning secara live coding dengan sistem estafet) dan Tahap Final dengan dataset yang lebih menantang.
           </p>
 
-          <div className="machine-info-card" style={{ marginBottom: '18px' }}>
-            <span className="machine-ic-label">📊 Dataset Babak Penyisihan</span>
-            <div style={{ marginTop: '8px' }}>
-              <a
-                href="https://drive.google.com/drive/folders/1qLNNt2258WtJvP3OcNR9nncORvjNyLBd"
-                target="_blank"
-                rel="noreferrer"
-                className="machine-guidebook-btn"
-                style={{ display: 'inline-flex', marginBottom: '8px' }}
-              >
-                📂 Akses Dataset Penyisihan ↗
-              </a>
-              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>
-                Klik link di atas untuk mengakses dataset training dan testing untuk tahap penyisihan kompetisi.
-              </p>
+          <div className="machine-resource-grid" style={{ marginBottom: '18px' }}>
+            <div className="machine-info-card machine-resource-card dataset-card">
+              <span className="machine-ic-label">📊 Dataset Babak Penyisihan</span>
+              <div style={{ marginTop: '8px' }}>
+                <a
+                  href="https://drive.google.com/drive/folders/1qLNNt2258WtJvP3OcNR9nncORvjNyLBd"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="machine-guidebook-btn"
+                  style={{ display: 'inline-flex', marginBottom: '8px' }}
+                >
+                  📂 Akses Dataset Penyisihan ↗
+                </a>
+                <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>
+                  Klik link di atas untuk mengakses dataset training dan testing untuk tahap penyisihan kompetisi.
+                </p>
+              </div>
+            </div>
+
+            <div className="machine-info-card machine-resource-card letter-card">
+              <span className="machine-ic-label">📜 Surat Pernyataan</span>
+              <div className="machine-letter-preview">
+                <div className="machine-letter-preview-top">
+                  <span className="machine-letter-chip">Dokumen Resmi</span>
+                  <span className="machine-letter-eyebrow">Wajib Dibaca</span>
+                </div>
+                <div className="machine-letter-title">Buka surat pernyataan sebelum mengunggah file.</div>
+                <p className="machine-letter-copy">
+                  Dokumen ini berisi format dan isi surat yang harus disiapkan peserta.
+                  Pastikan Anda membacanya agar file yang diunggah sesuai ketentuan.
+                </p>
+                <a
+                  href="https://docs.google.com/document/d/1Ij2xNH0IUOM2U2Wfza236ySK5mxXy-LUdhBVjIFvVbk/edit?usp=sharing"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="machine-letter-btn"
+                >
+                  👁️ Buka Surat Pernyataan
+                </a>
+              </div>
             </div>
           </div>
 
