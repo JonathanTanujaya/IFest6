@@ -206,7 +206,7 @@ export default function MachinePopup({ onClose }) {
             <div className="machine-glass-card">
               <div className="machine-card-title">💰 Biaya &amp; Pembayaran</div>
               <p className="machine-card-text">
-                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp60.000,-</strong>
+                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp75.000,-</strong>
                 Transfer ke:<br />
                 <strong style={{ color: 'var(--gold)' }}>BCA 0210999396</strong><br />
                 a.n. Yayasan Multi Data Palembang
