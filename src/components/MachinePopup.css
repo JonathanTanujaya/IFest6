@@ -195,6 +195,83 @@
 }
 .machine-card-text strong { color: var(--text); }
 
+/* ── Description Text & Info Grid ── */
+.machine-desc-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.machine-desc-text strong { color: var(--text); }
+
+.machine-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.machine-info-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.machine-info-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(226, 185, 83, 0.25);
+  transform: translateY(-3px);
+}
+
+.machine-ic-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.machine-ic-value {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.machine-ic-value strong { color: var(--text); }
+
+.machine-req-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.machine-req-list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.machine-req-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.machine-contact-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
 .machine-guidebook-btn {
   display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
   padding: 10px 20px; border-radius: 10px;
@@ -517,6 +594,7 @@
 @media(max-width: 768px) {
   .machine-member-grid { grid-template-columns: 1fr; }
   .machine-desc-grid   { grid-template-columns: 1fr; }
+  .machine-info-grid   { grid-template-columns: 1fr; }
   .machine-popup-overlay { padding: 16px 12px; }
   .machine-header { padding: 34px 20px 22px; }
   .machine-desc-section { padding: 18px; }
@@ -527,6 +605,7 @@
   .machine-step-header { margin-bottom: 28px; gap: 16px; }
   .machine-submit-btn { padding: 16px 20px; font-size: 15px; letter-spacing: 1px; }
   .machine-popup-container { border-radius: 20px; }
+  .machine-contact-row { justify-content: center; }
 }
 @media(max-width: 480px) {
   .machine-header { padding: 30px 14px 18px; }
@@ -540,4 +619,7 @@
   .machine-step-title h3 { font-size: 18px; }
   .machine-popup-container { max-width: 100% !important; }
   .machine-success-wrap { padding: 40px 16px; }
+  .machine-info-grid { grid-template-columns: 1fr; }
+  .machine-contact-row { flex-direction: column; }
+  .machine-contact-btn { width: 100%; justify-content: center; }
 }

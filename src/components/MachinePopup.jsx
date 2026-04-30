@@ -193,46 +193,94 @@ export default function MachinePopup({ onClose }) {
 
         {/* ── DESCRIPTION ── */}
         <div className="machine-desc-section">
-          <div className="machine-glass-card full" style={{ marginBottom: '24px' }}>
-            <div className="machine-card-title">🤖 Exploring Digital Wonderland</div>
-            <p className="machine-card-text">
-              Selamat datang di <strong>Machine Learning Competition I-Fest 6.0 2026!</strong> 🧠⚡<br />
-              Kompetisi ini diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang
-              dan terbuka untuk umum. Isi form pendaftaran di bawah ini dengan menyertakan Surat Pernyataan.
-            </p>
-          </div>
+          <p className="machine-desc-text">
+            Selamat datang di <strong style={{ color: 'var(--text)' }}>Machine Learning Competition I-Fest 6.0 2026!</strong> 🧠⚡
+            <br />
+            Kompetisi yang diselenggarakan oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang. Kompetisi ini menantang para peserta untuk menyelesaikan model machine learning yang dapat mengatasi tantangan dengan cara yang paling efektif.
+          </p>
 
-          <div className="machine-desc-grid">
-            <div className="machine-glass-card">
-              <div className="machine-card-title">💰 Biaya &amp; Pembayaran</div>
-              <p className="machine-card-text">
-                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp75.000,-</strong>
-                Transfer ke:<br />
-                <strong style={{ color: 'var(--gold)' }}>BCA 0210999396</strong><br />
-                a.n. Yayasan Multi Data Palembang
-              </p>
+          <p className="machine-desc-text">
+            Melalui kompetisi ini, peserta diharapkan tidak hanya memahami mekanisme fundamental pembelajaran mesin, tetapi juga mampu mengimplementasikan pengetahuan tersebut untuk memecahkan masalah kompleks di dunia nyata.
+          </p>
+
+          <p className="machine-desc-text" style={{ marginBottom: '18px' }}>
+            <strong style={{ color: 'var(--gold)' }}>🗝️ Fokus Kompetisi: Klasifikasi Penyakit Daun Tanaman</strong>
+            <br />
+            Dalam pengolahan citra digital, klasifikasi adalah proses menentukan kelas suatu citra berdasarkan atribut-atributnya. Kompetisi ini berfokus pada klasifikasi penyakit daun pada beberapa jenis tanaman. Peserta ditantang untuk membangun model machine learning yang mampu mengenali dan mengklasifikasikan penyakit daun secara akurat. Selain klasifikasi, terdapat juga clustering—proses mengelompokkan citra berdasarkan kemiripan atribut untuk sistem yang lebih kompleks.
+          </p>
+
+          <div className="machine-info-grid">
+            <div className="machine-info-card">
+              <span className="machine-ic-label">💰 HTM</span>
+              <div className="machine-ic-value">
+                Rp75.000,-
+                <br />
+                <small style={{ color: 'var(--text-muted)' }}>BCA 0210999396<br />a.n. Yayasan Multi Data Palembang</small>
+              </div>
             </div>
-            <div className="machine-glass-card">
-              <div className="machine-card-title">📌 Persyaratan Utama</div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {['Terbuka untuk Umum (WNI)', 'Tim 1–3 orang (min. 1 ketua)', 'Wajib unggah Surat Pernyataan'].map((item, i) => (
-                  <li key={i} style={{ position: 'relative', paddingLeft: '24px', marginBottom: '10px', fontSize: '14px', color: 'var(--text-dim)', lineHeight: '1.5' }}>
-                    <span style={{ position: 'absolute', left: 0, color: 'var(--gold-dim)' }}>✦</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '14px' }}>
-                <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
-                  target="_blank" rel="noreferrer" className="machine-guidebook-btn">
-                  📄 Surat Pernyataan
-                </a>
-                <a href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
-                  target="_blank" rel="noreferrer" className="machine-guidebook-btn">
-                  📖 Guidebook ↗
+            <div className="machine-info-card">
+              <span className="machine-ic-label">📑 Panduan</span>
+              <div className="machine-ic-value">
+                <a
+                  href="https://drive.google.com/drive/folders/1hHV4xLFIOTaYtasyXwIl4hQVXdDEQ_sL?usp=drive_link"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="machine-guidebook-btn"
+                  style={{ display: 'inline-flex', marginTop: '4px', fontSize: '12px' }}
+                >
+                  📖 Guidebook EDC IFEST 6.0 2026
                 </a>
               </div>
             </div>
+          </div>
+
+          <p className="machine-desc-text" style={{ marginBottom: '10px' }}>
+            <strong style={{ color: 'var(--gold)' }}>📋 Struktur Kompetisi:</strong>
+            <br />
+            Lomba terdiri dari 2 tahap: Tahap Penyisihan (pembuat model machine learning secara live coding dengan sistem estafet) dan Tahap Final dengan dataset yang lebih menantang.
+          </p>
+
+          <div className="machine-info-card" style={{ marginBottom: '18px' }}>
+            <span className="machine-ic-label">📊 Dataset Babak Penyisihan</span>
+            <div style={{ marginTop: '8px' }}>
+              <a
+                href="https://drive.google.com/drive/folders/1qLNNt2258WtJvP3OcNR9nncORvjNyLBd"
+                target="_blank"
+                rel="noreferrer"
+                className="machine-guidebook-btn"
+                style={{ display: 'inline-flex', marginBottom: '8px' }}
+              >
+                📂 Akses Dataset Penyisihan ↗
+              </a>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '8px' }}>
+                Klik link di atas untuk mengakses dataset training dan testing untuk tahap penyisihan kompetisi.
+              </p>
+            </div>
+          </div>
+
+          <div className="machine-info-card">
+            <span className="machine-ic-label">📌 Persyaratan Peserta</span>
+            <ul className="machine-req-list" style={{ marginTop: '8px' }}>
+              <li>Peserta adalah siswa aktif SMA/Mahasiswa aktif Perguruan Tinggi di Kota Palembang dengan kartu pelajar atau KTM yang masih berlaku.</li>
+              <li>Peserta berpartisipasi secara tim (1–3 orang). Setiap sekolah atau perguruan tinggi dapat mengirimkan lebih dari 1 tim.</li>
+              <li>Peserta wajib mengunggah Surat Pernyataan yang telah ditentukan oleh panitia.</li>
+              <li>Peserta boleh terdaftar pada cabang kompetisi lain dengan syarat tidak menjadi ketua tim di cabang lainnya.</li>
+              <li>Peserta harus hadir tepat waktu sesuai jadwal yang telah ditentukan oleh panitia.</li>
+              <li>Tindakan pendaftaran berarti telah menyetujui seluruh persyaratan, aturan, dan regulasi kompetisi.</li>
+            </ul>
+          </div>
+
+          <p className="machine-desc-text" style={{ textAlign: 'center', marginBottom: '16px', marginTop: '16px' }}>
+            💡 Tunjukkan Potensi Machine Learning-mu dan Raih Kesempatan Menang! 🏆⭐
+          </p>
+
+          <div className="machine-contact-row" style={{ justifyContent: 'center' }}>
+            <a href="https://wa.me/6281379153814" target="_blank" rel="noreferrer" className="machine-contact-btn">
+              📞 Michael (WA)
+            </a>
+            <a href="https://wa.me/6289624889157" target="_blank" rel="noreferrer" className="machine-contact-btn">
+              📞 Dervin (WA)
+            </a>
           </div>
         </div>
 
