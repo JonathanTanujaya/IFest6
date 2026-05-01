@@ -228,7 +228,7 @@ export default function MachinePopup({ onClose }) {
                   className="machine-guidebook-btn"
                   style={{ display: 'inline-flex', marginTop: '4px', fontSize: '12px' }}
                 >
-                  📖 Guidebook EDC IFEST 6.0 2026
+                  📖 Guidebook Machine Learning IFEST 6.0 2026
                 </a>
               </div>
             </div>
@@ -286,7 +286,7 @@ export default function MachinePopup({ onClose }) {
           <div className="machine-info-card">
             <span className="machine-ic-label">📌 Persyaratan Peserta</span>
             <ul className="machine-req-list" style={{ marginTop: '8px' }}>
-              <li>Peserta adalah siswa aktif SMA/Mahasiswa aktif Perguruan Tinggi di Indonesia dengan kartu pelajar atau KTM yang masih berlaku.</li>
+              <li>Peserta adalah siswa aktif Mahasiswa aktif Perguruan Tinggi di Indonesia dengan kartu Tanda Mahasiswa yang masih berlaku.</li>
               <li>Peserta berpartisipasi secara tim (1–3 orang). Setiap sekolah atau perguruan tinggi dapat mengirimkan lebih dari 1 tim.</li>
               <li>Peserta wajib mengunggah Surat Pernyataan yang telah ditentukan oleh panitia.</li>
               <li>Peserta boleh terdaftar pada cabang kompetisi lain dengan syarat tidak menjadi ketua tim di cabang lainnya.</li>
@@ -300,11 +300,8 @@ export default function MachinePopup({ onClose }) {
           </p>
 
           <div className="machine-contact-row" style={{ justifyContent: 'center' }}>
-            <a href="https://wa.me/6281379153814" target="_blank" rel="noreferrer" className="machine-contact-btn">
-              📞 Michael (WA)
-            </a>
-            <a href="https://wa.me/6289624889157" target="_blank" rel="noreferrer" className="machine-contact-btn">
-              📞 Dervin (WA)
+            <a href="https://wa.me/6285357268887" target="_blank" rel="noreferrer" className="machine-contact-btn">
+              📞 Metta (WA)
             </a>
           </div>
         </div>
