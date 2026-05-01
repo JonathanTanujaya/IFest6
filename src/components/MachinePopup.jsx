@@ -277,7 +277,7 @@ export default function MachinePopup({ onClose }) {
                   rel="noreferrer"
                   className="machine-letter-btn"
                 >
-                  👁️ Buka Surat Pernyataan
+                  Buka Surat Pernyataan
                 </a>
               </div>
             </div>
