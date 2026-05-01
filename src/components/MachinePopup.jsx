@@ -228,7 +228,7 @@ export default function MachinePopup({ onClose }) {
                   className="machine-guidebook-btn"
                   style={{ display: 'inline-flex', marginTop: '4px', fontSize: '12px' }}
                 >
-                  📖 Guidebook Machine Learning IFEST 6.0 2026
+                  Baca Guidebook Lengkap 
                 </a>
               </div>
             </div>
