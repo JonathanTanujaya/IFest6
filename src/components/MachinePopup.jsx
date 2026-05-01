@@ -286,7 +286,7 @@ export default function MachinePopup({ onClose }) {
           <div className="machine-info-card">
             <span className="machine-ic-label">📌 Persyaratan Peserta</span>
             <ul className="machine-req-list" style={{ marginTop: '8px' }}>
-              <li>Peserta adalah siswa aktif/Mahasiswa aktif SMA/Universitas di Indonesia dengan kartu Tanda Mahasiswa yang masih berlaku.</li>
+              <li>Peserta adalah siswa aktif/Mahasiswa aktif SMA/Universitas di Indonesia dengan kartu Tanda Pelajar/Mahasiswa yang masih berlaku.</li>
               <li>Peserta berpartisipasi secara tim (1–3 orang). Setiap sekolah atau perguruan tinggi dapat mengirimkan lebih dari 1 tim.</li>
               <li>Peserta wajib mengunggah Surat Pernyataan yang telah ditentukan oleh panitia.</li>
               <li>Peserta boleh terdaftar pada cabang kompetisi lain dengan syarat tidak menjadi ketua tim di cabang lainnya.</li>
