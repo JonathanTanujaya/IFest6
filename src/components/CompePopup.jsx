@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './CompePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-zIcG2zHlRKaqTEhn6x5wTh8jo4YQ-OeTKa-a2g_12I8FhsPMPxfP2s5uqs1gjGKg1w/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVeA0bK-pToOglC2gM1chVW9Yi3iM31DnTSQh3lw42VGvN3pR5Ik8ncPtfYRO03LxPNA/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 3;
 const REQ_MEMBERS = 2;
@@ -15,7 +15,6 @@ const EMPTY_MEMBER = (id) => ({
   wa: '',
   email: '',
   hackerrank: '',
-  instansi: '',
 });
 
 export default function CompePopup({ onClose }) {
@@ -26,6 +25,7 @@ export default function CompePopup({ onClose }) {
 
   const [namaTim, setNamaTim] = useState('');
   const [asalKota, setAsalKota] = useState('');
+  const [asalInstitusi, setAsalInstitusi] = useState('');
   const [kategori, setKategori] = useState('');
 
   const [members, setMembers] = useState([
@@ -89,6 +89,11 @@ export default function CompePopup({ onClose }) {
       valid = false;
     }
 
+    if (!asalInstitusi.trim()) {
+      errors.push('Asal Institusi Tim');
+      valid = false;
+    }
+
     if (!kategori) {
       errors.push('Kategori Peserta');
       valid = false;
@@ -119,10 +124,6 @@ export default function CompePopup({ onClose }) {
       }
       if (!m.hackerrank.trim()) {
         errors.push(`Username HackerRank ${label}`);
-        valid = false;
-      }
-      if (!m.instansi.trim()) {
-        errors.push(`Asal Instansi ${label}`);
         valid = false;
       }
     });
@@ -161,6 +162,7 @@ export default function CompePopup({ onClose }) {
         formType: 'COMPETITIVE_PROGRAMMING',
         namaTim: namaTim.trim(),
         asalKota: asalKota.trim(),
+        asalInstitusi: asalInstitusi.trim(),
         kategori,
         buktiBayarName: buktiBayar.name,
         buktiBayarB64: fileResults.buktiBayarB64,
@@ -177,7 +179,6 @@ export default function CompePopup({ onClose }) {
         payload[`wa_p${n}`] = m.wa.trim();
         payload[`email_p${n}`] = m.email.trim();
         payload[`hackerrank_p${n}`] = m.hackerrank.trim();
-        payload[`instansi_p${n}`] = m.instansi.trim();
       });
 
       await fetch(SCRIPT_URL, {
@@ -394,6 +395,18 @@ export default function CompePopup({ onClose }) {
               </div>
             </div>
 
+            <div className="cp-field" style={{ marginTop: '12px' }}>
+              <div className="cp-field-label">Asal Institusi <span className="req">*</span></div>
+              <input
+                className="cp-text-input"
+                type="text"
+                placeholder="Nama sekolah / perguruan tinggi tim..."
+                required
+                value={asalInstitusi}
+                onChange={(e) => setAsalInstitusi(e.target.value)}
+              />
+            </div>
+
             <div className="cp-field">
               <div className="cp-field-label">Kategori Peserta <span className="req">*</span></div>
               <div className="cp-choice-group two-col">
@@ -490,18 +503,6 @@ export default function CompePopup({ onClose }) {
                           onChange={(e) => updateMember(m.id, 'hackerrank', e.target.value.trim())}
                         />
                       </div>
-                    </div>
-
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="cp-member-field-label">Asal Institusi Peserta {index + 1} {isRequired && <span className="req">*</span>}</div>
-                      <input
-                        className="cp-text-input"
-                        type="text"
-                        required={isRequired}
-                        placeholder="Nama sekolah / perguruan tinggi..."
-                        value={m.instansi}
-                        onChange={(e) => updateMember(m.id, 'instansi', e.target.value)}
-                      />
                     </div>
 
                     <div className="cp-field" style={{ marginTop: '12px' }}>
