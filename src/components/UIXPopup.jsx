@@ -238,6 +238,15 @@ export default function UIXPopup({ onClose }) {
               </a>
             </div>
           </div>
+          
+          <div className="uix-contact-row" style={{ justifyContent: 'center' }}>
+            <a href="https://wa.me/6281993996633" target="_blank" rel="noreferrer" className="uix-contact-btn">
+              📞 Migel (WA)
+            </a>
+            <a href="https://wa.me/6282179970473" target="_blank" rel="noreferrer" className="uix-contact-btn">
+              📞 Fadhel (WA)
+            </a>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>

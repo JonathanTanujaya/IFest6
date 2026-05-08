@@ -187,12 +187,22 @@
 }
 .kp-guide-btn:hover { background: var(--gold); color: #000; }
 
-.kp-contact-btn {
-  display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; margin-right: 12px;
-  padding: 10px 20px; border-radius: 10px; background: rgba(37, 211, 102, 0.1);
-  color: #25D366; border: 1px solid #25D366; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.3s;
+.kp-contact-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
 }
-.kp-contact-btn:hover { background: #25D366; color: #000; }
+.kp-contact-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: rgba(37,211,102,0.1);
+  border: 1px solid #25D366; color: #25D366;
+  padding: 18px 36px; border-radius: 100px;
+  font-weight: 600; text-decoration: none; transition: all 0.3s;
+  font-size: 16px; box-shadow: 0 10px 25px rgba(37,211,102,0.15);
+  margin-top: 18px;
+}
+.kp-contact-btn:hover { background: #25D366; color: #fff; transform: translateY(-3px); }
 
 /* Form Layout */
 .kp-form-wrapper { padding: 22px 22px 0; position: relative; z-index: 1; }

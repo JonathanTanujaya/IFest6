@@ -213,6 +213,15 @@ export default function PDPopup({ onClose }) {
               </a>
             </div>
           </div>
+
+          <div className="pd-contact-row" style={{ justifyContent: 'center' }}>
+            <a href="https://wa.me/6285788122188" target="_blank" rel="noreferrer" className="pd-contact-btn">
+              📞 Deasty (WA)
+            </a>
+            <a href="https://wa.me/628893972567" target="_blank" rel="noreferrer" className="pd-contact-btn">
+              📞 Jaysen (WA)
+            </a>
+          </div>
         </div>
 
         <form onSubmit={validateAndSubmit}>
