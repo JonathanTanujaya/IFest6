@@ -11,6 +11,7 @@ import UIXPopup from './components/UIXPopup'
 import CompePopup from './components/CompePopup'
 import PDPopup from './components/PDPopup'
 import MachinePopup from './components/MachinePopup'
+import AnnouncementPopup from './components/AnnouncementPopup'
 
 // Map of valid ?form= values to their menu item objects
 const FORM_MAP = {
@@ -26,6 +27,7 @@ const FORM_MAP = {
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
 
   // Redirect unknown paths (e.g. /random) back to homepage
   useEffect(() => {
@@ -41,6 +43,14 @@ function App() {
     const timer = setTimeout(() => setIsLoaded(true), 2500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Show announcement popup once splash screen finishes fading
+  useEffect(() => {
+    if (!isLoaded) return;
+    // Wait for loading screen fade-out transition (~1.2s) + a tiny extra
+    const timer = setTimeout(() => setShowAnnouncement(true), 1400);
+    return () => clearTimeout(timer);
+  }, [isLoaded]);
 
   // Deep-link: auto-open popup from ?form= query parameter
   useEffect(() => {
@@ -165,6 +175,11 @@ function App() {
             <Popup item={activeMenu} onClose={closePopup} />
           )}
         </div>
+      )}
+
+      {/* Announcement popup — shown once after splash */}
+      {showAnnouncement && (
+        <AnnouncementPopup onClose={() => setShowAnnouncement(false)} />
       )}
 
       {/* Vercel Web Analytics */}
