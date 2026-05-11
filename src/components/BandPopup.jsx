@@ -242,6 +242,15 @@ export default function BandPopup({ onClose }) {
               </a>
             </div>
           </div>
+          
+          <div className="band-contact-row" style={{ justifyContent: 'center' }}>
+            <a href="https://wa.me/6281395346415" target="_blank" rel="noreferrer" className="band-contact-btn">
+              📞 Jonathan (WA)
+            </a>
+            <a href="https://wa.me/6289506516117" target="_blank" rel="noreferrer" className="band-contact-btn">
+              📞 Daffa (WA)
+            </a>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>

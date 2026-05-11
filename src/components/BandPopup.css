@@ -465,6 +465,24 @@
 }
 .band-wa-btn:hover { background: #25D366; color: #fff; box-shadow: 0 15px 35px rgba(37, 211, 102, 0.3); transform: translateY(-3px); }
 
+/* Contact Person Buttons */
+.band-contact-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.band-contact-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: rgba(37,211,102,0.1);
+  border: 1px solid #25D366; color: #25D366;
+  padding: 18px 36px; border-radius: 100px;
+  font-weight: 600; text-decoration: none; transition: all 0.3s;
+  font-size: 16px; box-shadow: 0 10px 25px rgba(37,211,102,0.15);
+  margin-top: 18px;
+}
+.band-contact-btn:hover { background: #25D366; color: #fff; transform: translateY(-3px); }
+
 /* Responsive */
 @media(max-width: 768px) {
   .band-grid-2 { grid-template-columns: 1fr; }

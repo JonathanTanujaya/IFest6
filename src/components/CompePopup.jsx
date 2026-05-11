@@ -3,7 +3,7 @@ import { X, FileText, CreditCard } from 'lucide-react';
 import { processFilesParallel, validateFile } from '../utils/fileUtils';
 import './CompePopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuFj8ZFDQdcA0K1uZuvs4Vs24-w7g6FukGdNTqb_6htrCUIkNKwIlZ4JHTFJd71SuKWg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVeA0bK-pToOglC2gM1chVW9Yi3iM31DnTSQh3lw42VGvN3pR5Ik8ncPtfYRO03LxPNA/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣'];
 const MAX_MEMBERS = 3;
 const REQ_MEMBERS = 2;
@@ -15,7 +15,6 @@ const EMPTY_MEMBER = (id) => ({
   wa: '',
   email: '',
   hackerrank: '',
-  instansi: '',
 });
 
 export default function CompePopup({ onClose }) {
@@ -25,6 +24,8 @@ export default function CompePopup({ onClose }) {
   const [errorMsg, setErrorMsg] = useState('');
 
   const [namaTim, setNamaTim] = useState('');
+  const [asalKota, setAsalKota] = useState('');
+  const [asalInstitusi, setAsalInstitusi] = useState('');
   const [kategori, setKategori] = useState('');
 
   const [members, setMembers] = useState([
@@ -83,6 +84,16 @@ export default function CompePopup({ onClose }) {
       valid = false;
     }
 
+    if (!asalKota.trim()) {
+      errors.push('Asal Kota Tim');
+      valid = false;
+    }
+
+    if (!asalInstitusi.trim()) {
+      errors.push('Asal Institusi Tim');
+      valid = false;
+    }
+
     if (!kategori) {
       errors.push('Kategori Peserta');
       valid = false;
@@ -113,10 +124,6 @@ export default function CompePopup({ onClose }) {
       }
       if (!m.hackerrank.trim()) {
         errors.push(`Username HackerRank ${label}`);
-        valid = false;
-      }
-      if (!m.instansi.trim()) {
-        errors.push(`Asal Instansi ${label}`);
         valid = false;
       }
     });
@@ -154,6 +161,8 @@ export default function CompePopup({ onClose }) {
         timestamp: new Date().toLocaleString('id-ID'),
         formType: 'COMPETITIVE_PROGRAMMING',
         namaTim: namaTim.trim(),
+        asalKota: asalKota.trim(),
+        asalInstitusi: asalInstitusi.trim(),
         kategori,
         buktiBayarName: buktiBayar.name,
         buktiBayarB64: fileResults.buktiBayarB64,
@@ -170,7 +179,6 @@ export default function CompePopup({ onClose }) {
         payload[`wa_p${n}`] = m.wa.trim();
         payload[`email_p${n}`] = m.email.trim();
         payload[`hackerrank_p${n}`] = m.hackerrank.trim();
-        payload[`instansi_p${n}`] = m.instansi.trim();
       });
 
       await fetch(SCRIPT_URL, {
@@ -225,11 +233,11 @@ export default function CompePopup({ onClose }) {
             </p>
             <div className="cp-divider-ornament" style={{ margin: '0 auto 20px' }}>♠ ♥ ♦ ♣</div>
             <p className="cp-success-tag">I-Fest 6.0 · HIMIF UMDP · 2026</p>
-              <div style={{ marginTop: '18px' }}>
-                <a href="https://chat.whatsapp.com/JFcIQIf6P8w7F4CxgpkPiN" target="_blank" rel="noreferrer" className="cp-contact-btn">
-                  💬 Join Grup WhatsApp Peserta
-                </a>
-              </div>
+            <div style={{ marginTop: '18px' }}>
+              <a href="https://chat.whatsapp.com/JFcIQIf6P8w7F4CxgpkPiN" target="_blank" rel="noreferrer" className="cp-contact-btn">
+                💬 Join Grup WhatsApp Peserta
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -266,7 +274,7 @@ export default function CompePopup({ onClose }) {
           <div className="cp-header-corner br">♦</div>
           <p className="cp-header-eyebrow">Himpunan Mahasiswa Informatika • HIMIF UMDP</p>
           <img src="/Compress/maskot.webp" className="about-crown" aria-hidden="true" />
-          <h1>Competitive Programming<br />I-Fest 6.0</h1>
+          <h1>Competitive Programming Online<br />I-Fest 6.0</h1>
           <h2>Formulir Pendaftaran Lomba Competitive Programming I-Fest 6.0</h2>
           <div className="cp-divider-ornament">♠ ♥ ♦ ♣</div>
         </div>
@@ -275,7 +283,7 @@ export default function CompePopup({ onClose }) {
           <p className="cp-desc-text">
             Selamat datang di <strong style={{ color: 'var(--text)' }}>Competitive Programming Competition IFEST 6.0 2026!</strong> 🎩 ♥️
             <br />
-            Kompetisi yang diselenggarakan secara daring oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang. Kompetisi ini melibatkan SMA/Mahasiswa di Kota Palembang untuk menguji kemampuan dan nalar dari setiap peserta dalam menyelesaikan program komputer untuk memecahkan permasalahan yang diberikan dengan menggunakan bahasa pemrograman.
+            Kompetisi yang diselenggarakan secara daring oleh Himpunan Mahasiswa Informatika (HIMIF) Universitas Multi Data Palembang. Kompetisi ini melibatkan siswa SMA dan Mahasiswa seluruh Indonesia untuk menguji kemampuan dan nalar dari setiap peserta dalam menyelesaikan program komputer untuk memecahkan permasalahan yang diberikan dengan menggunakan bahasa pemrograman.
           </p>
 
           <p className="cp-desc-text">
@@ -307,20 +315,18 @@ export default function CompePopup({ onClose }) {
                   className="cp-guidebook-btn"
                   style={{ display: 'inline-flex', marginTop: '4px', fontSize: '12px' }}
                 >
-                  📖 Guidebook EDC IFEST 6.0 2026
+                  Baca Guidebook Lengkap
                 </a>
               </div>
             </div>
           </div>
 
-          <p className="cp-desc-text" style={{ marginBottom: '10px' }}>
-            <strong style={{ color: 'var(--gold)' }}>Catatan:</strong> Tambahkan kode unik (akan diumumkan) di belakang jumlah transfer. Contoh: Rp50.00x,- atau Rp200.00x,-.
-          </p>
+
 
           <div className="cp-info-card" style={{ marginBottom: '18px' }}>
             <span className="cp-ic-label">📌 Persyaratan Peserta</span>
             <ul className="cp-req-list" style={{ marginTop: '8px' }}>
-              <li>Peserta adalah siswa aktif Sekolah Menengah Atas Se-Kota Palembang atau mahasiswa aktif Perguruan Tinggi Se-Kota Palembang dengan dibuktikan oleh Kartu Pelajar atau Kartu Tanda Mahasiswa dan bukan panitia Informatics Festival 6.0.</li>
+              <li>Peserta adalah siswa aktif Sekolah Menengah Atas atau mahasiswa aktif Perguruan Tinggi seluruh Indonesia dengan dibuktikan oleh Kartu Pelajar atau Kartu Tanda Mahasiswa, dan bukan panitia Informatics Festival 6.0.</li>
               <li>Peserta berpartisipasi secara tim (2-3 orang) pada kategori yang terpisah (SMA / Mahasiswa). Setiap Sekolah Menengah Atas atau Perguruan Tinggi boleh mengirimkan lebih dari 1 peserta untuk mengikuti cabang kompetisi ini.</li>
               <li>Peserta wajib memiliki akun HackerRank, dan username akun akan didaftarkan saat pendaftaran.</li>
               <li>Peserta dihimbau untuk memfollow akun Instagram resmi HIMIF UMDP (@himifumdp).</li>
@@ -364,15 +370,40 @@ export default function CompePopup({ onClose }) {
               </div>
             </div>
 
-            <div className="cp-field">
-              <div className="cp-field-label">Nama Tim <span className="req">*</span></div>
+            <div className="cp-member-grid">
+              <div>
+                <div className="cp-field-label">Nama Tim <span className="req">*</span></div>
+                <input
+                  className="cp-text-input"
+                  type="text"
+                  placeholder="Nama tim Anda..."
+                  required
+                  value={namaTim}
+                  onChange={(e) => setNamaTim(e.target.value)}
+                />
+              </div>
+              <div>
+                <div className="cp-field-label">Asal Kota <span className="req">*</span></div>
+                <input
+                  className="cp-text-input"
+                  type="text"
+                  placeholder="Kota asal tim..."
+                  required
+                  value={asalKota}
+                  onChange={(e) => setAsalKota(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="cp-field" style={{ marginTop: '12px' }}>
+              <div className="cp-field-label">Asal Institusi <span className="req">*</span></div>
               <input
                 className="cp-text-input"
                 type="text"
-                placeholder="Nama tim Anda..."
+                placeholder="Nama sekolah / perguruan tinggi tim..."
                 required
-                value={namaTim}
-                onChange={(e) => setNamaTim(e.target.value)}
+                value={asalInstitusi}
+                onChange={(e) => setAsalInstitusi(e.target.value)}
               />
             </div>
 
@@ -472,18 +503,6 @@ export default function CompePopup({ onClose }) {
                           onChange={(e) => updateMember(m.id, 'hackerrank', e.target.value.trim())}
                         />
                       </div>
-                    </div>
-
-                    <div style={{ marginTop: '12px' }}>
-                      <div className="cp-member-field-label">Asal Institusi Peserta {index + 1} {isRequired && <span className="req">*</span>}</div>
-                      <input
-                        className="cp-text-input"
-                        type="text"
-                        required={isRequired}
-                        placeholder="Nama sekolah / perguruan tinggi..."
-                        value={m.instansi}
-                        onChange={(e) => updateMember(m.id, 'instansi', e.target.value)}
-                      />
                     </div>
 
                     <div className="cp-field" style={{ marginTop: '12px' }}>

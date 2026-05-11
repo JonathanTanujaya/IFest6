@@ -216,6 +216,15 @@ export default function KPopPopup({ onClose }) {
               </a>
             </div>
           </div>
+          
+          <div className="kp-contact-row" style={{ justifyContent: 'center' }}>
+            <a href="https://wa.me/6289530602592" target="_blank" rel="noreferrer" className="kp-contact-btn">
+              📞 Wewen (WA)
+            </a>
+            <a href="https://wa.me/6282281371274" target="_blank" rel="noreferrer" className="kp-contact-btn">
+              📞 Dea (WA)
+            </a>
+          </div>
         </div>
 
         {/* MAIN FORM */}
