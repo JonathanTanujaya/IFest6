@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { processFilesParallel, validateFile, FILE_ACCEPT } from '../utils/fileUtils';
 import './BandPopup.css';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxa7OwArU61iiKzkPg27B5FmF5oC_kNs1pbR5zBY5aslXVJ0fe88DflVwn4xW_orBRDZw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzadQkRJJHQQRQ75f2WPit2PP7Hc3vZUirr8lnukI-5MJaCtC4o2OLou4PwcyeFPQIZ/exec';
 const SUITS_ARR = ['♠', '♥', '♦', '♣', '🃏'];
 const MAX_MEMBERS = 8;
 const MIN_MEMBERS = 4;
@@ -20,10 +20,10 @@ export default function BandPopup({ onClose }) {
 
   // Peserta
   const [members, setMembers] = useState([
-    { id: 1, nama: '', peran: '', peranOther: '', wa: '' },
-    { id: 2, nama: '', peran: '', peranOther: '', wa: '' },
-    { id: 3, nama: '', peran: '', peranOther: '', wa: '' },
-    { id: 4, nama: '', peran: '', peranOther: '', wa: '' }
+    { id: 1, nama: '', peran: '', peranOther: '' },
+    { id: 2, nama: '', peran: '', peranOther: '' },
+    { id: 3, nama: '', peran: '', peranOther: '' },
+    { id: 4, nama: '', peran: '', peranOther: '' }
   ]);
 
 
@@ -52,7 +52,7 @@ export default function BandPopup({ onClose }) {
 
   const addMember = () => {
     if (members.length < MAX_MEMBERS) {
-      setMembers([...members, { id: members.length + 1, nama: '', peran: '', peranOther: '', wa: '' }]);
+      setMembers([...members, { id: members.length + 1, nama: '', peran: '', peranOther: '' }]);
     }
   };
 
@@ -78,7 +78,11 @@ export default function BandPopup({ onClose }) {
 
     members.forEach((m, idx) => {
       const isReq = idx < MIN_MEMBERS;
-      if (isReq || m.nama.trim() || m.peran || m.wa.trim()) {
+      if (isReq && (!m.nama.trim() || !m.peran)) {
+        if (!m.nama.trim()) { errors.push(`Nama Peserta ${idx + 1}`); valid = false; }
+        if (!m.peran) { errors.push(`Peran Peserta ${idx + 1}`); valid = false; }
+        else if (m.peran === 'Other' && !m.peranOther.trim()) { errors.push(`Peran Peserta ${idx + 1} (Lainnya)`); valid = false; }
+      } else if (!isReq && (m.nama.trim() || m.peran)) {
         if (!m.nama.trim()) { errors.push(`Nama Peserta ${idx + 1}`); valid = false; }
         if (!m.peran) { errors.push(`Peran Peserta ${idx + 1}`); valid = false; }
         else if (m.peran === 'Other' && !m.peranOther.trim()) { errors.push(`Peran Peserta ${idx + 1} (Lainnya)`); valid = false; }
@@ -110,10 +114,6 @@ export default function BandPopup({ onClose }) {
         { key: 'buktiBayarB64', file: buktiBayar },
       ];
 
-      if (bandLogo) {
-        filesToProcess.push({ key: 'bandLogoB64', file: bandLogo });
-      }
-
       const fileResults = await processFilesParallel(filesToProcess);
 
       setSubmitStatus('Mengirim data pendaftaran...');
@@ -127,8 +127,6 @@ export default function BandPopup({ onClose }) {
         laguWajib: laguWajib,
         laguBebas: laguBebas.trim(),
 
-        bandLogoName: bandLogo ? bandLogo.name : '',
-        bandLogoB64: fileResults.bandLogoB64 || '',
         idName: dokIdentitas.name,
         idB64: fileResults.dokIdentitasB64,
         buktiBayarName: buktiBayar.name,
@@ -143,7 +141,6 @@ export default function BandPopup({ onClose }) {
         if (m.nama.trim()) {
           payload[`anggota${idx + 1}`] = m.nama.trim();
           payload[`peran${idx + 1}`] = m.peran === 'Other' ? m.peranOther.trim() : m.peran;
-          payload[`wa${idx + 1}`] = m.wa.trim();
         }
       });
 
@@ -224,7 +221,7 @@ export default function BandPopup({ onClose }) {
             <div className="band-glass-card">
               <div className="band-card-title">💰 Biaya & Pembayaran</div>
               <p className="band-card-text">
-                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp80.000,-</strong>
+                <strong style={{ fontSize: '18px', color: 'var(--text)', display: 'block', marginBottom: '8px' }}>Rp75.000,-</strong>
                 Transfer ke:<br />
                 <strong style={{ color: 'var(--gold)' }}>BCA 0210999396</strong><br />
                 a.n. Yayasan Multi Data Palembang
@@ -242,7 +239,7 @@ export default function BandPopup({ onClose }) {
               </a>
             </div>
           </div>
-          
+
           <div className="band-contact-row" style={{ justifyContent: 'center' }}>
             <a href="https://wa.me/6281395346415" target="_blank" rel="noreferrer" className="band-contact-btn">
               📞 Jonathan (WA)
@@ -355,11 +352,11 @@ export default function BandPopup({ onClose }) {
                 <label className="band-label">Lagu Wajib yang dipilih <span className="req">*</span></label>
                 <div className="band-radio-grid full">
                   {[
-                    'Kita Usahakan Rumah Itu — Sal Priadi',
-                    'Kota Ini Tak Sama Tanpamu — Nadhif Basmalah',
-                    'Sedia aku Sebelum Hujan — Payung Teduh',
-                    'The One That Got Away — Katy Perry',
-                    'La La Lost You — NIKI'
+                    'Kita Usahakan Rumah Itu - Sal Priadi',
+                    'Kota Ini Tak Sama Tanpamu - Nadhif Basmalah',
+                    'Sedia aku Sebelum Hujan - Idgitaf',
+                    'The One That Got Away - Katy Perry',
+                    'La La Lost You - NIKI'
                   ].map(lagu => (
                     <label key={lagu} className="band-radio-card full">
                       <input type="radio" name="laguWajib" value={lagu} checked={laguWajib === lagu} onChange={e => setLaguWajib(e.target.value)} required />
@@ -378,10 +375,10 @@ export default function BandPopup({ onClose }) {
                 <label className="band-label">Dokumen Identitas <span className="req">*</span></label>
                 <div className="band-hint">
                   Format: <strong style={{ color: 'var(--gold)' }}>ID-NamaTim</strong>. (Kartu Identitas digabung 1 file).<br />
-                  <strong style={{ color: 'var(--gold)' }}>Maks 1 MB, 1 file saja (PDF/Image)</strong>
+                  <strong style={{ color: 'var(--gold)' }}>Maks 1 MB, 1 file saja (PDF)</strong>
                 </div>
                 <div className="band-dropzone">
-                  <input type="file" accept={FILE_ACCEPT} required onChange={e => {
+                  <input type="file" accept="application/pdf,.pdf" required onChange={e => {
                     const file = e.target.files?.[0]; if (!file) return;
                     const err = validateFile(file); if (err) { setErrorMsg(err); e.target.value = ''; setDokIdentitas(null); return; }
                     setErrorMsg(''); setDokIdentitas(file);
