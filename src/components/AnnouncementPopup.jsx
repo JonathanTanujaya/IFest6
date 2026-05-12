@@ -45,7 +45,7 @@ export default function AnnouncementPopup({ onClose }) {
   return (
     <div className={`ann-popup-overlay${isClosing ? ' ann-overlay-closing' : ''}`} onClick={handleClose}>
       <div className={`ann-popup-container flexible${isClosing ? ' ann-closing' : ''}`} ref={popupRef}>
-        
+
         <div className="ann-suits-bg">
           {suitsData.map((s, i) => (
             <div key={i} className="ann-suit" style={{ left: `${s.left}%`, animationDuration: `${s.duration}s`, animationDelay: `${s.delay}s`, color: s.color }}>{s.suit}</div>
@@ -69,28 +69,9 @@ export default function AnnouncementPopup({ onClose }) {
             <div className="ann-flex-banner-overlay">✧ MAIN EVENT ✧</div>
           </div>
 
-          <div className="ann-flex-info">
-            <div className="ann-flex-chip">
-              <span className="ann-flex-emoji">📅</span>
-              <div>
-                <span className="ann-flex-lbl">Tanggal</span>
-                <span className="ann-flex-val">Sabtu, 31 Mei 2026</span>
-              </div>
-            </div>
-            <div className="ann-flex-chip">
-              <span className="ann-flex-emoji">⏰</span>
-              <div>
-                <span className="ann-flex-lbl">Waktu</span>
-                <span className="ann-flex-val">13:00 WIB</span>
-              </div>
-            </div>
-            <div className="ann-flex-chip">
-              <span className="ann-flex-emoji">📍</span>
-              <div>
-                <span className="ann-flex-lbl">Lokasi</span>
-                <span className="ann-flex-val">Palembang Icon Mall</span>
-              </div>
-            </div>
+          <div className="ann-coming-soon">
+            <span className="ann-coming-soon-text">COMING SOON</span>
+            <span className="ann-coming-soon-sub">Stay tuned for details ✦</span>
           </div>
 
           <div className="ann-flex-cd">
