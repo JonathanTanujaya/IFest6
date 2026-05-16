@@ -1,0 +1,254 @@
+/* ClosedPopup.css */
+.closed-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 3, 10, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 32px;
+  cursor: pointer;
+}
+
+.closed-popup-container {
+  --crimson:     #c91834;
+  --crimson-dim: #7a0e1e;
+  --crimson-glow: rgba(201, 24, 52, 0.30);
+  --gold:        #e2b953;
+  --gold-dim:    #997a30;
+  --gold-glow:   rgba(226, 185, 83, 0.20);
+  --bg:          rgba(14, 8, 24, 0.92);
+  --surface:     rgba(30, 10, 20, 0.80);
+  --border:      rgba(201, 24, 52, 0.25);
+  --text:        #f4ebd8;
+  --text-dim:    #a89c8a;
+
+  width: 100%;
+  max-width: 580px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 40px 80px -20px rgba(0, 0, 0, 0.9),
+    0 0 60px var(--crimson-glow);
+  animation: closedPopupIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  color: var(--text);
+  font-family: inherit;
+  overflow: hidden;
+  text-align: center;
+  cursor: default;
+}
+
+/* ── Enter / Exit animations ── */
+@keyframes closedPopupIn {
+  from { opacity: 0; transform: scale(0.88) translateY(30px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+@keyframes closedPopupOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(20px) scale(0.96); }
+}
+
+@keyframes closedOverlayFade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.closed-popup-container.closed-closing {
+  animation: closedPopupOut 0.35s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.closed-popup-overlay.closed-overlay-closing {
+  animation: closedOverlayFade 0.35s ease forwards;
+}
+
+/* ── Decorative background glow ── */
+.closed-popup-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%,   rgba(201, 24, 52, 0.18), transparent),
+    radial-gradient(ellipse 60% 30% at 50% 100%, rgba(201, 24, 52, 0.10), transparent);
+}
+
+/* ── Floating card suits (decorative) ── */
+.closed-popup-suits {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.closed-suit {
+  position: absolute;
+  font-size: 48px;
+  opacity: 0.05;
+  animation: closedSuitFloat linear infinite;
+  user-select: none;
+}
+@keyframes closedSuitFloat {
+  from { transform: translateY(110%) rotate(0deg);   }
+  to   { transform: translateY(-110%) rotate(360deg); }
+}
+
+/* ── Main content ── */
+.closed-popup-body {
+  position: relative;
+  z-index: 1;
+  padding: 56px 48px 44px;
+}
+
+/* Lock icon circle */
+.closed-icon-ring {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  margin: 0 auto 28px;
+  background: radial-gradient(circle, rgba(201, 24, 52, 0.25), rgba(201, 24, 52, 0.05));
+  border: 2px solid rgba(201, 24, 52, 0.40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  box-shadow:
+    0 0 30px var(--crimson-glow),
+    inset 0 0 20px rgba(201, 24, 52, 0.10);
+  animation: closedIconPulse 3s ease-in-out infinite;
+}
+@keyframes closedIconPulse {
+  0%, 100% { box-shadow: 0 0 30px var(--crimson-glow), inset 0 0 20px rgba(201, 24, 52, 0.10); }
+  50%       { box-shadow: 0 0 50px rgba(201, 24, 52, 0.50), inset 0 0 30px rgba(201, 24, 52, 0.15); }
+}
+
+/* Badge */
+.closed-badge {
+  display: inline-block;
+  background: rgba(201, 24, 52, 0.15);
+  border: 1px solid rgba(201, 24, 52, 0.45);
+  border-radius: 100px;
+  padding: 5px 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: 20px;
+}
+
+/* Title */
+.closed-title {
+  font-size: clamp(22px, 5vw, 30px);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+/* Competition name highlight */
+.closed-comp-name {
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 600;
+  color: var(--gold);
+  text-shadow: 0 0 20px var(--gold-glow);
+  margin-bottom: 24px;
+}
+
+/* Divider ornament */
+.closed-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  color: var(--crimson);
+  font-size: 14px;
+}
+.closed-ornament::before,
+.closed-ornament::after {
+  content: '';
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 24, 52, 0.60));
+}
+.closed-ornament::after {
+  background: linear-gradient(270deg, transparent, rgba(201, 24, 52, 0.60));
+}
+
+/* Info card */
+.closed-info-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.closed-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  gap: 12px;
+}
+.closed-info-label {
+  color: var(--text-dim);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.closed-info-value {
+  color: var(--text);
+  font-weight: 600;
+  text-align: right;
+}
+.closed-info-value.red {
+  color: var(--crimson);
+}
+.closed-info-sep {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+/* Message */
+.closed-message {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+}
+
+/* Tap-to-close hint */
+.closed-tap-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+  opacity: 0.6;
+  letter-spacing: 1px;
+  animation: closedHintPulse 2.5s ease-in-out infinite;
+}
+@keyframes closedHintPulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.8; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .closed-popup-container { max-width: 88vw; }
+  .closed-popup-body { padding: 48px 32px 36px; }
+}
+@media (max-width: 480px) {
+  .closed-popup-body { padding: 44px 22px 32px; }
+  .closed-icon-ring  { width: 80px; height: 80px; font-size: 34px; }
+  .closed-info-card  { padding: 16px 18px; }
+}

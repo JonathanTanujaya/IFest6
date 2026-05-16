@@ -12,6 +12,8 @@ import CompePopup from './components/CompePopup'
 import PDPopup from './components/PDPopup'
 import MachinePopup from './components/MachinePopup'
 import AnnouncementPopup from './components/AnnouncementPopup'
+import ClosedPopup from './components/ClosedPopup'
+import { isClosed } from './utils/registrationDeadlines'
 
 // Map of valid ?form= values to their menu item objects
 const FORM_MAP = {
@@ -26,6 +28,7 @@ const FORM_MAP = {
 
 function App() {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [closedItem, setClosedItem] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(false);
 
@@ -69,7 +72,13 @@ function App() {
     if (FORM_MAP[formKey]) {
       // Wait for loading screen to fade, then open the popup
       const timer = setTimeout(() => {
-        setActiveMenu(FORM_MAP[formKey]);
+        const mappedItem = FORM_MAP[formKey];
+        // If registration is closed, show ClosedPopup instead of the form
+        if (isClosed(mappedItem.id)) {
+          setClosedItem(mappedItem);
+        } else {
+          setActiveMenu(mappedItem);
+        }
         // Clean URL so refresh doesn't re-trigger
         window.history.replaceState({}, '', window.location.pathname);
       }, 3000);
@@ -78,7 +87,12 @@ function App() {
   }, []);
 
   const handleMenuClick = (menuItem) => {
-    setActiveMenu(menuItem);
+    // If registration is closed, show the closed notice instead of the form
+    if (isClosed(menuItem.id)) {
+      setClosedItem(menuItem);
+    } else {
+      setActiveMenu(menuItem);
+    }
   };
 
   const closePopup = () => {
@@ -180,6 +194,11 @@ function App() {
       {/* Announcement popup — shown once after splash */}
       {showAnnouncement && (
         <AnnouncementPopup onClose={() => setShowAnnouncement(false)} />
+      )}
+
+      {/* Closed registration popup */}
+      {closedItem && (
+        <ClosedPopup item={closedItem} onClose={() => setClosedItem(null)} />
       )}
 
       {/* Vercel Web Analytics */}
