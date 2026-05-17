@@ -17,7 +17,8 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "three": "^0.184.0",
-    "vercel": "^52.0.0"
+    "vercel": "^52.0.0",
+    "vite-plugin-sitemap": "^0.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
