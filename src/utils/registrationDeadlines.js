@@ -9,7 +9,7 @@
 export const DEADLINES = {
   uiux:    new Date('2026-05-16T23:59:59+07:00'), // UI/UX Design
   machine: new Date('2026-05-15T23:59:59+07:00'), // Machine Learning
-  kpop:    new Date('2026-05-23T23:59:59+07:00'), // K-Pop Dance Cover
+  kpop:    new Date('2026-05-27T23:59:59+07:00'), // K-Pop Dance Cover
   compe:   new Date('2026-05-20T23:59:59+07:00'), // Competitive Programming
   poster:  new Date('2026-05-20T23:59:59+07:00'), // Poster Digital
   ml:      new Date('2026-05-24T23:59:59+07:00'), // Mobile Legends
